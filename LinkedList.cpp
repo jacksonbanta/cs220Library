@@ -1,9 +1,13 @@
 //
 // Created by Kenny Potts on 11/3/16.
+// Implements LinkedList
+// uses template
 //
 
 #include "LinkedList.h"
 #include <iostream>
+
+
 
 template <class ItemType>
 LinkedList<ItemType>::LinkedList() {
