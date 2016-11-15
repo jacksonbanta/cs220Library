@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <string>
 #include "List.h"
+#include "ArrayList.h"
 
 class Book {
 private:
@@ -31,15 +32,13 @@ private:
     int wantValue;
 
     //pointer to start of waitList array - this must be a queue
-    string* waitList;
+    ArrayList<std::string*> waitList;
 
-    //doubles the size of the old waitList, copies over all names from old waitList, then deletes old waitList
-    void doubleWaitListSize();
 
 public:
 
     //constructor
-    Book();
+    Book(std::string title, std::string author, double price, int ISBN, int haveValue, int wantValue);
 
     //copy constructor - waitList is outside of our object
     Book(Book& other);
