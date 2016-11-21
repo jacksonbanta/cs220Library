@@ -77,5 +77,6 @@ public:
     int calcSizeOf();
 };
 
+#include "LinkedList.cpp"
 
 #endif //LAB7SOLN_LINKEDLIST_H
