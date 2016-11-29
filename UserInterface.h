@@ -7,6 +7,9 @@
 
 class UserInterface {
 
+private:
+
+    std::string userIn;
 
 public:
 

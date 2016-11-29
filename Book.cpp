@@ -32,6 +32,45 @@ Book::Book(Book& other){
     }
 }
 
+std::string Book::getTitle(Book* book) {
+    return book->title;
+}
+
+std::sting Book::getAuthor(Book* book) {
+    return book->author;
+}
+
+int Book::getPrice(Book* book) {
+    return book->price;
+}
+
+void Book::setPrice(Book* book, int newPrice) {
+    book->price = newPrice;
+}
+
+int Book::getISBN(Book* book) {
+    return book->ISBN;
+}
+
+int Book::getHaveValue(Book* book) {
+    return book->haveValue;
+}
+
+void Book::setHaveValue(Book *book, int newHaveVal) {
+    book->haveValue = newHaveVal;
+}
+
+int Book::getWantValue(Book *book) {
+    return book->wantValue;
+}
+
+void Book::setWantValue(Book *book, int newWantVal) {
+    book->wantValue = newWantVal;
+}
+
+
+
+
 Book::~Book(){
     std::cout << "Deleteing Book: " << this->getTitle() << " By: " << this->getAuthor() << std::endl;
     delete[] waitList;

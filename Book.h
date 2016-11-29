@@ -52,33 +52,33 @@ public:
     std::string getAuthor();
 
     //returns price of book
-    int getPrice();
+    int getPrice(Book* book);
     //sets price of book
-    void setPrice();
+    void setPrice(Book* book, int newPrice);
 
     //returns ISBN of book
-    int getISBN();
+    int getISBN(Book* book);
 
 
 
     //returns the haveValue
-    int getHaveValue();
+    int getHaveValue(Book* book);
     //sets the haveValue
-    void setHaveValue();
+    void setHaveValue(Book* book, int newHaveVal);
 
     //gets the wantValue
-    int getWantValue();
+    int getWantValue(Book* book);
     //sets the wantValue
-    void setWantValue();
+    void setWantValue(Book* book, int newWantVal);
 
     //returns the waitList
-    std::string waitListToString();
+    std::string waitListToString(Book* book);
     //clears the waitList
-    void clearWaitList();
+    void clearWaitList(Book* book);
     //adds to the end of the waitList
-    void addToWaitList(std::string personToAdd);
+    void addToWaitList(Book* book, std::string personToAdd);
     //removes & returns first person on waitList
-    std::string popOffWaitList();
+    std::string popOffWaitList(Book* book);
 
     //returns the size of the object
     int calcSizeOf();
