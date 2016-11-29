@@ -32,7 +32,7 @@ private:
     int wantValue;
 
     //pointer to start of waitList array - this must be a queue
-    ArrayList<std::string*> waitList;
+    ArrayList<std::string> waitList;
 
 
 public:
@@ -41,10 +41,13 @@ public:
     Book(std::string title, std::string author, double price, int ISBN, int haveValue, int wantValue);
 
     //copy constructor - waitList is outside of our object
-    Book(Book& other);
+    Book(const Book& other);
 
     //Destructor
     ~Book();
+
+    //overloading assignment operator
+    Book& Book::operator=(const Book &other);
 
     //returns title of book
     std::string getTitle();
@@ -52,33 +55,33 @@ public:
     std::string getAuthor();
 
     //returns price of book
-    int getPrice(Book* book);
+    double getPrice();
     //sets price of book
-    void setPrice(Book* book, int newPrice);
+    void setPrice(double newPrice);
 
     //returns ISBN of book
-    int getISBN(Book* book);
+    int getISBN();
 
 
 
     //returns the haveValue
-    int getHaveValue(Book* book);
+    int getHaveValue();
     //sets the haveValue
-    void setHaveValue(Book* book, int newHaveVal);
+    void setHaveValue(int newHaveValue);
 
     //gets the wantValue
-    int getWantValue(Book* book);
+    int getWantValue();
     //sets the wantValue
-    void setWantValue(Book* book, int newWantVal);
+    void setWantValue(int newWantValue);
 
     //returns the waitList
-    std::string waitListToString(Book* book);
+    std::string waitListToString();
     //clears the waitList
-    void clearWaitList(Book* book);
+    void clearWaitList();
     //adds to the end of the waitList
-    void addToWaitList(Book* book, std::string personToAdd);
+    void addToWaitList(std::string personToAdd);
     //removes & returns first person on waitList
-    std::string popOffWaitList(Book* book);
+    std::string popOffWaitList();
 
     //returns the size of the object
     int calcSizeOf();

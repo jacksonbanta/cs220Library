@@ -21,18 +21,19 @@ private:
     //tracks the lines run by this object
     long totalLinesRun;
 
-    //creates a new array with twice the capacity and shifts the old data to the new array
-    //deletes the old array
-    void doubleCapacity();
+
 
 public:
     //creates an arrayList with a specific initial capacity (defaults to size 5)
-    ArrayList(ItemType initialCapacity=5);
+    ArrayList(int initialCapacity=5);
 
 
 
     //Destructor
     ~ArrayList();
+
+    //copy constructor
+    ArrayList& ArrayList::operator=(const ArrayList &other);
 
     //appends the new item to the end of the arrayList
     void addToEnd(ItemType itemToAdd);
@@ -47,6 +48,12 @@ public:
     //returns a copy of the item at index
     //if the index is invalid, throws an out_of_range exception
     int get(int index);
+
+    //returns curritemcount of object
+    int getCurrItemCount();
+
+    //returns currCapacity of object
+    int getCurrCapacity();
 
     //removes the item at index from the list, then returns a copy of that item
     //if the index is invalid, throws an out_of_range exception
@@ -83,6 +90,15 @@ public:
 
     //returns the minimum size of the object in bytes
     int calcSizeOf();
+
+    //creates a new array with twice the capacity and shifts the old data to the new array
+    //deletes the old array
+    void doubleCapacity();
+
+    //pops the first element in the array out of the array
+    std::string pop();
+
+
 };
 
 

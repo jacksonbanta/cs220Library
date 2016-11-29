@@ -28,6 +28,18 @@ ArrayList<ItemType>::~ArrayList() {
 }
 
 template <class ItemType>
+ArrayList& ArrayList::operator=(const ArrayList &other){
+    this->array = other.array;
+    this->currItemCount = other.currItemCount;
+    this->currCapacity = other.currCapacity;
+    this->totalLinesRun = 0;
+    for (int iii; iii<other.currItemCount; iii++){
+        this->array[iii] = other.array[iii];
+    }
+
+}
+
+template <class ItemType>
 void ArrayList<ItemType>::addToEnd(ItemType itemToAdd){
     if (currItemCount+1<=currCapacity) {
         array[currItemCount] = itemToAdd;
@@ -126,6 +138,18 @@ ItemType ArrayList<ItemType>::get(int index){
         totalLinesRun += 5;
         return temp;
     }
+}
+
+
+
+template <class ItemType>
+ItemType ArrayList<ItemType>::getCurrItemCount() {
+    return currItemCount;
+}
+
+template <class ItemType>
+ItemType ArrayList<ItemType>::getCurrCapacity() {
+    return currCapacity;
 }
 
 
@@ -297,5 +321,13 @@ void ArrayList<ItemType>::doubleCapacity(){
     array = newArray;
 }
 
+template <class ItemType>
+std::string ArrayList<ItemType>::pop(){
+    std::string toBePopped = array[0];
+    for (int iii;iii<this->getCurrItemCount();iii++){
+        array[iii] = array[iii+1];
+    }
+    return toBePopped;
+}
 
 

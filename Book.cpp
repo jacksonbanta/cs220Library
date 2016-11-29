@@ -12,78 +12,109 @@ Book::Book(std::string title, std::string author, double price, int ISBN, int ha
     this->ISBN = ISBN;
     this->haveValue = haveValue;
     this->wantValue = wantValue;
-    this->waitList = std::string[5];
+    this->waitList = ArrayList<std::string>(5);
 }
 
-Book::Book(Book& other){
+Book::Book(const Book& other){
     this->title = other.title;
     this->author = other.author;
     this->price = other.price;
     this->ISBN = other.ISBN;
     this->haveValue = other.haveValue;
     this->wantValue = other.wantValue;
-    this->waitList = std::string[5];
-    for (int iii = 0;other.waitList->currItemCount;iii++){
-        this->waitList[iii] = other.waitList[iii];
-        //if we can't add another item without going over capacity, double capacity
-        if (this->waitList.currItemCount+1 > this->waitList.currCapacity){
-            this->waitList.doubleCapacity();
-        }
-    }
+    this->waitList = other.waitList;
 }
-
-std::string Book::getTitle(Book* book) {
-    return book->title;
-}
-
-std::sting Book::getAuthor(Book* book) {
-    return book->author;
-}
-
-int Book::getPrice(Book* book) {
-    return book->price;
-}
-
-void Book::setPrice(Book* book, int newPrice) {
-    book->price = newPrice;
-}
-
-int Book::getISBN(Book* book) {
-    return book->ISBN;
-}
-
-int Book::getHaveValue(Book* book) {
-    return book->haveValue;
-}
-
-void Book::setHaveValue(Book *book, int newHaveVal) {
-    book->haveValue = newHaveVal;
-}
-
-int Book::getWantValue(Book *book) {
-    return book->wantValue;
-}
-
-void Book::setWantValue(Book *book, int newWantVal) {
-    book->wantValue = newWantVal;
-}
-
-
-
 
 Book::~Book(){
-    std::cout << "Deleteing Book: " << this->getTitle() << " By: " << this->getAuthor() << std::endl;
+    std::cout << "Deleting Book: " << this->getTitle() << " By: " << this->getAuthor() << std::endl;
     delete[] waitList;
     waitList = nullptr;
 }
 
 
+Book& Book::operator=(const Book &other){
+    if (this == &other){
+        return *this;
+    } else {
+        this->title = other.title;
+        this->author = other.author;
+        this->price = other.price;
+        this->ISBN = other.ISBN;
+        this->haveValue = other.haveValue;
+        this->wantValue = other.wantValue;
+        this->waitList = other.waitList;
+        return *this;
+    }
+
+}
+
+std::string Book::getAuthor() {
+    return this->author;
+}
+
+std::string Book::getTitle() {
+    return this->title;
+}
+
+double Book::getPrice() {
+    return this->price;
+}
+void Book::setPrice(double newPrice) {
+   this->price = newPrice;
+}
+
+int Book::getISBN(){
+    return this->ISBN;
+}
+
+int Book::getHaveValue() {
+    return this->haveValue;
+}
+void Book::setHaveValue(int newHaveValue) {
+    this->haveValue = newHaveValue;
+}
+
+int Book::getWantValue() {
+    return this->wantValue;
+}
+void Book::setWantValue(int newWantValue) {
+    this->wantValue = newWantValue;
+}
+
+std::string Book::waitListToString(){
+    std::string toReturn = "{";
+    for(int iii;iii<this->waitList.getCurrItemCount();iii++){
+        toReturn += waitList.get(iii);
+        if (iii<waitList.getCurrItemCount()) {
+            toReturn += ", ";
+        } else {
+            toReturn += "}";
+        }
+    }
+    return toReturn;
+}
 
 
+void Book::clearWaitList(){
+    delete this->waitList;
+    this->waitList = ArrayList<std::string>(5);
+}
 
 
+void Book::addToWaitList(std::string personToAdd){
+    this->waitList.addToEnd(personToAdd);
+}
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+std::string Book::popOffWaitList(){
+    std::string toBePopped = this->waitList.pop();
+    return toBePopped;
+}
+
+int Book::calcSizeOf(){
+    int currentSize = 0;
+    currentSize += sizeof(std::string) * 2;
+    currentSize += sizeof(int) * 3;
+    currentSize += sizeof(double);
+    currentSize += this->waitList.calcSizeOf();
+    return currentSize;
 }
