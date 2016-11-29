@@ -23,7 +23,8 @@ private:
     double price;
 
     //ISBN number used for categorizing
-    int ISBN;
+    //string formatted
+    std::string ISBN;
 
     //number of copies currently in stock
     int haveValue;

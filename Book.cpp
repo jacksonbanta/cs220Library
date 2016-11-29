@@ -5,7 +5,7 @@
 #include "ArrayList.h"
 
 
-Book::Book(std::string title, std::string author, double price, int ISBN, int haveValue, int wantValue){
+Book::Book(std::string title, std::string author, double price, std::string ISBN, int haveValue, int wantValue){
     this->title = title;
     this->author = author;
     this->price = price;
@@ -63,7 +63,7 @@ void Book::setPrice(double newPrice) {
    this->price = newPrice;
 }
 
-int Book::getISBN(){
+std::string Book::getISBN(){
     return this->ISBN;
 }
 
