@@ -8,7 +8,8 @@
 #include <stdexcept>
 #include <string>
 #include "List.h"
-template<class ItemType>
+#include "Book.h"
+
 
 class Inventory {
 private:
@@ -17,7 +18,7 @@ private:
     int bookStock;
 
     //sorted linkedList of all books
-    Book* allBooksInStock;
+    List* itemsInStock;
 
 
 public:
@@ -31,17 +32,32 @@ public:
     //Destructor
     ~Inventory();
 
-    //searches through allBooksInStock and if the given book is found, returns all information asscioated with that book
-    itemType findBook(ItemType bookToFind);
+    // assignment operator overload
+    Inventory& operator=(const Inventory& inventoryToCopy);
+
+    //searches through allBooksInStock and if the given book is found, returns all information associated with that book
+    // findType is either "ISBN", "AUTHOR", "Title"
+    // value is the associated search term for the chosen findType
+    Book findBook(std::string value, std::string findType);
 
     //returns the size of the object
-    itemType calcSizeOf();
+    long calcSizeOf();
 
-    void addNewBook(ItemType bookToAdd);
+    // takes a pointer to a book object
+    // adds the book to the inventory
+    void addNewBook(Book* bookToAdd);
+
+    // takes parameters for creating a new book
+    // adds the book to the inventory
+    void addNewBook(std::string author, std::string title, std::string ISBN, double price, int haveValue, int wantValue);
+
+    // takes a pointer to a book object
+    // removes the book from the inventory
+    void removeBook(Book* bookToAdd);
 
 };
 
-
+#include "Inventory.cpp"
 
 
 #endif //INVENTORY_H
