@@ -1,3 +1,7 @@
+//
+// Created by Jack Banta on 11/8/2016.
+//
+
 #include <iostream>
 #include "Book.h"
 #include "LinkedList.h"
@@ -12,7 +16,7 @@ Book::Book(std::string title, std::string author, double price, std::string ISBN
     this->ISBN = ISBN;
     this->haveValue = haveValue;
     this->wantValue = wantValue;
-    this->waitList = List<std::string>(1);
+    this->waitList = ArrayList<std::string>(1);
 }
 
 Book::Book(const Book& other){
@@ -97,7 +101,7 @@ std::string Book::waitListToString(){
 
 void Book::clearWaitList(){
     delete this->waitList;
-    this->waitList = List<std::string>(1);
+    this->waitList = ArrayList<std::string>(1);
 }
 
 

@@ -23,7 +23,7 @@ private:
     double price;
 
     //ISBN number used for categorizing
-    int ISBN;
+    std::string ISBN;
 
     //number of copies currently in stock
     int haveValue;
@@ -32,7 +32,7 @@ private:
     int wantValue;
 
     //pointer to start of waitList array - this must be a queue
-    List<std::string> waitList;
+    ArrayList<std::string> waitList;
 
 
 public:
