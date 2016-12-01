@@ -321,12 +321,23 @@ void ArrayList<ItemType>::doubleCapacity(){
     array = newArray;
 }
 
+<ItemType>
+void ArrayList<ItemType>::shrinkCapacity() {
+    if (this->currItemCount < this->currCapacity){
+        if (this->currCapacity%this->currItemCount=0){
+            this->currCapacity = this->currItemCount;
+        }
+    }
+}
+
 template <class ItemType>
 std::string ArrayList<ItemType>::pop(){
     std::string toBePopped = array[0];
     for (int iii;iii<this->getCurrItemCount();iii++){
         array[iii] = array[iii+1];
     }
+    this->currItemCount = this->currItemCount-1;
+    shrinkCapacity();
     return toBePopped;
 }
 

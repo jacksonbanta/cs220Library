@@ -95,6 +95,9 @@ public:
     //deletes the old array
     void doubleCapacity();
 
+    //shrinks the capacity by half, if it is possible to do so without losing data
+    void shrinkCapacity();
+
     //pops the first element in the array out of the array
     std::string pop();
 
