@@ -23,8 +23,7 @@ private:
     double price;
 
     //ISBN number used for categorizing
-    //string formatted
-    std::string ISBN;
+    int ISBN;
 
     //number of copies currently in stock
     int haveValue;
@@ -33,13 +32,13 @@ private:
     int wantValue;
 
     //pointer to start of waitList array - this must be a queue
-    ArrayList<std::string> waitList;
+    List<std::string> waitList;
 
 
 public:
 
     //constructor
-    Book(std::string title, std::string author, double price, int ISBN, int haveValue, int wantValue);
+    Book(std::string title, std::string author, double price, std::string ISBN, int haveValue, int wantValue);
 
     //copy constructor - waitList is outside of our object
     Book(const Book& other);
@@ -61,7 +60,7 @@ public:
     void setPrice(double newPrice);
 
     //returns ISBN of book
-    int getISBN();
+    std::string getISBN();
 
 
 

@@ -12,7 +12,7 @@ Book::Book(std::string title, std::string author, double price, std::string ISBN
     this->ISBN = ISBN;
     this->haveValue = haveValue;
     this->wantValue = wantValue;
-    this->waitList = ArrayList<std::string>(5);
+    this->waitList = List<std::string>(1);
 }
 
 Book::Book(const Book& other){
@@ -97,7 +97,7 @@ std::string Book::waitListToString(){
 
 void Book::clearWaitList(){
     delete this->waitList;
-    this->waitList = ArrayList<std::string>(5);
+    this->waitList = List<std::string>(1);
 }
 
 
