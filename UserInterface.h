@@ -5,6 +5,8 @@
 #ifndef CS220LIBRARY_USERINTERFACE_H
 #define CS220LIBRARY_USERINTERFACE_H
 
+#include <iostream>
+
 class UserInterface {
 
 private:
@@ -28,8 +30,11 @@ public:
     //list of inventory (alphabetical order by title)
     void list();
 
+    //Sets the userIn
+    void setUserIn(std::string user_in);
+
     //add book to inventory
-    void add(std::string title, std::string author, std::string author, double price);
+    void add(std::string title);
 
     //modify want value (displays have/want values)
     void modify(std::string title);
@@ -38,7 +43,7 @@ public:
     void sell(std::string title);
 
     //purchase additional books based on a comparison of the have and want values in the inventory (have and want values should be equal)
-    void order();
+    void order(std::string file_name);
 
     //update have values for books coming in, add any new titles to inventory
     void delivery(std::string file_name);
