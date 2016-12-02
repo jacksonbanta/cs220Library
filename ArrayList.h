@@ -33,7 +33,7 @@ public:
     ~ArrayList();
 
     //copy constructor
-    ArrayList& ArrayList::operator=(const ArrayList &other);
+    ArrayList& operator=(const ArrayList &other);
 
     //appends the new item to the end of the arrayList
     void addToEnd(ItemType itemToAdd);
@@ -47,18 +47,14 @@ public:
 
     //returns a copy of the item at index
     //if the index is invalid, throws an out_of_range exception
-    int get(int index);
+    ItemType get(int index);
 
-    //returns curritemcount of object
+    //returns currItemCount of object
     int getCurrItemCount();
 
     //returns currCapacity of object
     int getCurrCapacity();
 
-    //removes the item at index from the list, then returns a copy of that item
-    //if the index is invalid, throws an out_of_range exception
-    int remove(int index);
-    
     //returns true if there are no valid items in the list, false otherwise
     bool isEmpty();
 
@@ -69,18 +65,10 @@ public:
     void clearList();
 
     //returns the index of the first occurrence of itemToFind in the list, or -1 if not present
-    int find(int itemToFind);
+    int find(ItemType itemToFind);
 
     //returns the index of the last occurrence of itemToFind in the list, or -1 if not present
-    int findLast(int itemToFind);
-
-    //returns the index of the maximum item in the list
-    //throws an out_of_range exception if list is empty
-    int findMax();
-
-    //returns a string representing the given list in the exact format shown below
-    // {1, 2, 3, 4, 5}
-    std::string toString();
+    int findLast(ItemType itemToFind);
 
     //returns the total number of lines run by this object
     long getTotalLinesRun();
@@ -99,12 +87,12 @@ public:
     void shrinkCapacity();
 
     //pops the first element in the array out of the array
-    std::string pop();
+    ItemType pop();
 
 
 };
 
-
+#include "ArrayList.cpp"
 
 
 #endif //ARRAYLIST_H
