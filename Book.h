@@ -47,7 +47,7 @@ public:
     ~Book();
 
     //overloading assignment operator
-    Book& Book::operator=(const Book &other);
+    Book& operator=(const Book &other);
 
     //returns title of book
     std::string getTitle();
@@ -76,10 +76,13 @@ public:
 
     //returns the waitList
     std::string waitListToString();
+
     //clears the waitList
     void clearWaitList();
+
     //adds to the end of the waitList
     void addToWaitList(std::string personToAdd);
+
     //removes & returns first person on waitList
     std::string popOffWaitList();
 

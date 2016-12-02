@@ -4,8 +4,6 @@
 
 #include <iostream>
 #include "Book.h"
-#include "LinkedList.h"
-#include "LinkedNode.h"
 #include "ArrayList.h"
 
 
@@ -31,8 +29,7 @@ Book::Book(const Book& other){
 
 Book::~Book(){
     std::cout << "Deleting Book: " << this->getTitle() << " By: " << this->getAuthor() << std::endl;
-    delete[] waitList;
-    waitList = nullptr;
+
 }
 
 
@@ -100,7 +97,6 @@ std::string Book::waitListToString(){
 
 
 void Book::clearWaitList(){
-    delete this->waitList;
     this->waitList = ArrayList<std::string>(1);
 }
 
@@ -121,4 +117,8 @@ int Book::calcSizeOf(){
     currentSize += sizeof(double);
     currentSize += this->waitList.calcSizeOf();
     return currentSize;
+}
+
+int main(){
+    return -1;
 }
