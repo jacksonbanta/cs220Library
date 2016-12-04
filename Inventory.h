@@ -9,6 +9,7 @@
 #include <string>
 #include "List.h"
 #include "Book.h"
+#include <fstream>
 
 
 class Inventory {
@@ -57,7 +58,6 @@ public:
 
 };
 
-#include "Inventory.cpp"
 
 
 #endif //INVENTORY_H
