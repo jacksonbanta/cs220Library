@@ -19,6 +19,7 @@ LinkedList<ItemType>::LinkedList() {
 
 template <class ItemType>
 LinkedList<ItemType>::~LinkedList() {
+    //TODO: delete items too if using pointers, needs to be addressed
     LinkedNode* currNode = this->start;
     while (currNode != nullptr) {
         LinkedNode* toDel = currNode;
