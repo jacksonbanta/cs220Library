@@ -86,6 +86,9 @@ public:
     //removes & returns first person on waitList
     std::string popOffWaitList();
 
+    //TODO: I think we may need a get waitlist function that returns
+    //TODO: A copy of the waitlist (necessary for Inventory functions)
+
     //returns the size of the object
     int calcSizeOf();
 
