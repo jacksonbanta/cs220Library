@@ -46,6 +46,7 @@ public:
 
     // takes a pointer to a book object
     // adds the book to the inventory
+    // links book being pointed to into inventory list
     void addNewBook(Book* bookToAdd);
 
     // takes parameters for creating a new book
