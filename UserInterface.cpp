@@ -7,6 +7,7 @@
 
 UserInterface::UserInterface() {
 
+
 }
 
 void UserInterface::help(){
@@ -30,11 +31,11 @@ void UserInterface::help(){
 
 
 void UserInterface::inquire(std::string title){
-
+    myInventory->findBook(title, "TITLE");
 }
 
 void UserInterface::list(){
-
+    myInventory->list();
 }
 
 void UserInterface::setUserIn(std::string user_in) {
@@ -42,28 +43,28 @@ void UserInterface::setUserIn(std::string user_in) {
 }
 
 void UserInterface::add(std::string title){
-    //TODO: Request author, and sell price (generate random ISBN)
+    //TODO: Request author, sell-price, have/want values
 }
 
 void UserInterface::modify(std::string title){
-
+    myInventory->modify(title);
 }
 
 
 void UserInterface::sell(std::string title){
-
+    myInventory->modify(title);
 }
 
 void UserInterface::order(std::string file_name){
-
+    myInventory->order(file_name);
 }
 
 void UserInterface::delivery(std::string file_name){
-
+    myInventory->delivery(file_name);
 }
 
 void UserInterface::returnBooks(std::string file_name) {
-
+    myInventory->order(file_name);
 }
 
 void UserInterface::quit(){
@@ -78,6 +79,10 @@ int main(){
     bool temp = true;
     UserInterface* userInterface = new UserInterface();
     while (temp) {
+        // Global boolean for if the user input has any errors
+        bool globalBool;
+
+        // User input
         std::string userIn;
         std::cout << "\tEnter a command: " << std::endl;
         std::getline(std::cin, userIn);

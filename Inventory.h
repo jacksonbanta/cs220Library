@@ -57,6 +57,36 @@ public:
     // removes the book from the inventory
     void removeBook(Book* bookToAdd);
 
+    // Lists the entire inventory alphabetically
+    void list();
+
+    // Modify want value for title, display current want and have values
+    void modify(std::string title);
+
+    // Sets want value for specific title
+    void setWant(std::string title, int newWant);
+
+    // Sets have value for specific title
+    void setHave(std::string title, int newHave);
+
+    // Decreases the have value by 1, if doesn't exist, create book and add them to waitlist
+    void sell(std::string title);
+
+    // Gets current want value for book
+    int currWant(std::string title);
+
+    // Gets current have value for book
+    int currHave(std::string title);
+
+    // Create purchase order for books if want value is greater than have value
+    void order(std::string file_name);
+
+    // Books returned if have value is greater than want value
+    void returnBooks(std::string file_name);
+
+    // Reads in file and updates have/want values
+    void delivery(std::string file_name);
+
 };
 
 
