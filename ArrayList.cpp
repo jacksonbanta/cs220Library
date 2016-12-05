@@ -24,14 +24,16 @@ ArrayList<ItemType>::~ArrayList() {
 
 template <class ItemType>
 ArrayList<ItemType>& ArrayList<ItemType>::operator=(const ArrayList<ItemType> &other){
-    this->array = other.array;
-    this->currItemCount = other.currItemCount;
-    this->currCapacity = other.currCapacity;
-    this->totalLinesRun = 0;
-    for (int iii; iii<other.currItemCount; iii++){
-        this->array[iii] = other.array[iii];
+    if (this != &other) {
+        this->array = other.array;
+        this->currItemCount = other.currItemCount;
+        this->currCapacity = other.currCapacity;
+        this->totalLinesRun = 0;
+        for (int iii; iii < other.currItemCount; iii++) {
+            this->array[iii] = other.array[iii];
+        }
     }
-
+    return *this; // line was missing, been added, should resolve issues
 }
 
 template <class ItemType>

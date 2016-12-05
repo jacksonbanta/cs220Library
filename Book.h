@@ -32,7 +32,7 @@ private:
     int wantValue;
 
     //pointer to start of waitList array - this must be a queue
-    ArrayList<std::string> waitList;
+    ArrayList<std::string> waitList; //TODO: should this be a pointer? If so is it deleted in destructor?
 
 
 public:
