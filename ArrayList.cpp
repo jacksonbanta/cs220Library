@@ -237,8 +237,8 @@ void ArrayList<ItemType>::doubleCapacity(){
 }
 
 template <class ItemType>
-void ArrayList<ItemType>::shrinkCapacity() {
-    if (this->currItemCount < this->currCapacity){
+void ArrayList<ItemType>::shrinkCapacity() { //TODO: This is not adjusting actual capacity, only changing the currCapacity
+    if (this->currItemCount < this->currCapacity){ //TODO: Needs to create new, smaller array, copy items in, and delete onld.
         if (this->currCapacity % this->currItemCount==0){
             this->currCapacity = this->currItemCount;
         }
@@ -246,9 +246,9 @@ void ArrayList<ItemType>::shrinkCapacity() {
 }
 
 template <class ItemType>
-ItemType ArrayList<ItemType>::pop(){
-    std::string toBePopped = array[0];
-    for (int iii;iii<this->getCurrItemCount();iii++){
+ItemType ArrayList<ItemType>::pop(){ //TODO: needs to check to see if array[0] is even a valid item, and handle accordingly
+    std::string toBePopped = array[0]; //TODO: may be returning garbage
+    for (int iii;iii<this->getCurrItemCount();iii++){ //TODO: maybe return some sort of null character or something if empty
         array[iii] = array[iii+1];
     }
     this->currItemCount = this->currItemCount-1;

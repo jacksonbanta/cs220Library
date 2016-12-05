@@ -97,7 +97,7 @@ std::string Book::waitListToString(){
 
 
 void Book::clearWaitList(){
-    this->waitList = ArrayList<std::string>(1);
+    this->waitList = ArrayList<std::string>(1); //TODO: what happens to the old arraylist?
 }
 
 
