@@ -227,7 +227,7 @@ void ArrayList<ItemType>::doubleCapacity(){
     currCapacity = makeCurrCapacity;
 
     totalLinesRun += 1;
-    for (int iii=0;iii<currItemCount;iii++){
+    for (int iii=0;iii<this->currItemCount;iii++){
         totalLinesRun += 3;
         newArray[iii] = array[iii];
     }
@@ -248,7 +248,7 @@ void ArrayList<ItemType>::shrinkCapacity() { //TODO: This is not adjusting actua
 template <class ItemType>
 ItemType ArrayList<ItemType>::pop(){ //TODO: needs to check to see if array[0] is even a valid item, and handle accordingly
     std::string toBePopped = array[0]; //TODO: may be returning garbage
-    for (int iii;iii<this->getCurrItemCount();iii++){ //TODO: maybe return some sort of null character or something if empty
+    for (int iii=0;iii<this->currItemCount;iii++){ //TODO: maybe return some sort of null character or something if empty
         array[iii] = array[iii+1];
     }
     this->currItemCount = this->currItemCount-1;
