@@ -86,7 +86,19 @@ Inventory::Inventory(Inventory &other) {
 }
 
 Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
+    if (this != &inventoryToCopy) { // check for self
+        this->itemsInStock = new LinkedList<Book*>;
+        this->bookStock = 0;
 
+        for (int i = 0; i < inventoryToCopy.bookStock; ++i) {
+            Book* otherCurrBook = inventoryToCopy.itemsInStock->get(i);
+            Book newBookCopy = Book(*otherCurrBook);
+            Book* newBookPtr = &newBookCopy; // grab pointer to new book
+            this->itemsInStock->addToEnd(newBookPtr); //  add book to end because books are already in order
+            this->bookStock++; // increment book stock
+        }
+    }
+    return *this;
 }
 
 Inventory::~Inventory() {
@@ -111,7 +123,6 @@ Inventory::~Inventory() {
 
     delete this->itemsInStock; // delete linked list (linked list destrustor is called)
     this->itemsInStock = nullptr;
-
 }
 
 //TODO: .cpp implementation
