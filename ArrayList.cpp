@@ -271,15 +271,18 @@ void ArrayList<ItemType>::shrinkCapacity() {
 
 template <class ItemType>
 ItemType ArrayList<ItemType>::pop(){
-    template <class ItemType>
-    ItemType ArrayList<ItemType>::pop(){ //TODO: needs to check to see if array[0] is even a valid item, and handle accordingly
-        std::string toBePopped = array[0]; //TODO: may be returning garbage
-            for (int iii;iii<this->getCurrItemCount();iii++){ //TODO: maybe return some sort of null character or something if empty
-                for (int iii=0;iii<this->currItemCount;iii++){ //TODO: maybe return some sort of null character or something if empty
+    if (currItemCount > 0){
+        std::string toBePopped = array[0];
+        for (int iii;iii<this->getCurrItemCount();iii++){ //TODO: maybe return some sort of null character or something if empty
+            for (int iii=0;iii<this->currItemCount;iii++){ //TODO: maybe return some sort of null character or something if empty
                 array[iii] = array[iii+1];
             }
             this->currItemCount = this->currItemCount-1;
-    shrinkCapacity();
-    return toBePopped;
+        }
+        shrinkCapacity();
+        return toBePopped;
+    } else {
+        throw std::out_of_range("ERROR: No valid item to pop in array");
+    }
 }
 

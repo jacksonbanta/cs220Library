@@ -31,8 +31,8 @@ private:
     //number of copies the seller would like
     int wantValue;
 
-    //pointer to start of waitList array - this must be a queue //TODO: should we be using pointer syntax here and everywhere else?
-    ArrayList<std::string> waitList; //TODO: should this be a pointer? If so is it deleted in destructor?
+    //pointer to start of waitList array - this must be a queue
+    ArrayList<std::string> *waitList;
 
 
 public:
@@ -86,11 +86,11 @@ public:
     //removes & returns first person on waitList
     std::string popOffWaitList();
 
-    //TODO: I think we may need a get waitlist function that returns
-    //TODO: A copy of the waitlist (necessary for Inventory functions)
-
     //returns the size of the object
     int calcSizeOf();
+
+    //returns number of people on waitList
+    int numOnWaitList();
 
 };
 

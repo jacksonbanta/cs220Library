@@ -6,20 +6,19 @@
 #define CS220LIBRARY_USERINTERFACE_H
 
 #include <iostream>
+#include "Inventory.h"
 
 class UserInterface {
 
 private:
 
     std::string userIn;
+    Inventory* myInventory;
 
 public:
 
     //constructor
     UserInterface();
-
-    //destructor
-    ~UserInterface();
 
     //help
     void help();
