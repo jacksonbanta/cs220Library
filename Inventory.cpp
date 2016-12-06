@@ -49,7 +49,9 @@ Inventory::Inventory() {
                 while (persons) { // check for more data
                     getline(persons, tempPerson, ','); // get
                     currBook->addToWaitList(tempPerson);
-                    persons.ignore(' ');
+                    if (persons) {
+                        persons.ignore(' ');
+                    }
                 }
             }
 
