@@ -145,18 +145,6 @@ std::string Book::bookToString() {
 }
 
 int main(){
-    Book myBook = Book("Test","Jack Banta",19.99,"1234",10,10);
-    myBook.addToWaitList("test_Person1");
-    myBook.addToWaitList("test_Person2");
-    std::cout << myBook.waitListToString() << std::endl;
 
-    std::cout << myBook.bookToString() << std::endl;
-    std::cout << std::endl;
-
-
-
-
-    std::cout << std::endl;
-    std::cout << "END MAIN" << std::endl;
     return 0;
 }
