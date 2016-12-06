@@ -143,8 +143,3 @@ std::string Book::bookToString() {
     bookString += std::to_string(this->numOnWaitList());
     return bookString;
 }
-
-int main(){
-
-    return 0;
-}
