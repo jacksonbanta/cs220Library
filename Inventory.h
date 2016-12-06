@@ -61,6 +61,9 @@ public:
     // Lists the entire inventory alphabetically
     void list();
 
+    // Prints out all the information on the specified book
+    void inquire(std::title);
+
     // Modify want value for title, display current want and have values
     void modify(std::string title);
 

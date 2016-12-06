@@ -137,16 +137,77 @@ long Inventory::calcSizeOf() {
     //TODO
 }
 
-void Inventory::returnBooks(std::string file_name) {
-    //TODO
-}
+void Inventory::inquire(std::string title){
 
-void Inventory::removeBook(Book *bookToAdd) {
-    //TODO
 }
 
 void Inventory::delivery(std::string file_name){
-    //TODO
+    std::string author;
+    std::string title;
+    std::string ISBN;
+    std::string price;
+    std::string haveValue;
+    std::string wantValue;
+
+    std::ifstream infile;
+    infile.open(file_name);
+    if (infile) {
+        while (infile) {
+            std::string line;
+            getline(infile, line); // get the line
+            std::stringstream splitter(line); // create line string stream splitter
+            getline(splitter, author, ',');
+            getline(splitter, title, ',');
+            getline(splitter, ISBN, ',');
+            getline(splitter, price, ',');
+            getline(splitter, haveValue, ',');
+            getline(splitter, wantValue, ',');
+
+            Book *currBook = new Book(title,author,atof( price.c_str() ),
+                                      ISBN, stoi(haveValue), stoi(wantValue));
+            std::string tempPerson = "";
+
+            while (splitter) {
+                getline(splitter, tempPerson);
+                currBook->addToWaitList(tempPerson);
+            }
+            this->addNewBook(currBook); //TODO: address pbv vs pbp and consequences
+            //TODO: is there book copy constructor, how are they deleted when linked list is deleted, templating issue?
+            this->bookStock ++;
+
+        }
+    } else {
+        throw std::runtime_error("File Not Found");
+    }
+
+    infile.close();
+
+}
+
+void Inventory::returnBooks(std::string file_name) {
+    std::ofstream outfile;
+    outfile.open(file_name);
+    for (int i = 0; i < bookStock; ++i) {
+        Book* temp = itemsInStock->get(i);
+        if (temp->getHaveValue() > temp->getWantValue()){
+            outfile << temp->getAuthor() << ",";
+            outfile << temp->getTitle() << ",";
+            outfile << temp->getISBN() << ",";
+            outfile << temp->getPrice() << ",";
+            outfile << temp->getHaveValue() << ",";
+            outfile << temp->getWantValue() << ",";
+            itemsInStock->remove(i);
+        }
+    }
+}
+
+void Inventory::removeBook(std::string title) {
+    if (itemsInStock->findTitle(title) == -1){
+        std::cout << "Book not in inventory" << std::endl;
+    }else{
+        int index = itemsInStock->findTitle(title);
+        itemsInStock->remove(index);
+    }
 }
 
 void Inventory::setWant(std::string title, int newWant) {
@@ -207,10 +268,17 @@ void Inventory::list() {
 }
 
 void Inventory::order(std::string file_name) {
+    std::ofstream outfile;
+    outfile.open(file_name);
     for (int i = 0; i < bookStock; ++i) {
         Book* temp = itemsInStock->get(i);
         if (temp->getWantValue() > temp->getHaveValue()){
-            //TODO: add book to order
+            outfile << temp->getAuthor() << ",";
+            outfile << temp->getTitle() << ",";
+            outfile << temp->getISBN() << ",";
+            outfile << temp->getPrice() << ",";
+            outfile << temp->getHaveValue() << ",";
+            outfile << temp->getWantValue() << ",";
         }
     }
 }
@@ -240,14 +308,7 @@ void Inventory::modify(std::string title) {
 }
 
 void Inventory::sell(std::string title) {
-    if (itemsInStock->findTitle(title) == -1){
-        //TODO: book not in stock, add book (haveValue = 0, wantValue = 1)
-    }else{
-        int index = itemsInStock->findTitle(title);
-        Book* temp = itemsInStock->get(index);
-        temp->setHaveValue(temp->getWantValue()-1);
-    }
-
+    //TODO:
 }
 
 

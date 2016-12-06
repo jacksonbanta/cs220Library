@@ -92,6 +92,9 @@ public:
     //returns number of people on waitList
     int numOnWaitList();
 
+    //returns a string containing all information about a book
+    std::string bookToString();
+
 };
 
 
