@@ -40,7 +40,7 @@ public:
     //searches through allBooksInStock and if the given book is found, returns all information associated with that book
     // findType is either "ISBN", "AUTHOR", "Title"
     // value is the associated search term for the chosen findType
-    Book findBook(std::string value, std::string findType);
+    Book findBook(std::string title);
 
     //returns the size of the object
     long calcSizeOf();

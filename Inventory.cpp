@@ -19,7 +19,7 @@ Inventory::Inventory() {
     std::string wantValue;
     std::string waitListString;
 
-    this->itemsInStock = new LinkedList;
+    this->itemsInStock = new LinkedList<Book*>;
     this->bookStock = 0;
 
     std::ifstream infile;
@@ -39,8 +39,8 @@ Inventory::Inventory() {
             splitter.ignore('{');
             getline(splitter, waitListString, '}');
 
-            Book *currBook = new Book(title,author,std::atof( price.c_str() ),
-                                      ISBN, stoi(haveValue), std::stoi(wantValue));
+            Book *currBook = new Book(title,author,atof( price.c_str() ),
+                                      ISBN, stoi(haveValue), stoi(wantValue));
 
             waitListString += ","; // add delimiter to end for parsing
             std::string tempPerson;
@@ -70,8 +70,8 @@ Inventory::Inventory() {
     infile.close();
 }
 
-Inventory::Inventory(const Inventory &other) {
-    this->itemsInStock = new LinkedList;
+Inventory::Inventory(Inventory &other) {
+    this->itemsInStock = new LinkedList<Book*>;
     this->bookStock = 0;
 
     for (int i = 0; i < other.bookStock; ++i) {
@@ -85,7 +85,7 @@ Inventory::Inventory(const Inventory &other) {
 
 Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     if (this != &inventoryToCopy) { // check for self
-        this->itemsInStock = new LinkedList;
+        this->itemsInStock = new LinkedList<Book*>;
         this->bookStock = 0;
 
         for (int i = 0; i < inventoryToCopy.bookStock; ++i) {
@@ -129,7 +129,7 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
     //TODO
 }
 
-Book Inventory::findBook(std::string value, std::string findType) {
+Book Inventory::findBook(std::string title) {
     //TODO
 }
 
@@ -138,7 +138,13 @@ long Inventory::calcSizeOf() {
 }
 
 void Inventory::inquire(std::string title){
-
+    Book* tempBook = findBook(title);
+    std::cout << "Title: " << tempBook->getTitle() << std::endl;
+    std::cout << "Author: " << tempBook->getAuthor() << std::endl;
+    std::cout << "ISBN: " << tempBook->getISBN() << std::endl;
+    std::cout << "Price: " << tempBook->getPrice() << std::endl;
+    std::cout << "Have Value: " << tempBook->getHaveValue() << std::endl;
+    std::cout << "Want Value: " << tempBook->getWantValue() << std::endl;
 }
 
 void Inventory::delivery(std::string file_name){
@@ -205,8 +211,11 @@ void Inventory::removeBook(std::string title) {
     if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory" << std::endl;
     }else{
-        int index = itemsInStock->findTitle(title);
+        int index = itemsInStock->find(title);
+        Book* tempBook = itemsInStock->get(index);
         itemsInStock->remove(index);
+        tempBook->setHaveValue(getHaveValue() - 1);
+
     }
 }
 
@@ -214,7 +223,7 @@ void Inventory::setWant(std::string title, int newWant) {
     if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
     }else {
-        int index = itemsInStock->findTitle(title);
+        int index = itemsInStock->find(title);
         Book* temp = itemsInStock->get(index);
         temp->setWantValue(newWant);
     }
@@ -296,8 +305,7 @@ void Inventory::modify(std::string title) {
             int newWant;
             std::cin.clear();
             std::cout << "Enter new want value: " << std::endl;
-            std::cin >> newWant;
-            if (std::cin.fail()){
+            if (!(std::cin >> newWant)){
                 std::cin.clear();
                 std::cout << "Invalid input.. enter number" << std::endl;
             }else{
@@ -308,7 +316,9 @@ void Inventory::modify(std::string title) {
 }
 
 void Inventory::sell(std::string title) {
-    //TODO:
+    int index = itemsInStock->findTitle(title);
+    Book* temp = itemsInStock->get(index);
+    temp->setHaveValue(temp->getHaveValue()-1);
 }
 
 
