@@ -40,7 +40,7 @@ public:
         }
     }
 
-        ItemType getItem(){
+    ItemType getItem(){
         return item;
     }
 
