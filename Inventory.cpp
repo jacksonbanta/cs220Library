@@ -21,6 +21,7 @@ Inventory::Inventory() {
     string price;
     string haveValue;
     string wantValue;
+    string waitListString;
 
     this->itemsInStock = new LinkedList<Book*>;
     this->bookStock = 0;
@@ -39,10 +40,22 @@ Inventory::Inventory() {
             getline(splitter, price, ',');
             getline(splitter, haveValue, ',');
             getline(splitter, wantValue, ',');
+            splitter.ignore('{');
+            getline(splitter, waitListString, '}');
 
             Book *currBook = new Book(title,author,atof( price.c_str() ),
                                       ISBN, stoi(haveValue), stoi(wantValue));
-            std::string tempPerson = "";
+
+            waitListString += ","; // add delimiter to end for parsing
+            std::string tempPerson;
+            if (waitListString.length() != 0) { // check not empty
+                stringstream persons(waitListString); //create persons string stream
+                while (persons) { // check for more data
+                    getline(persons, tempPerson, ','); // get
+                    currBook->addToWaitList(tempPerson);
+                    persons.ignore(' ');
+                }
+            }
 
             while (splitter) {
                 getline(splitter, tempPerson);
@@ -56,31 +69,47 @@ Inventory::Inventory() {
     } else {
         throw runtime_error("File Not Found");
     }
-
     infile.close();
 }
 
+Inventory::Inventory(Inventory &other) {
+    this->itemsInStock = new LinkedList<Book*>;
+    this->bookStock = 0;
+
+    for (int i = 0; i < other.bookStock; ++i) {
+        Book* otherCurrBook = other.itemsInStock->get(i);
+        Book newBookCopy = Book(*otherCurrBook);
+        Book* newBookPtr = &newBookCopy; // grab pointer to new book
+        this->itemsInStock->addToEnd(newBookPtr); //  add book to end because books are already in order
+        this->bookStock++; // increment book stock
+    }
+}
+
+Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
+
+}
+
 Inventory::~Inventory() {
-    //TODO: Output to file
 
     ofstream outfile;
     outfile.open("inventoryData.txt");
 
-    for (int i = 0; i < this->bookStock; ++i) {
+    for (int i = 0; i < this->bookStock; ++i) { //loop through books in linked list
         Book *currBook = this->itemsInStock->get(i);
+
+        // write book data to outfile
         outfile << currBook->getAuthor() << ",";
         outfile << currBook->getTitle() << ",";
         outfile << currBook->getISBN() << ",";
         outfile << currBook->getPrice() << ",";
         outfile << currBook->getHaveValue() << ",";
         outfile << currBook->getWantValue() << ",";
-        //TODO: output waitlist here
+        outfile << currBook->waitListToString() << endl;
     }
 
+    outfile.close(); // close file output stream
 
-    outfile.close();
-
-    delete this->itemsInStock;
+    delete this->itemsInStock; // delete linked list (linked list destrustor is called)
     this->itemsInStock = nullptr;
 
 }
