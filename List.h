@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include<string>
 
+
 template <class ItemType>
 class List {
 
@@ -28,10 +29,6 @@ public:
     //if the index is invalid, throws an out_of_range exception
     virtual ItemType get(int index)=0;
 
-    //removes the item at index from the list, then returns a copy of that item
-    //if the index is invalid, throws an out_of_range exception
-    virtual ItemType remove(int index)=0;
-    
     //returns true if there are no valid items in the list, false otherwise
     virtual bool isEmpty()=0;
 
@@ -47,14 +44,6 @@ public:
     //returns the index of the last occurrence of itemToFind in the list, or -1 if not present
     virtual int findLast(ItemType itemToFind)=0;
 
-    //returns the index of first instance of the maximum item in the list
-    //throws an out_of_range exception if list is empty
-    virtual int findMax()=0;
-
-    //returns a string representing the given list in the exact format shown below
-    // {1, 2, 3, 4, 5}
-    virtual std::string toString()=0;
-
     //returns the total number of lines run by this object
     virtual long getTotalLinesRun()=0;
 
@@ -63,7 +52,12 @@ public:
 
     //returns the minimum size of the object in bytes
     virtual int calcSizeOf()=0;
+
+    virtual int getCurrItemCount()=0;
+
+    virtual ItemType pop()=0;
 };
+
 
 
 #endif //LAB7SOLN_LIST_H

@@ -62,7 +62,7 @@ public:
     void list();
 
     // Prints out all the information on the specified book
-    void inquire(std::title);
+    void inquire(std::string title);
 
     // Modify want value for title, display current want and have values
     void modify(std::string title);

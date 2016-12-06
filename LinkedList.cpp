@@ -42,9 +42,9 @@ LinkedList::~LinkedList() {
 }
 
 
-void LinkedList::addToEnd(ItemType itemToAdd) {
+void LinkedList::addToEnd(Book* bookToAdd) {
     this->totalLinesRun += 6;
-    LinkedNode* n = new LinkedNode(itemToAdd);
+    LinkedNode* n = new LinkedNode(bookToAdd);
     if (this->currItemCount) {
         this->end->setNext(n);
         this->end = n;
@@ -56,8 +56,8 @@ void LinkedList::addToEnd(ItemType itemToAdd) {
 
 }
 
-template <class ItemType>
-void LinkedList<ItemType>::addToFront(ItemType itemToAdd) {
+
+void LinkedList::addToFront(Book* bookToAdd) {
     this->totalLinesRun += 7;
     LinkedNode* n = new LinkedNode(itemToAdd);
     n->setNext(this->start);
