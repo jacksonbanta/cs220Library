@@ -33,6 +33,9 @@ public:
     ~ArrayList();
 
     //copy constructor
+    ArrayList(const ArrayList &other);
+
+    //overloaded operator
     ArrayList& operator=(const ArrayList &other);
 
     //appends the new item to the end of the arrayList

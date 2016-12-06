@@ -9,6 +9,7 @@
 
 template <class ItemType>
 ArrayList<ItemType>::ArrayList (int initialCapacity){
+    std::cout << "ARRAYLIST CONSTRUCTOR" << std::endl;
     this->array = new ItemType[initialCapacity];
     this->currItemCount = 0;
     this->currCapacity = initialCapacity;
@@ -18,13 +19,31 @@ ArrayList<ItemType>::ArrayList (int initialCapacity){
 
 template <class ItemType>
 ArrayList<ItemType>::~ArrayList() {
+    std::cout << "DELETING ARRAYLIST" << std::endl;
     delete[] array;
     array = nullptr;
 }
 
 template <class ItemType>
+ArrayList<ItemType>::ArrayList(const ArrayList<ItemType> &other){
+    std::cout << "ARRAYLIST COPY CONSTRUCTOR" << std::endl;
+    this->array = other.array;
+    this->currItemCount = other.currItemCount;
+    this->currCapacity = other.currCapacity;
+    this->totalLinesRun = 0;
+    for (int iii; iii < other.currItemCount; iii++) {
+        this->array[iii] = other.array[iii];
+    }
+}
+
+
+template <class ItemType>
 ArrayList<ItemType>& ArrayList<ItemType>::operator=(const ArrayList<ItemType> &other){
-    if (this != &other) {
+    std::cout << "ARRAYLIST OVERLOADED OP" << std::endl;
+    if (this == &other){
+
+        return *this;
+    } else {
         this->array = other.array;
         this->currItemCount = other.currItemCount;
         this->currCapacity = other.currCapacity;
@@ -33,13 +52,15 @@ ArrayList<ItemType>& ArrayList<ItemType>::operator=(const ArrayList<ItemType> &o
             this->array[iii] = other.array[iii];
         }
     }
-    return *this; // line was missing, been added, should resolve issues
+    return *this;
+
 }
 
 template <class ItemType>
 void ArrayList<ItemType>::addToEnd(ItemType itemToAdd){
     if (currItemCount+1<=currCapacity) {
         array[currItemCount] = itemToAdd;
+
         currItemCount++;
         totalLinesRun += 3;
     } else {
@@ -89,7 +110,6 @@ void ArrayList<ItemType>::add(ItemType itemToAdd, int index){
         currItemCount++;
         totalLinesRun += 2;
     } else{
-        std::cout << "Doubling array size to: " << currCapacity*2 << std::endl;
         doubleCapacity();
         add(itemToAdd,index);
         totalLinesRun += 6;
@@ -148,7 +168,6 @@ int ArrayList<ItemType>::size(){
 template <class ItemType>
 void ArrayList<ItemType>::clearList(){
     totalLinesRun += 1;
-    //todo
     currItemCount = 0;
 }
 
@@ -158,7 +177,6 @@ int ArrayList<ItemType>::find(ItemType itemToFind){
     for (int iii=0;iii<currItemCount;iii++){
         totalLinesRun += 2;
         //if the value at position iii in arrayPtr is the number we want to find, return that position
-        //TODO
         if (array[iii]==itemToFind){
             totalLinesRun += 1;
             return iii;
@@ -216,8 +234,7 @@ void ArrayList<ItemType>::resetTotalLinesRun(){
 template <class ItemType>
 int ArrayList<ItemType>::calcSizeOf(){
     totalLinesRun += 1;
-    //todo
-    return currCapacity * sizeof(int);
+    return currCapacity * sizeof(ItemType);
 }
 
 template <class ItemType>
@@ -227,7 +244,7 @@ void ArrayList<ItemType>::doubleCapacity(){
     currCapacity = makeCurrCapacity;
 
     totalLinesRun += 1;
-    for (int iii=0;iii<this->currItemCount;iii++){
+    for (int iii=0;iii<currItemCount;iii++){
         totalLinesRun += 3;
         newArray[iii] = array[iii];
     }
@@ -237,21 +254,35 @@ void ArrayList<ItemType>::doubleCapacity(){
 }
 
 template <class ItemType>
-void ArrayList<ItemType>::shrinkCapacity() { //TODO: This is not adjusting actual capacity, only changing the currCapacity
-    if (this->currItemCount < this->currCapacity){ //TODO: Needs to create new, smaller array, copy items in, and delete onld.
+void ArrayList<ItemType>::shrinkCapacity() {
+    if (this->currItemCount < this->currCapacity){
         if (this->currCapacity % this->currItemCount==0){
             this->currCapacity = this->currItemCount;
+            ItemType* newArray = new ItemType[currCapacity];
+            for (int iii=0;iii<currItemCount;iii++){
+                totalLinesRun += 3;
+                newArray[iii] = array[iii];
+            }
+            delete[] array;
+            array = newArray;
         }
     }
 }
 
 template <class ItemType>
-ItemType ArrayList<ItemType>::pop(){ //TODO: needs to check to see if array[0] is even a valid item, and handle accordingly
-    std::string toBePopped = array[0]; //TODO: may be returning garbage
-    for (int iii=0;iii<this->currItemCount;iii++){ //TODO: maybe return some sort of null character or something if empty
-        array[iii] = array[iii+1];
+ItemType ArrayList<ItemType>::pop(){
+    if (currItemCount > 0){
+        std::string toBePopped = array[0];
+        for (int iii;iii<this->getCurrItemCount();iii++){ //TODO: maybe return some sort of null character or something if empty
+            for (int iii=0;iii<this->currItemCount;iii++){ //TODO: maybe return some sort of null character or something if empty
+                array[iii] = array[iii+1];
+            }
+            this->currItemCount = this->currItemCount-1;
+        }
+        shrinkCapacity();
+        return toBePopped;
+    } else {
+        throw std::out_of_range("ERROR: No valid item to pop in array");
     }
-    this->currItemCount = this->currItemCount-1;
-    shrinkCapacity();
-    return toBePopped;
 }
+
