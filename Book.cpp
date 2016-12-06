@@ -8,7 +8,6 @@
 
 
 Book::Book(std::string title, std::string author, double price, std::string ISBN, int haveValue, int wantValue){
-    std::cout << "CONSTRUCTING BOOK" << std::endl;
     this->title = title;
     this->author = author;
     this->price = price;
@@ -87,7 +86,6 @@ void Book::setWantValue(int newWantValue) {
 std::string Book::waitListToString(){
     std::string toReturn = "{";
     for(int iii=0; iii < this->waitList->getCurrItemCount() ;iii++){
-        std::cout << waitList->get(iii) << std::endl;
         toReturn += waitList->get(iii);
         if (iii==waitList->getCurrItemCount()-1) {
             toReturn += "";
@@ -110,7 +108,8 @@ void Book::addToWaitList(std::string personToAdd){
 }
 
 std::string Book::popOffWaitList(){
-    std::string toBePopped = this->waitList->pop();
+    std::string toBePopped = waitList->pop();
+    std::cout << std::endl;
     return toBePopped;
 }
 
@@ -127,27 +126,32 @@ int Book::numOnWaitList() {
     return waitList->getCurrItemCount();
 }
 
+std::string Book::bookToString() {
+    std::string bookString = "";
+    bookString += this->getTitle();
+    bookString += ", ";
+    bookString += this->getAuthor();
+    bookString += ", ";
+    bookString += std::to_string(this->getPrice());
+    bookString += ", ";
+    bookString += this->getISBN();
+    bookString += ", ";
+    bookString += std::to_string(this->getHaveValue());
+    bookString += ", ";
+    bookString += std::to_string(this->getWantValue());
+    bookString += ", ";
+    bookString += std::to_string(this->numOnWaitList());
+    return bookString;
+}
+
 int main(){
     Book myBook = Book("Test","Jack Banta",19.99,"1234",10,10);
     myBook.addToWaitList("test_Person1");
     myBook.addToWaitList("test_Person2");
     std::cout << myBook.waitListToString() << std::endl;
 
-    Book myBookTwo = Book("Test2","Jack Banta2",20.00,"5678",10,10);
-    myBookTwo.addToWaitList("TP1");
-    myBookTwo.addToWaitList("TP2");
-    std::cout << myBookTwo.waitListToString() << std::endl;
-    myBookTwo.clearWaitList();
-    std::cout << "BEFORE myBookTwo wantValue: " << myBookTwo.getWantValue() << std::endl;
-    std::cout << "BEFORE myBookTwo haveValue: " << myBookTwo.getHaveValue() << std::endl;
-    std::cout << "BEFORE myBookTwo price: " << myBookTwo.getPrice() << std::endl;
-    std::cout << "BEFORE myBookTwo ISBN: " << myBookTwo.getISBN() << std::endl;
-    myBookTwo.setHaveValue(9999);
-    myBookTwo.setWantValue(9999);
-    myBookTwo.setPrice(99.99);
-    std::cout << "AFTER myBookTwo wantValue: " << myBookTwo.getWantValue() << std::endl;
-    std::cout << "AFTER myBookTwo haveValue: " << myBookTwo.getHaveValue() << std::endl;
-    std::cout << "AFTER myBookTwo price: " << myBookTwo.getPrice() << std::endl;
+    std::cout << myBook.bookToString() << std::endl;
+    std::cout << std::endl;
 
 
 
