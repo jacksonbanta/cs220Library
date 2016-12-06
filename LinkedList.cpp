@@ -6,20 +6,30 @@
 
 #include "LinkedList.h"
 #include <iostream>
+#include "Book.h"
 
 
 
-template <class ItemType>
-LinkedList<ItemType>::LinkedList() {
+
+LinkedList::LinkedList() {
     this->start = nullptr;
     this->end = nullptr;
     this->currItemCount = 0;
     this->totalLinesRun = 3;
 }
 
-template <class ItemType>
-LinkedList<ItemType>::~LinkedList() {
-    //TODO: delete items too if using pointers, needs to be addressed
+LinkedList::LinkedList(const LinkedList &other) {
+    if (other.start != nullptr) {
+        //TODO:
+        LinkedNode* currNode = other.start;
+        LinkedNode *copyNode = LinkedNode(currNode);
+        this->addToEnd(copyNode);
+        while (currNode) {}
+    }
+}
+
+
+LinkedList::~LinkedList() {
     LinkedNode* currNode = this->start;
     while (currNode != nullptr) {
         LinkedNode* toDel = currNode;
@@ -31,8 +41,8 @@ LinkedList<ItemType>::~LinkedList() {
     this->totalLinesRun = 0;
 }
 
-template <class ItemType>
-void LinkedList<ItemType>::addToEnd(ItemType itemToAdd) {
+
+void LinkedList::addToEnd(ItemType itemToAdd) {
     this->totalLinesRun += 6;
     LinkedNode* n = new LinkedNode(itemToAdd);
     if (this->currItemCount) {

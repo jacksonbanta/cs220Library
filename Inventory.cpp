@@ -19,7 +19,7 @@ Inventory::Inventory() {
     std::string wantValue;
     std::string waitListString;
 
-    this->itemsInStock = new LinkedList<Book*>;
+    this->itemsInStock = new LinkedList;
     this->bookStock = 0;
 
     std::ifstream infile;
@@ -39,8 +39,8 @@ Inventory::Inventory() {
             splitter.ignore('{');
             getline(splitter, waitListString, '}');
 
-            Book *currBook = new Book(title,author,atof( price.c_str() ),
-                                      ISBN, stoi(haveValue), stoi(wantValue));
+            Book *currBook = new Book(title,author,std::atof( price.c_str() ),
+                                      ISBN, stoi(haveValue), std::stoi(wantValue));
 
             waitListString += ","; // add delimiter to end for parsing
             std::string tempPerson;
@@ -70,8 +70,8 @@ Inventory::Inventory() {
     infile.close();
 }
 
-Inventory::Inventory(Inventory &other) {
-    this->itemsInStock = new LinkedList<Book*>;
+Inventory::Inventory(const Inventory &other) {
+    this->itemsInStock = new LinkedList;
     this->bookStock = 0;
 
     for (int i = 0; i < other.bookStock; ++i) {
@@ -85,7 +85,7 @@ Inventory::Inventory(Inventory &other) {
 
 Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     if (this != &inventoryToCopy) { // check for self
-        this->itemsInStock = new LinkedList<Book*>;
+        this->itemsInStock = new LinkedList;
         this->bookStock = 0;
 
         for (int i = 0; i < inventoryToCopy.bookStock; ++i) {
@@ -150,31 +150,31 @@ void Inventory::delivery(std::string file_name){
 }
 
 void Inventory::setWant(std::string title, int newWant) {
-    if (itemsInStock->find(title) == -1){
+    if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
     }else {
-        int index = itemsInStock->find(title);
+        int index = itemsInStock->findTitle(title);
         Book* temp = itemsInStock->get(index);
         temp->setWantValue(newWant);
     }
 }
 
 void Inventory::setHave(std::string title, int newHave) {
-    if (itemsInStock->find(title) == -1){
+    if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
     }else {
-        int index = itemsInStock->find(title);
+        int index = itemsInStock->findTitle(title);
         Book* temp = itemsInStock->get(index);
         temp->setHaveValue(newHave);
     }
 }
 
 int Inventory::currHave(std::string title) {
-    if (itemsInStock->find(title) == -1){
+    if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
         return -1;
     }else{
-        int index = itemsInStock->find(title);
+        int index = itemsInStock->findTitle(title);
         Book* temp  = itemsInStock->get(index);
         return temp->getHaveValue();
     }
@@ -182,11 +182,11 @@ int Inventory::currHave(std::string title) {
 }
 
 int Inventory::currWant(std::string title) {
-    if (itemsInStock->find(title) == -1){
+    if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
         return -1;
     }else{
-        int index = itemsInStock->find(title);
+        int index = itemsInStock->findTitle(title);
         Book* temp = itemsInStock->get(index);
         return temp->getWantValue();
     }
@@ -216,10 +216,10 @@ void Inventory::order(std::string file_name) {
 }
 
 void Inventory::modify(std::string title) {
-    if (itemsInStock->find(title) == -1){
+    if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
     }else{
-        int index = itemsInStock->find(title);
+        int index = itemsInStock->findTitle(title);
         Book* temp = itemsInStock->get(index);
         std::cout << "Have Value: " << temp->getHaveValue() << std::endl;
         std::cout << "Want Value: " << temp->getWantValue() << std::endl;
@@ -240,10 +240,10 @@ void Inventory::modify(std::string title) {
 }
 
 void Inventory::sell(std::string title) {
-    if (itemsInStock->find(title) == -1){
+    if (itemsInStock->findTitle(title) == -1){
         //TODO: book not in stock, add book (haveValue = 0, wantValue = 1)
     }else{
-        int index = itemsInStock->find(title);
+        int index = itemsInStock->findTitle(title);
         Book* temp = itemsInStock->get(index);
         temp->setHaveValue(temp->getWantValue()-1);
     }

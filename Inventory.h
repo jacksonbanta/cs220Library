@@ -9,6 +9,7 @@
 #include <string>
 #include "List.h"
 #include "Book.h"
+#include "LinkedList.h"
 #include <fstream>
 
 
@@ -19,7 +20,7 @@ private:
     int bookStock;
 
     //sorted linkedList of all books
-    List* itemsInStock;
+    LinkedList* itemsInStock;
 
 
 public:
@@ -28,7 +29,7 @@ public:
     Inventory();
 
     //copy constructor needed because inventory holds onto array memory outside of the object
-    Inventory(Inventory& other);
+    Inventory(const Inventory& other);
 
     //Destructor
     ~Inventory();
