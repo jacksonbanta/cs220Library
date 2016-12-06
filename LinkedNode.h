@@ -20,7 +20,27 @@ public:
         next = nullptr;
     }
 
-    ItemType getItem(){
+    ~LinkedNode(){
+        delete item;
+        next = nullptr;
+    }
+
+    LinkedNode(const LinkedNode& other){
+        this->item = other.item;
+        this->next = other.next;
+    }
+
+    LinkedNode operator=(const LinkedNode &other) {
+        if (this == &other) {
+            return *this;
+        } else {
+            this->item = other.item;
+            this->next = other.next;
+            return *this;
+        }
+    }
+
+        ItemType getItem(){
         return item;
     }
 
