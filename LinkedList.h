@@ -12,7 +12,7 @@
 #include "LinkedNode.h"
 
 template <class ItemType>
-class LinkedList : public List<ItemType>{
+class LinkedList{
 private:
     LinkedNode<ItemType>* start;
     LinkedNode<ItemType>* end;
@@ -43,7 +43,7 @@ public:
     //removes the item at index from the list, then returns a copy of that item
     //if the index is invalid, throws an out_of_range exception
     ItemType remove(int index);
-    
+
     //returns true if there are no valid items in the list, false otherwise
     bool isEmpty();
 
