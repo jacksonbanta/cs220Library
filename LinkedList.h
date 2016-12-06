@@ -14,8 +14,8 @@
 template <class ItemType>
 class LinkedList : public List<ItemType>{
 private:
-    LinkedNode* start;
-    LinkedNode* end;
+    LinkedNode<ItemType>* start;
+    LinkedNode<ItemType>* end;
     int currItemCount;
     long totalLinesRun;
 
