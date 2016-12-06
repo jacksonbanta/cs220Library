@@ -11,7 +11,7 @@
 #include "List.h"
 #include "LinkedNode.h"
 
-template <class ItemType>
+
 class LinkedList{
 private:
     LinkedNode* start;
