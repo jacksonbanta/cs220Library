@@ -6,8 +6,7 @@
 #include <iostream>
 
 UserInterface::UserInterface() {
-
-
+    this->myInventory = new Inventory();
 }
 
 void UserInterface::help(){
@@ -52,7 +51,7 @@ void UserInterface::modify(std::string title){
 
 
 void UserInterface::sell(std::string title){
-    myInventory->modify(title);
+    myInventory->sell(title);
 }
 
 void UserInterface::order(std::string file_name){
@@ -64,11 +63,11 @@ void UserInterface::delivery(std::string file_name){
 }
 
 void UserInterface::returnBooks(std::string file_name) {
-    myInventory->order(file_name);
+    myInventory->returnBooks(file_name);
 }
 
 void UserInterface::quit(){
-
+    std::cout << "\n----------------------" << std::endl;
 }
 
 
@@ -77,74 +76,73 @@ int main(){
     std::cout << "Welcome to the Book Store Inventory Program" << std::endl;
     std::cout << "-------------------------------------------" << std::endl;
     bool temp = true;
-    UserInterface* userInterface = new UserInterface();
+    UserInterface* myUserInterface = new UserInterface();
     while (temp) {
-        // Global boolean for if the user input has any errors
-        bool globalBool;
 
         // User input
         std::string userIn;
         std::cout << "\tEnter a command: " << std::endl;
         std::getline(std::cin, userIn);
-        userInterface->setUserIn(userIn);
+        myUserInterface->setUserIn(userIn);
         const char* charInput = userIn.c_str();
+
         if (charInput[0] == 'H' && std::strlen(charInput) == 1){
-            userInterface->help();
+            myUserInterface->help();
             std::cin.clear();
         }else if(charInput[0] == 'I' && std::strlen(charInput) != 1){
             std::string title = "";
             for (int i = 2; i < strlen(charInput); ++i) {
                 title+=charInput[i];
             }
-            userInterface->inquire(title);
+            myUserInterface->inquire(title);
             std::cin.clear(); // reset failbit
         }else if(charInput[0] == 'L' && std::strlen(charInput) == 1){
-            userInterface->list();
+            myUserInterface->list();
             std::cin.clear(); // reset failbit
         }else if(charInput[0] == 'A' && std::strlen(charInput) != 1){
             std::string title = "";
             for (int i = 2; i < strlen(charInput); ++i) {
                 title+=charInput[i];
             }
-            userInterface->add(title);
+            myUserInterface->add(title);
             std::cin.clear(); // reset failbit
         }else if(charInput[0] == 'M' && std::strlen(charInput) != 1){
             std::string title = "";
             for (int i = 2; i < strlen(charInput); ++i) {
                 title+=charInput[i];
             }
-            userInterface->modify(title);
+            myUserInterface->modify(title);
             std::cin.clear(); // reset failbit
         }else if(charInput[0] == 'S' && std::strlen(charInput) != 1){
             std::string title = "";
             for (int i = 2; i < strlen(charInput); ++i) {
                 title+=charInput[i];
             }
-            userInterface->sell(title);
+            myUserInterface->sell(title);
             std::cin.clear(); // reset failbit
         }else if(charInput[0] == 'O' && std::strlen(charInput) != 1){
             std::string fileName = "";
             for (int i = 2; i < strlen(charInput); ++i) {
                 fileName+=charInput[i];
             }
-            userInterface->order(fileName);
+            myUserInterface->order(fileName);
             std::cin.clear(); // reset failbit
         }else if(charInput[0] == 'D' && std::strlen(charInput) != 1){
             std::string fileName = "";
             for (int i = 2; i < strlen(charInput); ++i) {
                 fileName+=charInput[i];
             }
-            userInterface->delivery(fileName);
+            myUserInterface->delivery(fileName);
             std::cin.clear(); // reset failbit
         }else if(charInput[0] == 'R' && std::strlen(charInput) != 1){
             std::string fileName = "";
             for (int i = 2; i < strlen(charInput); ++i) {
                 fileName+=charInput[i];
             }
-            userInterface->returnBooks(fileName);
+            myUserInterface->returnBooks(fileName);
             std::cin.clear(); // reset failbit
         }else if(charInput[0] == 'Q' && std::strlen(charInput) == 1){
-            userInterface->quit();
+            myUserInterface->quit();
             std::cin.clear(); // reset failbit
             temp = false;
         }else{

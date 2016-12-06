@@ -4,35 +4,31 @@
 
 #include "Inventory.h"
 #include "LinkedList.h"
-#include "ArrayList.h"
-#include "Book.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
 
-using namespace std;
-
 Inventory::Inventory() {
 
-    string author;
-    string title;
-    string ISBN;
-    string price;
-    string haveValue;
-    string wantValue;
+    std::string author;
+    std::string title;
+    std::string ISBN;
+    std::string price;
+    std::string haveValue;
+    std::string wantValue;
 
     this->itemsInStock = new LinkedList<Book*>;
     this->bookStock = 0;
 
-    ifstream infile;
+    std::ifstream infile;
     infile.open("inventoryData.txt");
 
     if (infile) {
         while (infile) {
-            string line;
+            std::string line;
             getline(infile, line); // get the line
-            stringstream splitter(line); // create line string stream splitter
+            std::stringstream splitter(line); // create line string stream splitter
             getline(splitter, author, ',');
             getline(splitter, title, ',');
             getline(splitter, ISBN, ',');
@@ -54,7 +50,7 @@ Inventory::Inventory() {
 
         }
     } else {
-        throw runtime_error("File Not Found");
+        throw std::runtime_error("File Not Found");
     }
 
     infile.close();
@@ -63,7 +59,7 @@ Inventory::Inventory() {
 Inventory::~Inventory() {
     //TODO: Output to file
 
-    ofstream outfile;
+    std::ofstream outfile;
     outfile.open("inventoryData.txt");
 
     for (int i = 0; i < this->bookStock; ++i) {
@@ -76,16 +72,15 @@ Inventory::~Inventory() {
         outfile << currBook->getWantValue() << ",";
         //TODO: output waitlist here
     }
-
-
-    outfile.close();
-
-    delete this->itemsInStock;
-    this->itemsInStock = nullptr;
-
 }
 
-//TODO: .cpp implementation
+Inventory& Inventory::Inventory(Inventory &other) {
+    //TODO
+}
+
+Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
+    //TODO
+}
 
 void Inventory::addNewBook(Book *bookToAdd) {
     //TODO
