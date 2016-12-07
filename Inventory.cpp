@@ -214,7 +214,10 @@ void Inventory::removeBook(std::string title) {
         int index = itemsInStock->findTitle(title);
         Book* tempBook = itemsInStock->get(index);
         itemsInStock->remove(index);
-        tempBook->setHaveValue(getHaveValue() - 1);
+        //TODO: The line above is deleting the node, which deletes the book
+        //TODO: Then the line below calling a function on the book which has already been deleted
+        //TODO: Will have to be resolved
+        tempBook->setHaveValue(tempBook->getHaveValue() - 1);
 
     }
 }
