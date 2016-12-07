@@ -40,7 +40,8 @@ public:
     //searches through allBooksInStock and if the given book is found, returns all information associated with that book
     // findType is either "ISBN", "AUTHOR", "Title"
     // value is the associated search term for the chosen findType
-    Book findBook(std::string title);
+    // TODO: Had findBook return a pointer instead of a copy of the book -- kevin
+    Book* findBook(std::string title);
 
     //returns the size of the object
     long calcSizeOf();
@@ -59,6 +60,8 @@ public:
     void removeBook(Book* bookToAdd);
 
     void removeBook(std::string title);
+
+    int findTitle(std::string title);
 
     // Lists the entire inventory alphabetically
     void list();

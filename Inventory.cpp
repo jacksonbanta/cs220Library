@@ -26,7 +26,7 @@ Inventory::Inventory() {
     infile.open("inventoryData.txt");
 
     if (infile) {
-        while (infile) {
+        while (infile.good()) {        //TODO: i read online that .good() updates the infile for the loop -- kevin
             std::string line;
             getline(infile, line); // get the line
             std::stringstream splitter(line); // create line string stream splitter
@@ -46,7 +46,7 @@ Inventory::Inventory() {
             std::string tempPerson;
             if (waitListString.length() != 0) { // check not empty
                 std::stringstream persons(waitListString); //create persons string stream
-                while (persons) { // check for more data
+                while (persons.good()) { // check for more data     //TODO: i read online that .good() updates the infile for the loop -- kevin
                     getline(persons, tempPerson, ','); // get
                     currBook->addToWaitList(tempPerson);
                     if (persons) {
@@ -55,7 +55,7 @@ Inventory::Inventory() {
                 }
             }
 
-            while (splitter) {
+            while (splitter.good()) {           //TODO: i read online that .good() updates the infile for the loop -- kevin
                 getline(splitter, tempPerson);
                 currBook->addToWaitList(tempPerson);
             }
@@ -129,12 +129,20 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
     //TODO
 }
 
-Book Inventory::findBook(std::string title) {
+Book* Inventory::findBook(std::string title) {
     //TODO
 }
 
 long Inventory::calcSizeOf() {
     //TODO
+}
+
+void Inventory::removeBook(Book *bookToAdd) {
+    //TODO
+}
+
+int Inventory::findTitle(std::string title) {
+    return itemsInStock->findTitle(title);
 }
 
 void Inventory::inquire(std::string title){
@@ -158,7 +166,7 @@ void Inventory::delivery(std::string file_name){
     std::ifstream infile;
     infile.open(file_name);
     if (infile) {
-        while (infile) {
+        while (infile.good()) {      //TODO: i read online that .good() updates the infile for the loop -- kevin
             std::string line;
             getline(infile, line); // get the line
             std::stringstream splitter(line); // create line string stream splitter
@@ -173,7 +181,7 @@ void Inventory::delivery(std::string file_name){
                                       ISBN, stoi(haveValue), stoi(wantValue));
             std::string tempPerson = "";
 
-            while (splitter) {
+            while (splitter.good()) {       //TODO: i read online that .good() updates the infile for the loop -- kevin
                 getline(splitter, tempPerson);
                 currBook->addToWaitList(tempPerson);
             }
@@ -213,12 +221,12 @@ void Inventory::removeBook(std::string title) {
     }else{
         int index = itemsInStock->findTitle(title);
         Book* tempBook = itemsInStock->get(index);
-        itemsInStock->remove(index);
-        //TODO: The line above is deleting the node, which deletes the book
-        //TODO: Then the line below calling a function on the book which has already been deleted
-        //TODO: Will have to be resolved
-        tempBook->setHaveValue(tempBook->getHaveValue() - 1);
-
+        if (tempBook->getHaveValue() > 1){
+            tempBook->setHaveValue(tempBook->getHaveValue() - 1);
+            itemsInStock->remove(index);
+        }else{
+            itemsInStock->remove(index);
+        }
     }
 }
 
