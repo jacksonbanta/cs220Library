@@ -86,8 +86,8 @@ void LinkedList::addToFront(Book* bookToAdd) {
     this->currItemCount++;
 }
 
-template <class ItemType>
-void LinkedList<ItemType>::add(ItemType itemToAdd, int index) {
+
+void LinkedList::add(Book* itemToAdd, int index) {
     this->totalLinesRun += 2;
     if ((index>=0)&&(index <= currItemCount)) {
 
@@ -116,8 +116,8 @@ void LinkedList<ItemType>::add(ItemType itemToAdd, int index) {
     }
 }
 
-template <class ItemType>
-ItemType LinkedList<ItemType>::get(int index) {
+
+LinkedList::get(int index) {
     this->totalLinesRun += 2;
     if ((index>=0)&&(index < currItemCount)) {
         this->totalLinesRun += 2;
@@ -134,8 +134,8 @@ ItemType LinkedList<ItemType>::get(int index) {
     }
 }
 
-template <class ItemType>
-ItemType LinkedList<ItemType>::remove(int index) {
+
+LinkedList::remove(int index) {
     this->totalLinesRun += 2;
     if ((index>0)&&(index < currItemCount)) {
         this->totalLinesRun += 2;
@@ -166,20 +166,19 @@ ItemType LinkedList<ItemType>::remove(int index) {
     }
 }
 
-template <class ItemType>
-bool LinkedList<ItemType>::isEmpty() {
+bool LinkedList::isEmpty() {
     this->totalLinesRun++;
     return !this->currItemCount;
 }
 
-template <class ItemType>
-int LinkedList<ItemType>::size() {
+
+int LinkedList::size() {
     this->totalLinesRun++;
     return this->currItemCount;
 }
 
-template <class ItemType>
-void LinkedList<ItemType>::clearList() {
+
+void LinkedList::clearList() {
     LinkedNode* currNode = this->start;
     while (currNode != nullptr) {
         LinkedNode* toDel = currNode;
@@ -191,8 +190,8 @@ void LinkedList<ItemType>::clearList() {
     this->currItemCount = 0;
 }
 
-template <class ItemType>
-int LinkedList<ItemType>::find(ItemType itemToFind) {
+
+int LinkedList::find(Book* itemToFind) {
     int idx = -1;
     this->totalLinesRun += 3;
     LinkedNode *currNode = this->start;
@@ -208,49 +207,9 @@ int LinkedList<ItemType>::find(ItemType itemToFind) {
     return idx;
 }
 
-template <class ItemType>
-int LinkedList<ItemType>::findLast(int itemToFind) {
-    int idx = -1;
-    this->totalLinesRun += 3;
-    LinkedNode *currNode = this->start;
-    for (int i = 0; i < this->currItemCount; ++i) {
-        this->totalLinesRun += 4;
-        if (currNode->getItem() == itemToFind) {
-            this->totalLinesRun ++;
-            idx = i;
-        }
-        currNode = currNode->getNext();
-    }
-    this->totalLinesRun += 1;
-    return idx;
-}
 
-template <class ItemType>
-int LinkedList<ItemType>::findMax() {
-    this->totalLinesRun ++;
-    if (this->currItemCount) {
-        int idx = 0;
-        LinkedNode *currNode = this->start;
-        int maxVal = currNode->getItem();
-        this->totalLinesRun += 5;
-        for (int i = 0; i < this->currItemCount; ++i) {
-            this->totalLinesRun += 4;
-            if (currNode->getItem() > maxVal) {
-                this->totalLinesRun++;
-                idx = i;
-            }
-            currNode = currNode->getNext();
-        }
-        this->totalLinesRun += 1;
-        return idx;
-    } else {
-        this->totalLinesRun += 1;
-        throw std::out_of_range("Index out of range"); // throws out of range exception
-    }
-}
 
-template <class ItemType>
-std::string LinkedList<ItemType>::toString() {
+std::string LinkedList::toString() {
     this->totalLinesRun +=3;
     std::string newStr = "{"; // starts string with {
     LinkedNode* currNode = this->start;
@@ -273,18 +232,18 @@ std::string LinkedList<ItemType>::toString() {
     return newStr;
 }
 
-template <class ItemType>
-long LinkedList<ItemType>::getTotalLinesRun() {
+
+long LinkedList::getTotalLinesRun() {
     return this->totalLinesRun;
 }
 
-template <class ItemType>
-void LinkedList<ItemType>::resetTotalLinesRun() {
+
+void LinkedList::resetTotalLinesRun() {
     this->totalLinesRun = 0;
 }
 
-template <class ItemType>
-int LinkedList<ItemType>::calcSizeOf() {
+
+int LinkedList::calcSizeOf() {
     int totalSize = sizeof(start) + sizeof(end) //start and end
                     + sizeof(this->currItemCount) + sizeof(this->totalLinesRun);
     LinkedNode* currNode = this->start;

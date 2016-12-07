@@ -8,10 +8,8 @@
 #include <stdexcept>
 #include<string>
 
-
+#include "List.h"
 #include "LinkedNode.h"
-#include "Book.h"
-
 
 
 class LinkedList{
@@ -28,21 +26,15 @@ public:
     //Destructor
     ~LinkedList();
 
-    //copy constructor
-    LinkedList(const LinkedList &other);
-
-    //assignment overload
-    LinkedList &operator=(const LinkedList &other);
-
     //appends the new item to the end of the list
-    void addToEnd(Book* bookToAdd);
+    void addToEnd(Book* itemToAdd);
 
     //inserts the item at the front of the list
-    void addToFront(Book* bookToAdd);
+    void addToFront(Book* itemToAdd);
 
     //inserts the new item into the list at the specified index
     //if the index is invalid (< 0 or > currItemCount), throws an out_of_range exception
-    void add(Book* bookToAdd, int index);
+    void add(Book* itemToAdd, int index);
 
     //returns a copy of the item at index
     //if the index is invalid, throws an out_of_range exception
@@ -67,6 +59,9 @@ public:
 
     //returns the index of the first occurrence of a book with the ISBN in the list, or -1 if not present
     int findISBN(std::string ISBN);
+
+    //returns the index of the first occurrence of itemToFind in the list, or -1 if not present
+    int find(Book* itemToFind);
 
     //returns the total number of lines run by this object
     long getTotalLinesRun();
