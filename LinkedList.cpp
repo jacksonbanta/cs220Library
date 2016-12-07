@@ -1,7 +1,6 @@
 //
 // Created by Kenny Potts on 11/3/16.
 // Implements LinkedList
-// uses template
 //
 
 #include "LinkedList.h"
@@ -19,13 +18,32 @@ LinkedList::LinkedList() {
 }
 
 LinkedList::LinkedList(const LinkedList &other) {
-    if (other.start != nullptr) {
-        //TODO:
-        LinkedNode* currNode = other.start;
-        LinkedNode *copyNode = LinkedNode(currNode);
-        this->addToEnd(copyNode);
-        while (currNode) {}
+    this->start = nullptr;
+    this->end = nullptr;
+    this->currItemCount = 0;
+    this->totalLinesRun = 3;
+
+    for (int i = 0; i < other.currItemCount; ++i) {
+        Book *currBook = other.get(i);
+        Book *newBook = new Book(currBook); // make new copy of other book
+        this->addToEnd(newBook); // add new book to end through pointer
     }
+}
+
+LinkedList& LinkedList::operator=(const LinkedList &other) {
+    if (this != &other) {
+        this->start = nullptr;
+        this->end = nullptr;
+        this->currItemCount = 0;
+        this->totalLinesRun = 3;
+
+        for (int i = 0; i < other.currItemCount; ++i) {
+            Book *currBook = other.get(i);
+            Book *newBook = new Book(currBook); // make new copy of other book
+            this->addToEnd(newBook); // add new book to end through pointer
+        }
+    }
+    return *this;
 }
 
 
