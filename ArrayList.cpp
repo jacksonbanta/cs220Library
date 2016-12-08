@@ -251,34 +251,34 @@ void ArrayList<ItemType>::doubleCapacity(){
 
 template <class ItemType>
 void ArrayList<ItemType>::shrinkCapacity() {
-    if (this->currItemCount < this->currCapacity){
-        if (this->currCapacity % this->currItemCount==0){
-            this->currCapacity = this->currItemCount;
-            ItemType* newArray = new ItemType[currCapacity];
-            for (int iii=0;iii<currItemCount;iii++){
-                totalLinesRun += 3;
-                newArray[iii] = array[iii];
+    if (currCapacity>1) {
+        if (this->currItemCount < this->currCapacity) {
+            if (this->currCapacity % this->currItemCount == 0) {
+                this->currCapacity = this->currItemCount;
+                ItemType *newArray = new ItemType[currCapacity];
+                for (int iii = 0; iii < currItemCount; iii++) {
+                    totalLinesRun += 3;
+                    newArray[iii] = array[iii];
+                }
+                delete[] array;
+                array = newArray;
             }
-            delete[] array;
-            array = newArray;
         }
     }
 }
 
 template <class ItemType>
 ItemType ArrayList<ItemType>::pop(){
-
-    std::string toBePopped = array[0];
-    if (currItemCount > 0){
-        for (int iii=0;iii<currItemCount;iii++){
-            array[iii] = array[iii+1];
+    if (currItemCount>0) {
+        std::string toBePopped = array[0];
+        currItemCount = currItemCount - 1;
+        if (currItemCount >= 0) {
+            for (int iii = 0; iii < currItemCount; iii++) {
+                array[iii] = array[iii + 1];
+            }
+            shrinkCapacity();
+            return toBePopped;
         }
-        currItemCount = currItemCount-1;
-        shrinkCapacity();
-        return toBePopped;
-    } else {
-        toBePopped = "";
-        return toBePopped;
     }
 }
 
