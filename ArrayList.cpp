@@ -31,7 +31,7 @@ ArrayList<ItemType>::ArrayList(const ArrayList<ItemType> &other){
     this->currItemCount = other.currItemCount;
     this->currCapacity = other.currCapacity;
     this->totalLinesRun = 0;
-    for (int iii; iii < other.currItemCount; iii++) {
+    for (int iii = 0; iii < other.currItemCount; iii++) {
         this->array[iii] = other.array[iii];
     }
 }
@@ -48,7 +48,7 @@ ArrayList<ItemType>& ArrayList<ItemType>::operator=(const ArrayList<ItemType> &o
         this->currItemCount = other.currItemCount;
         this->currCapacity = other.currCapacity;
         this->totalLinesRun = 0;
-        for (int iii; iii < other.currItemCount; iii++) {
+        for (int iii = 0; iii < other.currItemCount; iii++) {
             this->array[iii] = other.array[iii];
         }
     }
@@ -285,3 +285,4 @@ ItemType ArrayList<ItemType>::pop(){
         return toBePopped;
     }
 }
+

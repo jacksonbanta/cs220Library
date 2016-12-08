@@ -25,7 +25,7 @@ Inventory::Inventory() {
     std::ifstream infile;
     infile.open("inventoryData.txt");
 
-    if (infile) {
+    if (infile.good()) {
         while (infile.good()) {        //TODO: i read online that .good() updates the infile for the loop -- kevin
             std::string line;
             getline(infile, line); // get the line
@@ -49,7 +49,7 @@ Inventory::Inventory() {
                 while (persons.good()) { // check for more data     //TODO: i read online that .good() updates the infile for the loop -- kevin
                     getline(persons, tempPerson, ','); // get
                     currBook->addToWaitList(tempPerson);
-                    if (persons) {
+                    if (persons.good()) {
                         persons.ignore(' ');
                     }
                 }
@@ -125,6 +125,7 @@ long Inventory::calcSizeOf() {
 }
 
 void Inventory::addNewBook(Book *bookToAdd) {
+    int count = 0;
     const char* newTitle = bookToAdd->getTitle().c_str();
     for (int i = 0; i < bookStock; ++i) {
         Book* iter = itemsInStock->get(i);
@@ -143,8 +144,17 @@ void Inventory::addNewBook(Book *bookToAdd) {
                 }else{
                     itemsInStock->add(bookToAdd, i);
                 }
+            }else{
+                continue;
             }
+        }else{
+            count++;
+            continue;
         }
+    }
+    if (count == bookStock) {
+        std::cout << "Adding to end of list" << std::endl;  //TODO: Check if this code gets run
+        itemsInStock->addToEnd(bookToAdd);  // Adds to end if it doesn't break out of loop
     }
 }
 
@@ -152,6 +162,7 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
                            int wantValue) {
     Book* bookToAdd = new Book(title, author, price, ISBN, haveValue, wantValue);
     const char* newTitle = title.c_str();
+    int count = 0;
     for (int i = 0; i < bookStock; ++i) {
         Book* iter = itemsInStock->get(i);
         const char* titleChar = iter->getTitle().c_str();
@@ -169,8 +180,17 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
                 }else{
                     itemsInStock->add(bookToAdd, i);
                 }
+            }else{
+                continue;
             }
+        }else{
+            count++;
+            continue;
         }
+    }
+    if (count == bookStock) {
+        std::cout << "Adding to end of list" << std::endl;  //TODO: Check if this code gets run
+        itemsInStock->addToEnd(bookToAdd);  // Adds to end if it doesn't break out of loop
     }
 }
 
@@ -223,7 +243,7 @@ void Inventory::delivery(std::string file_name){
 
     std::ifstream infile;
     infile.open(file_name);
-    if (infile) {
+    if (infile.good()) {
         while (infile.good()) {      //TODO: i read online that .good() updates the infile for the loop -- kevin
             std::string line;
             getline(infile, line); // get the line

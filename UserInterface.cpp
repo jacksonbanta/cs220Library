@@ -62,6 +62,7 @@ void UserInterface::add(std::string title){
                     std::cout << "\tNew Book Title: " << std::endl;
                     std::getline(std::cin, userTitle);
                     if (tempUserIn == "") {
+                        std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
                         innerBool = false;
@@ -74,6 +75,7 @@ void UserInterface::add(std::string title){
                     std::cout << "\tNew Book Author: " << std::endl;
                     std::getline(std::cin, userAuthor);
                     if (tempUserIn == "") {
+                        std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
                         innerBool = false;
@@ -86,6 +88,7 @@ void UserInterface::add(std::string title){
                     std::cout << "\tNew Book ISBN: " << std::endl;
                     std::getline(std::cin, userISBN);
                     if (tempUserIn == "") {
+                        std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
                         innerBool = false;
@@ -98,6 +101,7 @@ void UserInterface::add(std::string title){
                     std::cout << "\tNew Book Price: " << std::endl;
                     std::getline(std::cin, price);
                     if (tempUserIn == "") {
+                        std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
                         innerBool = false;
@@ -110,6 +114,7 @@ void UserInterface::add(std::string title){
                     std::cout << "\tNew Book Have Value: " << std::endl;
                     std::getline(std::cin, haveVal);
                     if (tempUserIn == "") {
+                        std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
                         innerBool = false;
@@ -122,6 +127,7 @@ void UserInterface::add(std::string title){
                     std::cout << "\tNew Book Title: " << std::endl;
                     std::getline(std::cin, wantVal);
                     if (tempUserIn == "") {
+                        std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
                         innerBool = false;
