@@ -62,7 +62,7 @@ double Book::getPrice() {
     return this->price;
 }
 void Book::setPrice(double newPrice) {
-    this->price = newPrice;
+   this->price = newPrice;
 }
 
 std::string Book::getISBN(){
@@ -109,7 +109,6 @@ void Book::addToWaitList(std::string personToAdd){
 
 std::string Book::popOffWaitList(){
     std::string toBePopped = waitList->pop();
-    std::cout << std::endl;
     return toBePopped;
 }
 
@@ -124,6 +123,10 @@ int Book::calcSizeOf(){
 
 int Book::numOnWaitList() {
     return waitList->getCurrItemCount();
+}
+
+int Book::capacityOfWaitList() {
+    return waitList->getCurrCapacity();
 }
 
 std::string Book::bookToString() {

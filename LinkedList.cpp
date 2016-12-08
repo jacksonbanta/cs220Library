@@ -60,11 +60,13 @@ LinkedList::~LinkedList() {
 }
 
 int LinkedList::findTitle(std::string title) {
+    const char* charCompareTitle = title.c_str();
     LinkedNode* currNode = start;
     int count = 0;
     while (currNode != nullptr){
         Book* currBook = currNode->getItem();
-        if (currBook->getTitle() == title){
+        const char* charTitle = currBook->getTitle().c_str();
+        if (std::strcmp(charCompareTitle, charTitle) == 0){
             return count;
         }else{
             count++;
@@ -75,11 +77,13 @@ int LinkedList::findTitle(std::string title) {
 }
 
 int LinkedList::findISBN(std::string ISBN) {
+    const char* charCompareISBN = ISBN.c_str();
     LinkedNode* currNode = start;
     int count = 0;
     while (currNode != nullptr){
         Book* currBook = currNode->getItem();
-        if (currBook->getISBN() == ISBN){
+        const char* charTitle = currBook->getISBN().c_str();
+        if (std::strcmp(charCompareISBN, charTitle) == 0){
             return count;
         }else{
             count++;
@@ -153,7 +157,8 @@ Book* LinkedList::get(int index) const{
         }
         return currNode->getItem();
     } else {
-        throw std::out_of_range("Index out of range"); // throws out of range exception
+        std::cout << "Book not in inventory..." << std::endl; // throws out of range exception
+        return nullptr;
     }
 }
 
@@ -243,9 +248,7 @@ std::string LinkedList::toString() {
             newStr += " "; //ensures proper space formatting
         }
         this->totalLinesRun +=3;
-
         newStr += (currNode->getItem()->bookToString()); // convert int to string
-
         if (i != this->currItemCount - 1) {
             this->totalLinesRun++;
             newStr += ";";

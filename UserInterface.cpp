@@ -151,7 +151,23 @@ void UserInterface::sell(std::string title){
     if (myInventory->findTitle(title) == -1){
         std::cout << "Book not in inventory..." << std::endl;
         add(title);
-    }else{
+    }else if(myInventory->findBook(title)->getHaveValue() == 0){
+        bool tempBool = true;
+        while (tempBool) {
+            std::string userName;
+            std::cout << "None in stock, enter your name, we'll add you to the waitlist: " << std::endl;
+            std::getline(std::cin, userName);
+            if (userName == "" || std::cin.fail()){
+                std::cout << "Invalid input.." << std::endl;
+                continue;
+            }else{
+                tempBool = false;
+                myInventory->findBook(title)->addToWaitList(userName);
+                myInventory->findBook(title)->setWantValue(myInventory->currWant(title) + 1);
+
+            }
+        }
+    } else{
         Book* userBook = myInventory->findBook(title);
         bool tempBool = true;
         while (tempBool){
@@ -159,10 +175,12 @@ void UserInterface::sell(std::string title){
             std::cout << "Enter Name (we'll add you to the waitlist): " << std::endl;
             std::getline(std::cin, userName);
             if (userName == ""){
+                std::cout << "Invalid input.." << std::endl;
                 continue;
             }else{
                 tempBool = false;
                 userBook->addToWaitList(userName);
+                userBook->setWantValue(userBook->getHaveValue() + 1);
             }
         }
     }

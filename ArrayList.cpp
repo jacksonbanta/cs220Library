@@ -269,8 +269,9 @@ void ArrayList<ItemType>::shrinkCapacity() {
 
 template <class ItemType>
 ItemType ArrayList<ItemType>::pop(){
+    std::string toBePopped = "";
     if (currItemCount>0) {
-        std::string toBePopped = array[0];
+        toBePopped = array[0];
         currItemCount = currItemCount - 1;
         if (currItemCount >= 0) {
             for (int iii = 0; iii < currItemCount; iii++) {
@@ -280,5 +281,7 @@ ItemType ArrayList<ItemType>::pop(){
             return toBePopped;
         }
     }
+    toBePopped = "No names left on wait list";
+    return toBePopped;
 }
 

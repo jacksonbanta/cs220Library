@@ -92,12 +92,11 @@ public:
     //returns number of people on waitList
     int numOnWaitList();
 
+    //returns capacity of waitList
+    int capacityOfWaitList();
+
     //returns a string containing all information about a book
     std::string bookToString();
 
 };
-
-
-
-
 #endif //BOOK_H
