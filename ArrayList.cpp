@@ -281,6 +281,7 @@ ItemType ArrayList<ItemType>::pop(){
             return toBePopped;
         }
     }
+    toBePopped = "No names left on wait list";
     return toBePopped;
 }
 
