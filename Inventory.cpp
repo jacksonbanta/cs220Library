@@ -57,13 +57,8 @@ Inventory::Inventory() {
                 }
             }
 
-            while (splitter.good()) {           //TODO: i read online that .good() updates the infile for the loop -- kevin
-                getline(splitter, tempPerson);
-                currBook->addToWaitList(tempPerson);
-            }
             this->addNewBook(currBook); //TODO: address pbv vs pbp and consequences
             //TODO: is there book copy constructor, how are they deleted when linked list is deleted, templating issue?
-            this->bookStock ++;
 
         }
     } else {
@@ -246,6 +241,7 @@ void Inventory::delivery(std::string file_name){
     std::string price;
     std::string haveValue;
     std::string wantValue;
+    std::string waitListString;
 
     std::ifstream infile;
     infile.open(file_name);
@@ -254,24 +250,38 @@ void Inventory::delivery(std::string file_name){
             std::string line;
             getline(infile, line); // get the line
             std::stringstream splitter(line); // create line string stream splitter
-            getline(splitter, author, ',');
             getline(splitter, title, ',');
+            getline(splitter, author, ',');
             getline(splitter, ISBN, ',');
             getline(splitter, price, ',');
             getline(splitter, haveValue, ',');
             getline(splitter, wantValue, ',');
+            splitter.ignore('{');
+            getline(splitter, waitListString, '}');
 
             Book *currBook = new Book(title,author,atof( price.c_str() ),
                                       ISBN, stoi(haveValue), stoi(wantValue));
-            std::string tempPerson = "";
 
-            while (splitter.good()) {       //TODO: i read online that .good() updates the infile for the loop -- kevin
-                getline(splitter, tempPerson);
-                currBook->addToWaitList(tempPerson);
+            waitListString += ","; // add delimiter to end for parsing
+            std::string tempPerson;
+            if (waitListString.length() != 0) { // check not empty
+                std::stringstream persons(waitListString); //create persons string stream
+                while (persons.good()) { // check for more data     //TODO: i read online that .good() updates the infile for the loop -- kevin
+                    getline(persons, tempPerson, ','); // get
+                    currBook->addToWaitList(tempPerson);
+                    if (persons) {
+                        persons.ignore(' ');
+                    }
+                }
             }
-            this->addNewBook(currBook); //TODO: address pbv vs pbp and consequences
-            //TODO: is there book copy constructor, how are they deleted when linked list is deleted, templating issue?
-            this->bookStock ++;
+
+            if (this->itemsInStock->findTitle(title) == -1) {
+                this->addNewBook(currBook);
+            } else {
+                delete currBook;
+            }
+
+
 
         }
     } else {
