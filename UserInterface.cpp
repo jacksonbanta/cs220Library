@@ -169,20 +169,9 @@ void UserInterface::sell(std::string title){
         }
     } else{
         Book* userBook = myInventory->findBook(title);
-        bool tempBool = true;
-        while (tempBool){
-            std::string userName;
-            std::cout << "Enter Name (we'll add you to the waitlist): " << std::endl;
-            std::getline(std::cin, userName);
-            if (userName == ""){
-                std::cout << "Invalid input.." << std::endl;
-                continue;
-            }else{
-                tempBool = false;
-                userBook->addToWaitList(userName);
-                userBook->setWantValue(userBook->getHaveValue() + 1);
-            }
-        }
+        std::cout << "-----------------------------------------------" << std::endl;
+        std::cout << "-- Thank you for purchasing " << title << "--" << std::endl;
+        myInventory->sell(title);
     }
 }
 
