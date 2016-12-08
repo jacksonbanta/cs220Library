@@ -120,25 +120,83 @@ Inventory::~Inventory() {
     this->itemsInStock = nullptr;
 }
 
-void Inventory::addNewBook(Book *bookToAdd) {
-    //TODO
-}
-
-void Inventory::addNewBook(std::string author, std::string title, std::string ISBN, double price, int haveValue,
-                           int wantValue) {
-    //TODO
-}
-
-Book* Inventory::findBook(std::string title) {
-    //TODO
-}
-
 long Inventory::calcSizeOf() {
     //TODO
 }
 
-void Inventory::removeBook(Book *bookToAdd) {
-    //TODO
+void Inventory::addNewBook(Book *bookToAdd) {
+    const char* newTitle = bookToAdd->getTitle().c_str();
+    for (int i = 0; i < bookStock; ++i) {
+        Book* iter = itemsInStock->get(i);
+        const char* titleChar = iter->getTitle().c_str();
+        if (titleChar[0] > newTitle[0]){
+            itemsInStock->add(bookToAdd, i);
+            break;
+        }else if(titleChar[0] == newTitle[0]){
+            if (titleChar[1] > newTitle[1]){
+                itemsInStock->add(bookToAdd, i);
+                break;
+            }else if(titleChar[1] == newTitle[1]){
+                if (titleChar[2] > newTitle[2]){
+                    itemsInStock->add(bookToAdd, i);
+                    break;
+                }else{
+                    itemsInStock->add(bookToAdd, i);
+                }
+            }
+        }
+    }
+}
+
+void Inventory::addNewBook(std::string author, std::string title, std::string ISBN, double price, int haveValue,
+                           int wantValue) {
+    Book* bookToAdd = new Book(title, author, price, ISBN, haveValue, wantValue);
+    const char* newTitle = title.c_str();
+    for (int i = 0; i < bookStock; ++i) {
+        Book* iter = itemsInStock->get(i);
+        const char* titleChar = iter->getTitle().c_str();
+        if (titleChar[0] > newTitle[0]){
+            itemsInStock->add(bookToAdd, i);
+            break;
+        }else if(titleChar[0] == newTitle[0]){
+            if (titleChar[1] > newTitle[1]){
+                itemsInStock->add(bookToAdd, i);
+                break;
+            }else if(titleChar[1] == newTitle[1]){
+                if (titleChar[2] > newTitle[2]){
+                    itemsInStock->add(bookToAdd, i);
+                    break;
+                }else{
+                    itemsInStock->add(bookToAdd, i);
+                }
+            }
+        }
+    }
+}
+
+Book* Inventory::findBook(std::string title) {
+    int index = itemsInStock->findTitle(title);
+    if (index != -1){
+        Book* copiedBook = itemsInStock->get(index);
+        return copiedBook;
+    }else{
+        return nullptr;
+    }
+}
+
+void Inventory::removeBook(Book *bookToRemove) {
+    if (itemsInStock->findTitle(bookToRemove->getTitle()) == -1){
+        std::cout << "Book not in inventory" << std::endl;
+    }else{
+        int index = itemsInStock->findTitle(bookToRemove->getTitle());
+        Book* tempBook = itemsInStock->get(index);
+        if (tempBook->getHaveValue() > 1){
+            tempBook->setHaveValue(tempBook->getHaveValue() - 1);
+            itemsInStock->remove(index);
+        }else{
+            itemsInStock->remove(index);
+        }
+    }
 }
 
 int Inventory::findTitle(std::string title) {
