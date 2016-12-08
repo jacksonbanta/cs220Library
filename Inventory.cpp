@@ -19,9 +19,7 @@ Inventory::Inventory() {
     std::string wantValue;
     std::string waitListString;
 
-
     this->itemsInStock = new LinkedList();
-
     this->bookStock = 0;
 
     std::ifstream infile;
@@ -34,8 +32,8 @@ Inventory::Inventory() {
             std::stringstream splitter(line); // create line string stream splitter
             getline(splitter, title, ',');
             getline(splitter, author, ',');
-            getline(splitter, ISBN, ',');
             getline(splitter, price, ',');
+            getline(splitter, ISBN, ',');
             getline(splitter, haveValue, ',');
             getline(splitter, wantValue, ',');
             splitter.ignore('{');
@@ -68,9 +66,7 @@ Inventory::Inventory() {
 }
 
 Inventory::Inventory(const Inventory &other) {
-
     this->itemsInStock = new LinkedList();
-
     this->bookStock = 0;
 
     for (int i = 0; i < other.bookStock; ++i) {
@@ -84,9 +80,7 @@ Inventory::Inventory(const Inventory &other) {
 
 Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     if (this != &inventoryToCopy) { // check for self
-
         this->itemsInStock = new LinkedList();
-
         this->bookStock = 0;
 
         for (int i = 0; i < inventoryToCopy.bookStock; ++i) {
@@ -111,8 +105,8 @@ Inventory::~Inventory() {
         // write book data to outfile
         outfile << currBook->getTitle() << ",";
         outfile << currBook->getAuthor() << ",";
-        outfile << currBook->getISBN() << ",";
         outfile << currBook->getPrice() << ",";
+        outfile << currBook->getISBN() << ",";
         outfile << currBook->getHaveValue() << ",";
         outfile << currBook->getWantValue() << ",";
         outfile << currBook->waitListToString() << std::endl;
@@ -239,8 +233,8 @@ void Inventory::inquire(std::string title){
     Book* tempBook = this->itemsInStock->get(this->itemsInStock->findTitle(title));
     std::cout << "Title: " << tempBook->getTitle() << std::endl;
     std::cout << "Author: " << tempBook->getAuthor() << std::endl;
-    std::cout << "ISBN: " << tempBook->getISBN() << std::endl;
     std::cout << "Price: " << tempBook->getPrice() << std::endl;
+    std::cout << "ISBN: " << tempBook->getISBN() << std::endl;
     std::cout << "Have Value: " << tempBook->getHaveValue() << std::endl;
     std::cout << "Want Value: " << tempBook->getWantValue() << std::endl;
 }
@@ -263,8 +257,8 @@ void Inventory::delivery(std::string file_name){
             std::stringstream splitter(line); // create line string stream splitter
             getline(splitter, title, ',');
             getline(splitter, author, ',');
-            getline(splitter, ISBN, ',');
             getline(splitter, price, ',');
+            getline(splitter, ISBN, ',');
             getline(splitter, haveValue, ',');
             getline(splitter, wantValue, ',');
             splitter.ignore('{');
@@ -311,8 +305,8 @@ void Inventory::returnBooks(std::string file_name) {
         if (temp->getHaveValue() > temp->getWantValue()){
             outfile << temp->getTitle() << ",";
             outfile << temp->getAuthor() << ",";
-            outfile << temp->getISBN() << ",";
             outfile << temp->getPrice() << ",";
+            outfile << temp->getISBN() << ",";
             outfile << temp->getHaveValue() << ",";
             outfile << temp->getWantValue() << ",";
             itemsInStock->remove(i);
@@ -398,10 +392,10 @@ void Inventory::order(std::string file_name) {
     for (int i = 0; i < bookStock; ++i) {
         Book* temp = itemsInStock->get(i);
         if (temp->getWantValue() > temp->getHaveValue()){
-            outfile << temp->getAuthor() << ",";
             outfile << temp->getTitle() << ",";
-            outfile << temp->getISBN() << ",";
+            outfile << temp->getAuthor() << ",";
             outfile << temp->getPrice() << ",";
+            outfile << temp->getISBN() << ",";
             outfile << temp->getHaveValue() << ",";
             outfile << temp->getWantValue() << ",";
         }
@@ -433,6 +427,8 @@ void Inventory::modify(std::string title) {
 
 void Inventory::sell(std::string title) {
     int index = itemsInStock->findTitle(title);
-    Book* temp = itemsInStock->get(index);
-    temp->setHaveValue(temp->getHaveValue()-1);
+    Book *temp = itemsInStock->get(index);
+    if (temp->getHaveValue() != 0) {
+        temp->setHaveValue(temp->getHaveValue() - 1);
+    }
 }
