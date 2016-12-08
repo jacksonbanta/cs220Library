@@ -27,7 +27,7 @@ public:
     }
 
     LinkedNode(const LinkedNode& other){
-        this->item = new Book(other.item);
+        this->item = new Book(*other.item);
         this->next = other.next;
     }
 
@@ -35,7 +35,7 @@ public:
         if (this == &other) {
             return *this;
         } else {
-            this->item = new Book(other.item);
+            this->item = new Book(*other.item);
             this->next = other.next;
             return *this;
         }

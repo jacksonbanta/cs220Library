@@ -19,7 +19,7 @@ Inventory::Inventory() {
     std::string wantValue;
     std::string waitListString;
 
-    this->itemsInStock = new LinkedList<Book*>;
+    this->itemsInStock = new LinkedList;
     this->bookStock = 0;
 
     std::ifstream infile;
@@ -71,7 +71,7 @@ Inventory::Inventory() {
 }
 
 Inventory::Inventory(const Inventory &other) {
-    this->itemsInStock = new LinkedList<Book*>;
+    this->itemsInStock = new LinkedList;
     this->bookStock = 0;
 
     for (int i = 0; i < other.bookStock; ++i) {
@@ -85,7 +85,7 @@ Inventory::Inventory(const Inventory &other) {
 
 Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     if (this != &inventoryToCopy) { // check for self
-        this->itemsInStock = new LinkedList<Book*>;
+        this->itemsInStock = new LinkedList;
         this->bookStock = 0;
 
         for (int i = 0; i < inventoryToCopy.bookStock; ++i) {

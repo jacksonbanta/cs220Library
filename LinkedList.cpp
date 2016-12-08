@@ -243,10 +243,10 @@ std::string LinkedList::toString() {
             newStr += " "; //ensures proper space formatting
         }
         this->totalLinesRun +=3;
-        newStr += std::to_string(currNode->getItem()); // convert int to string
+        newStr += currNode->getItem()->bookToString(); // convert int to string
         if (i != this->currItemCount - 1) {
             this->totalLinesRun++;
-            newStr += ",";
+            newStr += ";";
         }
         currNode = currNode->getNext();
     }
