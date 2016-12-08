@@ -19,7 +19,9 @@ Inventory::Inventory() {
     std::string wantValue;
     std::string waitListString;
 
+
     this->itemsInStock = new LinkedList();
+
     this->bookStock = 0;
 
     std::ifstream infile;
@@ -30,8 +32,8 @@ Inventory::Inventory() {
             std::string line;
             getline(infile, line); // get the line
             std::stringstream splitter(line); // create line string stream splitter
-            getline(splitter, author, ',');
             getline(splitter, title, ',');
+            getline(splitter, author, ',');
             getline(splitter, ISBN, ',');
             getline(splitter, price, ',');
             getline(splitter, haveValue, ',');
@@ -71,7 +73,9 @@ Inventory::Inventory() {
 }
 
 Inventory::Inventory(const Inventory &other) {
+
     this->itemsInStock = new LinkedList();
+
     this->bookStock = 0;
 
     for (int i = 0; i < other.bookStock; ++i) {
@@ -85,7 +89,9 @@ Inventory::Inventory(const Inventory &other) {
 
 Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     if (this != &inventoryToCopy) { // check for self
+
         this->itemsInStock = new LinkedList();
+
         this->bookStock = 0;
 
         for (int i = 0; i < inventoryToCopy.bookStock; ++i) {
@@ -108,8 +114,8 @@ Inventory::~Inventory() {
         Book *currBook = this->itemsInStock->get(i);
 
         // write book data to outfile
-        outfile << currBook->getAuthor() << ",";
         outfile << currBook->getTitle() << ",";
+        outfile << currBook->getAuthor() << ",";
         outfile << currBook->getISBN() << ",";
         outfile << currBook->getPrice() << ",";
         outfile << currBook->getHaveValue() << ",";
@@ -288,8 +294,8 @@ void Inventory::returnBooks(std::string file_name) {
     for (int i = 0; i < bookStock; ++i) {
         Book* temp = itemsInStock->get(i);
         if (temp->getHaveValue() > temp->getWantValue()){
-            outfile << temp->getAuthor() << ",";
             outfile << temp->getTitle() << ",";
+            outfile << temp->getAuthor() << ",";
             outfile << temp->getISBN() << ",";
             outfile << temp->getPrice() << ",";
             outfile << temp->getHaveValue() << ",";
