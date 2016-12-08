@@ -122,7 +122,12 @@ Inventory::~Inventory() {
 }
 
 long Inventory::calcSizeOf() {
-    //TODO
+    long sizeOf = 0;
+    for (int i = 0; i < this->bookStock; ++i) {
+        Book *currBook = this->itemsInStock->get(i);
+        sizeOf += *currBook->calcSizeOf();
+    }
+    return sizeOf;
 }
 
 void Inventory::addNewBook(Book *bookToAdd) {
