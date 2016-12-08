@@ -5,17 +5,18 @@
 #ifndef LINKEDNODE_H
 #define LINKEDNODE_H
 
+#include "Book.h"
 
-template <class ItemType>
+
 class LinkedNode {
 
 private:
-    ItemType item;
+    Book* item;
     LinkedNode* next;
 
 public:
 
-    LinkedNode(ItemType item){
+    LinkedNode(Book* item){
         this->item = item;
         next = nullptr;
     }
@@ -26,7 +27,7 @@ public:
     }
 
     LinkedNode(const LinkedNode& other){
-        this->item = other.item;
+        this->item = new Book(other.item);
         this->next = other.next;
     }
 
@@ -34,13 +35,13 @@ public:
         if (this == &other) {
             return *this;
         } else {
-            this->item = other.item;
+            this->item = new Book(other.item);
             this->next = other.next;
             return *this;
         }
     }
 
-    ItemType getItem(){
+    Book* getItem(){
         return item;
     }
 
@@ -48,7 +49,7 @@ public:
         return next;
     }
 
-    void setItem(ItemType newItem){
+    void setItem(Book* newItem){
         item = newItem;
     }
 
