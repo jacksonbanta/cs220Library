@@ -19,13 +19,13 @@ Inventory::Inventory() {
     std::string wantValue;
     std::string waitListString;
 
-    this->itemsInStock = new LinkedList<Book*>;
+    this->itemsInStock = new LinkedList();
     this->bookStock = 0;
 
     std::ifstream infile;
     infile.open("inventoryData.txt");
 
-    if (infile.good()) {
+    if (infile) {
         while (infile.good()) {        //TODO: i read online that .good() updates the infile for the loop -- kevin
             std::string line;
             getline(infile, line); // get the line
@@ -49,7 +49,7 @@ Inventory::Inventory() {
                 while (persons.good()) { // check for more data     //TODO: i read online that .good() updates the infile for the loop -- kevin
                     getline(persons, tempPerson, ','); // get
                     currBook->addToWaitList(tempPerson);
-                    if (persons.good()) {
+                    if (persons) {
                         persons.ignore(' ');
                     }
                 }
@@ -71,7 +71,7 @@ Inventory::Inventory() {
 }
 
 Inventory::Inventory(const Inventory &other) {
-    this->itemsInStock = new LinkedList<Book*>;
+    this->itemsInStock = new LinkedList();
     this->bookStock = 0;
 
     for (int i = 0; i < other.bookStock; ++i) {
@@ -85,7 +85,7 @@ Inventory::Inventory(const Inventory &other) {
 
 Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     if (this != &inventoryToCopy) { // check for self
-        this->itemsInStock = new LinkedList<Book*>;
+        this->itemsInStock = new LinkedList();
         this->bookStock = 0;
 
         for (int i = 0; i < inventoryToCopy.bookStock; ++i) {
@@ -243,7 +243,7 @@ void Inventory::delivery(std::string file_name){
 
     std::ifstream infile;
     infile.open(file_name);
-    if (infile.good()) {
+    if (infile) {
         while (infile.good()) {      //TODO: i read online that .good() updates the infile for the loop -- kevin
             std::string line;
             getline(infile, line); // get the line

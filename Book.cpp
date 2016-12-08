@@ -62,7 +62,7 @@ double Book::getPrice() {
     return this->price;
 }
 void Book::setPrice(double newPrice) {
-   this->price = newPrice;
+    this->price = newPrice;
 }
 
 std::string Book::getISBN(){

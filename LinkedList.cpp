@@ -25,7 +25,7 @@ LinkedList::LinkedList(const LinkedList &other) {
 
     for (int i = 0; i < other.currItemCount; ++i) {
         Book *currBook = other.get(i);
-        Book *newBook = new Book(currBook); // make new copy of other book
+        Book *newBook = new Book(*currBook); // make new copy of other book
         this->addToEnd(newBook); // add new book to end through pointer
     }
 }
@@ -39,7 +39,7 @@ LinkedList& LinkedList::operator=(const LinkedList &other) {
 
         for (int i = 0; i < other.currItemCount; ++i) {
             Book *currBook = other.get(i);
-            Book *newBook = new Book(currBook); // make new copy of other book
+            Book *newBook = new Book(*currBook); // make new copy of other book
             this->addToEnd(newBook); // add new book to end through pointer
         }
     }
@@ -243,10 +243,10 @@ std::string LinkedList::toString() {
             newStr += " "; //ensures proper space formatting
         }
         this->totalLinesRun +=3;
-        newStr += std::to_string(currNode->getItem()); // convert int to string
+        newStr += (currNode->getItem()->bookToString()); // convert int to string
         if (i != this->currItemCount - 1) {
             this->totalLinesRun++;
-            newStr += ",";
+            newStr += ";";
         }
         currNode = currNode->getNext();
     }
