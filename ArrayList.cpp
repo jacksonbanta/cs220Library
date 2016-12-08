@@ -9,7 +9,6 @@
 
 template <class ItemType>
 ArrayList<ItemType>::ArrayList (int initialCapacity){
-    std::cout << "ARRAYLIST CONSTRUCTOR" << std::endl;
     this->array = new ItemType[initialCapacity];
     this->currItemCount = 0;
     this->currCapacity = initialCapacity;
@@ -19,19 +18,17 @@ ArrayList<ItemType>::ArrayList (int initialCapacity){
 
 template <class ItemType>
 ArrayList<ItemType>::~ArrayList() {
-    std::cout << "DELETING ARRAYLIST" << std::endl;
     delete[] array;
     array = nullptr;
 }
 
 template <class ItemType>
 ArrayList<ItemType>::ArrayList(const ArrayList<ItemType> &other){
-    std::cout << "ARRAYLIST COPY CONSTRUCTOR" << std::endl;
     this->array = other.array;
     this->currItemCount = other.currItemCount;
     this->currCapacity = other.currCapacity;
     this->totalLinesRun = 0;
-    for (int iii = 0; iii < other.currItemCount; iii++) {
+    for (int iii; iii < other.currItemCount; iii++) {
         this->array[iii] = other.array[iii];
     }
 }
@@ -39,7 +36,6 @@ ArrayList<ItemType>::ArrayList(const ArrayList<ItemType> &other){
 
 template <class ItemType>
 ArrayList<ItemType>& ArrayList<ItemType>::operator=(const ArrayList<ItemType> &other){
-    std::cout << "ARRAYLIST OVERLOADED OP" << std::endl;
     if (this == &other){
 
         return *this;
@@ -48,7 +44,7 @@ ArrayList<ItemType>& ArrayList<ItemType>::operator=(const ArrayList<ItemType> &o
         this->currItemCount = other.currItemCount;
         this->currCapacity = other.currCapacity;
         this->totalLinesRun = 0;
-        for (int iii = 0; iii < other.currItemCount; iii++) {
+        for (int iii; iii < other.currItemCount; iii++) {
             this->array[iii] = other.array[iii];
         }
     }
@@ -274,10 +270,10 @@ ItemType ArrayList<ItemType>::pop(){
 
     std::string toBePopped = array[0];
     if (currItemCount > 0){
-        for (int iii=0;iii<currItemCount;iii++){ //TODO: popped item must be removed from array
+        for (int iii=0;iii<currItemCount;iii++){
             array[iii] = array[iii+1];
-            currItemCount = currItemCount-1;
         }
+        currItemCount = currItemCount-1;
         shrinkCapacity();
         return toBePopped;
     } else {
