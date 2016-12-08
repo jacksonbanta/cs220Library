@@ -331,6 +331,3 @@ void Inventory::sell(std::string title) {
     Book* temp = itemsInStock->get(index);
     temp->setHaveValue(temp->getHaveValue()-1);
 }
-
-
-

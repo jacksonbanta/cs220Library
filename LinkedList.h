@@ -10,6 +10,7 @@
 
 #include "List.h"
 #include "LinkedNode.h"
+#include "Book.h"
 
 
 class LinkedList{
@@ -26,6 +27,12 @@ public:
     //Destructor
     ~LinkedList();
 
+    // Assignment operator
+    LinkedList& operator=(const LinkedList &other);
+
+    // Copy constructor
+    LinkedList(const LinkedList &other);
+
     //appends the new item to the end of the list
     void addToEnd(Book* itemToAdd);
 
@@ -38,11 +45,10 @@ public:
 
     //returns a copy of the item at index
     //if the index is invalid, throws an out_of_range exception
-    Book* get(int index);
+    Book* get(int index) const;
 
     //removes the item at index from the list, then returns a copy of that item
     //if the index is invalid, throws an out_of_range exception
-
     Book* remove(int index);
 
     //returns true if there are no valid items in the list, false otherwise
@@ -71,6 +77,11 @@ public:
 
     //returns the minimum size of the object in bytes
     int calcSizeOf();
+
+    // returns a string of Book
+    std::string toString();
+
+
 };
 
 

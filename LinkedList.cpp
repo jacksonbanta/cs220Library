@@ -59,6 +59,35 @@ LinkedList::~LinkedList() {
     this->totalLinesRun = 0;
 }
 
+int LinkedList::findTitle(std::string title) {
+    LinkedNode* currNode = start;
+    int count = 0;
+    while (currNode != nullptr){
+        Book* currBook = currNode->getItem();
+        if (currBook->getTitle() == title){
+            return count;
+        }else{
+            count++;
+            currNode = currNode->getNext();
+        }
+    }
+    return -1;
+}
+
+int LinkedList::findISBN(std::string ISBN) {
+    LinkedNode* currNode = start;
+    int count = 0;
+    while (currNode != nullptr){
+        Book* currBook = currNode->getItem();
+        if (currBook->getISBN() == ISBN){
+            return count;
+        }else{
+            count++;
+            currNode = currNode->getNext();
+        }
+    }
+    return -1;
+}
 
 void LinkedList::addToEnd(Book* bookToAdd) {
     this->totalLinesRun += 6;
@@ -77,7 +106,7 @@ void LinkedList::addToEnd(Book* bookToAdd) {
 
 void LinkedList::addToFront(Book* bookToAdd) {
     this->totalLinesRun += 7;
-    LinkedNode* n = new LinkedNode(itemToAdd);
+    LinkedNode* n = new LinkedNode(bookToAdd);
     n->setNext(this->start);
     this->start = n;
     if (!this->currItemCount) {
@@ -92,7 +121,6 @@ void LinkedList::add(Book* itemToAdd, int index) {
     if ((index>=0)&&(index <= currItemCount)) {
 
         if (!this->currItemCount || !index) {
-            //std::cout << "made it here" << std::endl;
             this->addToFront(itemToAdd);
         } else if (index == this->currItemCount) {
             this->addToEnd(itemToAdd);
@@ -117,25 +145,20 @@ void LinkedList::add(Book* itemToAdd, int index) {
 }
 
 
-LinkedList::get(int index) {
-    this->totalLinesRun += 2;
+Book* LinkedList::get(int index) const{
     if ((index>=0)&&(index < currItemCount)) {
-        this->totalLinesRun += 2;
         LinkedNode *currNode = this->start;
         for (int i = 0; i < index; ++i) {
-            this->totalLinesRun += 4;
             currNode = currNode->getNext();
         }
-        this->totalLinesRun += 2;
         return currNode->getItem();
     } else {
-        this->totalLinesRun += 1;
         throw std::out_of_range("Index out of range"); // throws out of range exception
     }
 }
 
 
-LinkedList::remove(int index) {
+Book* LinkedList::remove(int index) {
     this->totalLinesRun += 2;
     if ((index>0)&&(index < currItemCount)) {
         this->totalLinesRun += 2;
@@ -146,7 +169,7 @@ LinkedList::remove(int index) {
         }
         this->totalLinesRun += 10;
         LinkedNode *toDel = pointNode->getNext();
-        int val = toDel->getItem();
+        Book* val = toDel->getItem();
         pointNode->setNext(toDel->getNext());
         delete toDel;
         toDel = nullptr;
@@ -154,7 +177,7 @@ LinkedList::remove(int index) {
         return val;
     } else if (!index && (index < currItemCount)) {
         LinkedNode* toDel = this->start;
-        int val = toDel->getItem();
+        Book* val = toDel->getItem();
         this->start = toDel->getNext();
         delete toDel;
         toDel = nullptr;

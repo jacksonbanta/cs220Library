@@ -285,4 +285,3 @@ ItemType ArrayList<ItemType>::pop(){
         return toBePopped;
     }
 }
-
