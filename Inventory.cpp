@@ -153,7 +153,7 @@ void Inventory::addNewBook(Book *bookToAdd) {
         }
     }
     if (count == bookStock) {
-        std::cout << "Adding to end of list" << std::endl;  //TODO: Check if this code gets run
+        //std::cout << "Adding to end of list" << std::endl;  //TODO: Check if this code gets run
         itemsInStock->addToEnd(bookToAdd);  // Adds to end if it doesn't break out of loop
     }
 }
@@ -168,17 +168,22 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
         const char* titleChar = iter->getTitle().c_str();
         if (titleChar[0] > newTitle[0]){
             itemsInStock->add(bookToAdd, i);
+            bookStock++;
             break;
         }else if(titleChar[0] == newTitle[0]){
             if (titleChar[1] > newTitle[1]){
                 itemsInStock->add(bookToAdd, i);
+                bookStock++;
                 break;
             }else if(titleChar[1] == newTitle[1]){
                 if (titleChar[2] > newTitle[2]){
                     itemsInStock->add(bookToAdd, i);
+                    bookStock++;
                     break;
                 }else{
                     itemsInStock->add(bookToAdd, i);
+                    bookStock++;
+                    break;
                 }
             }else{
                 continue;
@@ -191,6 +196,7 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
     if (count == bookStock) {
         std::cout << "Adding to end of list" << std::endl;  //TODO: Check if this code gets run
         itemsInStock->addToEnd(bookToAdd);  // Adds to end if it doesn't break out of loop
+        bookStock++;
     }
 }
 
