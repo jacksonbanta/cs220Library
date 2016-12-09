@@ -8,7 +8,9 @@
 #include <fstream>
 #include <sstream>
 
-
+// ----------
+// Inventory Constructor which reads in the information from inventoryData.txt file
+// ----------
 Inventory::Inventory() {
 
     std::string author;
@@ -26,7 +28,7 @@ Inventory::Inventory() {
     infile.open("inventoryData.txt");
 
     if (infile) {
-        while (infile.good()) {        //TODO: i read online that .good() updates the infile for the loop -- kevin
+        while (infile.good()) {
             std::string line;
             getline(infile, line); // get the line
             if (line == "") {
@@ -49,7 +51,7 @@ Inventory::Inventory() {
                 std::string tempPerson;
                 if (waitListString.length() != 0) { // check not empty
                     std::stringstream persons(waitListString); //create persons string stream
-                    while (persons.good()) { // check for more data     //TODO: i read online that .good() updates the infile for the loop -- kevin
+                    while (persons.good()) { // check for more data
                         getline(persons, tempPerson, ','); // get
                         currBook->addToWaitList(tempPerson);
                         if (persons) {
@@ -58,8 +60,7 @@ Inventory::Inventory() {
                     }
                 }
 
-                this->addNewBook(currBook); //TODO: address pbv vs pbp and consequences
-                //TODO: is there book copy constructor, how are they deleted when linked list is deleted, templating issue?
+                this->addNewBook(currBook);
 
 
             }
@@ -70,6 +71,9 @@ Inventory::Inventory() {
     infile.close();
 }
 
+// ----------
+// Inventory copy constructor
+// ----------
 Inventory::Inventory(const Inventory &other) {
     this->itemsInStock = new LinkedList();
     this->bookStock = 0;
@@ -83,6 +87,9 @@ Inventory::Inventory(const Inventory &other) {
     }
 }
 
+// ----------
+// Inventory destructor that outputs all of the books to the inventoryData.txt file
+// ----------
 Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     if (this != &inventoryToCopy) { // check for self
         this->itemsInStock = new LinkedList();
@@ -99,6 +106,9 @@ Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     return *this;
 }
 
+// ----------
+// Inventory destructor that outputs all of the books to the inventoryData.txt file
+// ----------
 Inventory::~Inventory() {
 
     std::ofstream outfile;
@@ -120,6 +130,10 @@ Inventory::~Inventory() {
     this->itemsInStock = nullptr;
 }
 
+// ----------
+// addNewBook takes in all the information that a book needs, and sorts through the current inventory (bubble sort)
+//      to place the new book in alphabetical order
+// ----------
 long Inventory::calcSizeOf() {
     long sizeOf = sizeof(bookStock);
     for (int i = 0; i < this->bookStock; ++i) {
@@ -129,11 +143,14 @@ long Inventory::calcSizeOf() {
     return sizeOf;
 }
 
+// ----------
+// addNewBook takes in a Book pointer, and sorts through the current inventory (bubble sort)
+//      to place the new book in alphabetical order
+// ----------
 void Inventory::addNewBook(Book *bookToAdd) {
     int count = 0;
     const char* newTitle = bookToAdd->getTitle().c_str();
     for (int i = 0; i < bookStock; ++i) {
-        //std::cout << count << std::endl;
         Book* iter = itemsInStock->get(i);
         const char* titleChar = iter->getTitle().c_str();
         if (titleChar[0] > newTitle[0]){
@@ -178,6 +195,10 @@ void Inventory::addNewBook(Book *bookToAdd) {
     }
 }
 
+// ----------
+// addNewBook takes in all the information that a book needs, and sorts through the current inventory (bubble sort)
+//      to place the new book in alphabetical order
+// ----------
 void Inventory::addNewBook(std::string author, std::string title, std::string ISBN, double price, int haveValue,
                            int wantValue) {
     Book* bookToAdd = new Book(title, author, price, ISBN, haveValue, wantValue);
@@ -185,7 +206,6 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
     int count = 0;
     for (int i = 0; i < bookStock; ++i) {
         Book* iter = itemsInStock->get(i);
-        //std::cout << bookStock << std::endl;
         const char* titleChar = iter->getTitle().c_str();
         if (titleChar[0] > newTitle[0]){
             itemsInStock->add(bookToAdd, i);
@@ -215,12 +235,15 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
         }
     }
     if (count == bookStock) {
-        //std::cout << "Adding to end of list" << std::endl;
         itemsInStock->addToEnd(bookToAdd);  // Adds to end if it doesn't break out of loop
         bookStock++;
     }
 }
 
+// ----------
+// findBook takes in a title (string) and calls the get function within the linked list
+// and if there's a book with the title, it will return a copy of that Book
+// ----------
 Book* Inventory::findBook(std::string title) {
     int index = itemsInStock->findTitle(title);
     if (index != -1){
@@ -231,6 +254,10 @@ Book* Inventory::findBook(std::string title) {
     }
 }
 
+// ----------
+// removeBook takes in a Book pointer and calls the linked list remove function
+// only if that book exists in the inventory
+// ----------
 void Inventory::removeBook(Book *bookToRemove) {
     if (itemsInStock->findTitle(bookToRemove->getTitle()) == -1){
         std::cout << "Book not in inventory" << std::endl;
@@ -246,10 +273,16 @@ void Inventory::removeBook(Book *bookToRemove) {
     }
 }
 
+// ----------
+// findBookTitle takes in a title and calls the findTitle function within the linked list
+// ----------
 int Inventory::findTitle(std::string title) {
     return itemsInStock->findTitle(title);
 }
 
+// ----------
+// inquire takes in a title (string) and prints out all the information on that book
+// ----------
 void Inventory::inquire(std::string title){
     Book* tempBook = this->itemsInStock->get(this->itemsInStock->findTitle(title));
     std::cout << "Title: " << tempBook->getTitle() << std::endl;
@@ -258,8 +291,13 @@ void Inventory::inquire(std::string title){
     std::cout << "ISBN: " << tempBook->getISBN() << std::endl;
     std::cout << "Have Value: " << tempBook->getHaveValue() << std::endl;
     std::cout << "Want Value: " << tempBook->getWantValue() << std::endl;
+    std::cout << "Wait List: " << tempBook->waitListToString() << std::endl;
 }
 
+// ----------
+// Delivery takes in a file name and updated the current have values
+// if the book doesn't exist it gets created
+// ----------
 void Inventory::delivery(std::string file_name){
     std::string author;
     std::string title;
@@ -272,7 +310,7 @@ void Inventory::delivery(std::string file_name){
     std::ifstream infile;
     infile.open(file_name);
     if (infile) {
-        while (infile.good()) {      //TODO: i read online that .good() updates the infile for the loop -- kevin
+        while (infile.good()) {
             std::string line;
             getline(infile, line); // get the line
             std::stringstream splitter(line); // create line string stream splitter
@@ -284,31 +322,26 @@ void Inventory::delivery(std::string file_name){
             getline(splitter, wantValue, ',');
             splitter.ignore('{');
             getline(splitter, waitListString, '}');
-
-            Book *currBook = new Book(title,author,atof( price.c_str() ),
-                                      ISBN, stoi(haveValue), stoi(wantValue));
-
-            waitListString += ","; // add delimiter to end for parsing
-            std::string tempPerson;
-            if (waitListString.length() != 0) { // check not empty
-                std::stringstream persons(waitListString); //create persons string stream
-                while (persons.good()) { // check for more data     //TODO: i read online that .good() updates the infile for the loop -- kevin
-                    getline(persons, tempPerson, ','); // get
-                    currBook->addToWaitList(tempPerson);
-                    if (persons) {
-                        persons.ignore(' ');
+            if (itemsInStock->findTitle(title) != -1) {
+                int index = itemsInStock->findTitle(title);
+                Book *sameBook = itemsInStock->get(index);
+                sameBook->setHaveValue(sameBook->getHaveValue() + 1);
+            }else {
+                Book *currBook = new Book(title, author, atof(price.c_str()), ISBN, stoi(haveValue), stoi(wantValue));
+                waitListString += ","; // add delimiter to end for parsing
+                std::string tempPerson;
+                if (waitListString.length() != 0) { // check not empty
+                    std::stringstream persons(waitListString); //create persons string stream
+                    while (persons.good()) { // check for more data
+                        getline(persons, tempPerson, ','); // get
+                        currBook->addToWaitList(tempPerson);
+                        if (persons) {
+                            persons.ignore(' ');
+                        }
                     }
                 }
-            }
-
-            if (this->itemsInStock->findTitle(title) == -1) {
                 this->addNewBook(currBook);
-            } else {
-                delete currBook;
-            }
-
-
-
+                }
         }
     } else {
         throw std::runtime_error("File Not Found");

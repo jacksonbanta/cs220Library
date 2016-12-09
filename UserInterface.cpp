@@ -59,20 +59,6 @@ void UserInterface::add(std::string title){
             if (count == 0) {
                 bool innerBool = true;
                 while (innerBool) {
-                    std::cout << "\tNew Book Title: " << std::endl;
-                    std::getline(std::cin, userTitle);
-                    if (userTitle == "") {
-                        std::cout << "Book already in inventory.." << std::endl;
-                        inquire(title);
-                        innerBool = false;
-                    } else {
-                        innerBool = false;
-                        count++;
-                    }
-                }
-            } else if (count == 1) {
-                bool innerBool = true;
-                while (innerBool) {
                     std::cout << "\tNew Book Author: " << std::endl;
                     std::getline(std::cin, userAuthor);
                     if (userAuthor == "") {
@@ -83,7 +69,7 @@ void UserInterface::add(std::string title){
                         count++;
                     }
                 }
-            } else if (count == 2) {
+            } else if (count == 1) {
                 bool innerBool = true;
                 while (innerBool) {
                     std::cout << "\tNew Book ISBN: " << std::endl;
@@ -96,7 +82,7 @@ void UserInterface::add(std::string title){
                         count++;
                     }
                 }
-            } else if (count == 3) {
+            } else if (count == 2) {
                 bool innerBool = true;
                 while (innerBool) {
                     std::cout << "\tNew Book Price: " << std::endl;
@@ -109,7 +95,7 @@ void UserInterface::add(std::string title){
                         count++;
                     }
                 }
-            } else if (count == 4) {
+            } else if (count == 3) {
                 bool innerBool = true;
                 while (innerBool) {
                     std::cout << "\tNew Book Have Value: " << std::endl;
@@ -122,7 +108,7 @@ void UserInterface::add(std::string title){
                         count++;
                     }
                 }
-            } else if (count == 5) {
+            } else if (count == 4) {
                 bool innerBool = true;
                 while (innerBool) {
                     std::cout << "\tNew Book Want Value: " << std::endl;
@@ -134,7 +120,7 @@ void UserInterface::add(std::string title){
                         innerBool = false;
                         count++;
                         tempBool = false;
-                        myInventory->addNewBook(userAuthor, userTitle, userISBN, std::atof(price.c_str()),
+                        myInventory->addNewBook(userAuthor, title, userISBN, std::atof(price.c_str()),
                                                 std::stoi(haveVal), std::stoi(wantVal));
                     }
                 }
