@@ -62,8 +62,9 @@ void UserInterface::add(std::string title){
                     std::cout << "\tNew Book Title: " << std::endl;
                     std::getline(std::cin, userTitle);
                     if (tempUserIn == "") {
-                        std::cout << "Invalid entry..." << std::endl;
-                        continue;
+                        std::cout << "Book already in inventory.." << std::endl;
+                        inquire(title);
+                        innerBool = false;
                     } else {
                         innerBool = false;
                         count++;
