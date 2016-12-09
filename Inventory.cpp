@@ -29,36 +29,40 @@ Inventory::Inventory() {
         while (infile.good()) {        //TODO: i read online that .good() updates the infile for the loop -- kevin
             std::string line;
             getline(infile, line); // get the line
-            std::stringstream splitter(line); // create line string stream splitter
-            getline(splitter, title, ',');
-            getline(splitter, author, ',');
-            getline(splitter, price, ',');
-            getline(splitter, ISBN, ',');
-            getline(splitter, haveValue, ',');
-            getline(splitter, wantValue, ',');
-            splitter.ignore('{');
-            getline(splitter, waitListString, '}');
+            if (line == "") {
+                break;
+            } else {
+                std::stringstream splitter(line); // create line string stream splitter
+                getline(splitter, title, ',');
+                getline(splitter, author, ',');
+                getline(splitter, price, ',');
+                getline(splitter, ISBN, ',');
+                getline(splitter, haveValue, ',');
+                getline(splitter, wantValue, ',');
+                splitter.ignore('{');
+                getline(splitter, waitListString, '}');
 
-            Book *currBook = new Book(title,author,atof( price.c_str() ),
-                                      ISBN, stoi(haveValue), stoi(wantValue));
+                Book *currBook = new Book(title, author, atof(price.c_str()),
+                                          ISBN, stoi(haveValue), stoi(wantValue));
 
-            waitListString += ","; // add delimiter to end for parsing
-            std::string tempPerson;
-            if (waitListString.length() != 0) { // check not empty
-                std::stringstream persons(waitListString); //create persons string stream
-                while (persons.good()) { // check for more data     //TODO: i read online that .good() updates the infile for the loop -- kevin
-                    getline(persons, tempPerson, ','); // get
-                    currBook->addToWaitList(tempPerson);
-                    if (persons) {
-                        persons.ignore(' ');
+                waitListString += ","; // add delimiter to end for parsing
+                std::string tempPerson;
+                if (waitListString.length() != 0) { // check not empty
+                    std::stringstream persons(waitListString); //create persons string stream
+                    while (persons.good()) { // check for more data     //TODO: i read online that .good() updates the infile for the loop -- kevin
+                        getline(persons, tempPerson, ','); // get
+                        currBook->addToWaitList(tempPerson);
+                        if (persons) {
+                            persons.ignore(' ');
+                        }
                     }
                 }
+
+                this->addNewBook(currBook); //TODO: address pbv vs pbp and consequences
+                //TODO: is there book copy constructor, how are they deleted when linked list is deleted, templating issue?
+
+
             }
-
-            this->addNewBook(currBook); //TODO: address pbv vs pbp and consequences
-            //TODO: is there book copy constructor, how are they deleted when linked list is deleted, templating issue?
-
-
         }
     } else {
         throw std::runtime_error("File Not Found");
@@ -129,6 +133,7 @@ void Inventory::addNewBook(Book *bookToAdd) {
     int count = 0;
     const char* newTitle = bookToAdd->getTitle().c_str();
     for (int i = 0; i < bookStock; ++i) {
+        //std::cout << count << std::endl;
         Book* iter = itemsInStock->get(i);
         const char* titleChar = iter->getTitle().c_str();
         if (titleChar[0] > newTitle[0]){
@@ -145,9 +150,18 @@ void Inventory::addNewBook(Book *bookToAdd) {
                     itemsInStock->add(bookToAdd, i);
                     bookStock++;
                     break;
+                }else if (titleChar[2] == newTitle[2]){
+                    if (titleChar[3] > newTitle[3]){
+                        itemsInStock->add(bookToAdd, i);
+                        bookStock++;
+                        break;
+                    }else if (titleChar[3] == newTitle[3]){
+                        itemsInStock->add(bookToAdd, i);
+                        bookStock++;
+                        break;
+                    }
                 }else{
-                    itemsInStock->add(bookToAdd, i);
-                    bookStock++;
+                    continue;
                 }
             }else{
                 continue;
@@ -158,7 +172,7 @@ void Inventory::addNewBook(Book *bookToAdd) {
         }
     }
     if (count == bookStock) {
-        //std::cout << "Adding to end of list" << std::endl;  //TODO: Check if this code gets run
+        //std::cout << "Adding to end of list" << std::endl;
         itemsInStock->addToEnd(bookToAdd);  // Adds to end if it doesn't break out of loop
         bookStock++;
     }
@@ -171,6 +185,7 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
     int count = 0;
     for (int i = 0; i < bookStock; ++i) {
         Book* iter = itemsInStock->get(i);
+        //std::cout << bookStock << std::endl;
         const char* titleChar = iter->getTitle().c_str();
         if (titleChar[0] > newTitle[0]){
             itemsInStock->add(bookToAdd, i);
@@ -200,7 +215,7 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
         }
     }
     if (count == bookStock) {
-        std::cout << "Adding to end of list" << std::endl;  //TODO: Check if this code gets run
+        //std::cout << "Adding to end of list" << std::endl;
         itemsInStock->addToEnd(bookToAdd);  // Adds to end if it doesn't break out of loop
         bookStock++;
     }
@@ -307,15 +322,18 @@ void Inventory::returnBooks(std::string file_name) {
     std::ofstream outfile;
     outfile.open(file_name);
     for (int i = 0; i < bookStock; ++i) {
-        Book* temp = itemsInStock->get(i);
-        if (temp->getHaveValue() > temp->getWantValue()){
-            outfile << temp->getTitle() << ",";
-            outfile << temp->getAuthor() << ",";
-            outfile << temp->getPrice() << ",";
-            outfile << temp->getISBN() << ",";
-            outfile << temp->getHaveValue() << ",";
-            outfile << temp->getWantValue() << ",";
-            itemsInStock->remove(i);
+        Book *temp = itemsInStock->get(i);
+        if (temp->getHaveValue() > temp->getWantValue()) {
+            for (int j = 0; j < (temp->getHaveValue() - temp->getWantValue()); ++j) {
+                outfile << temp->getTitle() << ",";
+                outfile << temp->getAuthor() << ",";
+                outfile << temp->getPrice() << ",";
+                outfile << temp->getISBN() << ",";
+                outfile << temp->getHaveValue() << ",";
+                outfile << temp->getWantValue() << ",";
+                outfile << temp->waitListToString() << std::endl;
+                temp->setHaveValue(temp->getHaveValue() - 1);
+            }
         }
     }
 }
@@ -386,6 +404,7 @@ void Inventory::list() {
         Book* temp = itemsInStock->get(i-1);
         if (temp->getHaveValue() > 0) {
             std::cout << count << ") " << " " << temp->getTitle() << "  By: " << temp->getAuthor() << std::endl;
+            std::cout << "\tHave Value: " << temp->getHaveValue() << "  Want Value: " << temp->getWantValue() << std::endl;
             count++;
         }
     }
@@ -418,14 +437,34 @@ void Inventory::modify(std::string title) {
         std::cout << "Want Value: " << temp->getWantValue() << std::endl;
         bool tempBool = true;
         while (tempBool) {
+            std::string wantString;
             int newWant;
             std::cin.clear();
             std::cout << "Enter new want value: " << std::endl;
-            if (!(std::cin >> newWant)){
+            std::getline(std::cin, wantString);
+            std::stringstream convert(wantString);
+            if (!(convert >> newWant)){
                 std::cin.clear();
                 std::cout << "Invalid input.. enter number" << std::endl;
             }else{
+                temp->setWantValue(newWant);
                 tempBool = false;
+            }
+        }
+        bool tempBool2 = true;
+        while (tempBool2){
+            std::string wantString2;
+            int newWant2;
+            std::cin.clear();
+            std::cout << "Enter new want value: " << std::endl;
+            std::getline(std::cin, wantString2);
+            std::stringstream convert(wantString2);
+            if (!(convert >> newWant2)){
+                std::cin.clear();
+                std::cout << "Invalid input.. enter number" << std::endl;
+            }else{
+                tempBool2 = false;
+                temp->setWantValue(newWant2);
             }
         }
     }

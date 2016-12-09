@@ -55,13 +55,13 @@ void UserInterface::add(std::string title){
         bool tempBool = true;
         int count = 0;
         while (tempBool) {
-            std::string tempUserIn;
+            //std::string tempUserIn;
             if (count == 0) {
                 bool innerBool = true;
                 while (innerBool) {
                     std::cout << "\tNew Book Title: " << std::endl;
                     std::getline(std::cin, userTitle);
-                    if (tempUserIn == "") {
+                    if (userTitle == "") {
                         std::cout << "Book already in inventory.." << std::endl;
                         inquire(title);
                         innerBool = false;
@@ -75,7 +75,7 @@ void UserInterface::add(std::string title){
                 while (innerBool) {
                     std::cout << "\tNew Book Author: " << std::endl;
                     std::getline(std::cin, userAuthor);
-                    if (tempUserIn == "") {
+                    if (userAuthor == "") {
                         std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
@@ -88,7 +88,7 @@ void UserInterface::add(std::string title){
                 while (innerBool) {
                     std::cout << "\tNew Book ISBN: " << std::endl;
                     std::getline(std::cin, userISBN);
-                    if (tempUserIn == "") {
+                    if (userISBN == "") {
                         std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
@@ -101,7 +101,7 @@ void UserInterface::add(std::string title){
                 while (innerBool) {
                     std::cout << "\tNew Book Price: " << std::endl;
                     std::getline(std::cin, price);
-                    if (tempUserIn == "") {
+                    if (price == "") {
                         std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
@@ -114,7 +114,7 @@ void UserInterface::add(std::string title){
                 while (innerBool) {
                     std::cout << "\tNew Book Have Value: " << std::endl;
                     std::getline(std::cin, haveVal);
-                    if (tempUserIn == "") {
+                    if (haveVal == "") {
                         std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
@@ -125,9 +125,9 @@ void UserInterface::add(std::string title){
             } else if (count == 5) {
                 bool innerBool = true;
                 while (innerBool) {
-                    std::cout << "\tNew Book Title: " << std::endl;
+                    std::cout << "\tNew Book Want Value: " << std::endl;
                     std::getline(std::cin, wantVal);
-                    if (tempUserIn == "") {
+                    if (wantVal == "") {
                         std::cout << "Invalid entry..." << std::endl;
                         continue;
                     } else {
