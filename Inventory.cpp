@@ -43,11 +43,10 @@ Inventory::Inventory() {
                 getline(splitter, wantValue, ',');
                 splitter.ignore('{');
                 getline(splitter, waitListString, '}');
-
-                Book *currBook = new Book(title, author, atof(price.c_str()),
-                                          ISBN, stoi(haveValue), stoi(wantValue));
-
-                waitListString += ","; // add delimiter to end for parsing
+                Book *currBook = new Book(title, author, atof(price.c_str()), ISBN, stoi(haveValue), stoi(wantValue));
+                if (waitListString.length() != 0) {
+                    waitListString += ","; // add delimiter to end for parsing
+                }
                 std::string tempPerson;
                 if (waitListString.length() != 0) { // check not empty
                     std::stringstream persons(waitListString); //create persons string stream
@@ -59,14 +58,11 @@ Inventory::Inventory() {
                         }
                     }
                 }
-
                 this->addNewBook(currBook);
-
-
             }
         }
     } else {
-        throw std::runtime_error("File Not Found");
+        std::cout << "File Not Found"  << std::endl;
     }
     infile.close();
 }
@@ -116,7 +112,6 @@ Inventory::~Inventory() {
 
     for (int i = 0; i < this->bookStock; ++i) { //loop through books in linked list
         Book *currBook = this->itemsInStock->get(i);
-
         // write book data to outfile
         outfile << currBook->getTitle() << ",";
         outfile << currBook->getAuthor() << ",";
@@ -306,49 +301,51 @@ void Inventory::delivery(std::string file_name){
     std::string haveValue;
     std::string wantValue;
     std::string waitListString;
-
     std::ifstream infile;
     infile.open(file_name);
     if (infile) {
         while (infile.good()) {
             std::string line;
             getline(infile, line); // get the line
-            std::stringstream splitter(line); // create line string stream splitter
-            getline(splitter, title, ',');
-            getline(splitter, author, ',');
-            getline(splitter, price, ',');
-            getline(splitter, ISBN, ',');
-            getline(splitter, haveValue, ',');
-            getline(splitter, wantValue, ',');
-            splitter.ignore('{');
-            getline(splitter, waitListString, '}');
-            if (itemsInStock->findTitle(title) != -1) {
-                int index = itemsInStock->findTitle(title);
-                Book *sameBook = itemsInStock->get(index);
-                sameBook->setHaveValue(sameBook->getHaveValue() + 1);
-            }else {
-                Book *currBook = new Book(title, author, atof(price.c_str()), ISBN, stoi(haveValue), stoi(wantValue));
-                waitListString += ","; // add delimiter to end for parsing
-                std::string tempPerson;
-                if (waitListString.length() != 0) { // check not empty
-                    std::stringstream persons(waitListString); //create persons string stream
-                    while (persons.good()) { // check for more data
-                        getline(persons, tempPerson, ','); // get
-                        currBook->addToWaitList(tempPerson);
-                        if (persons) {
-                            persons.ignore(' ');
+            if (line == "") {
+                break;
+            } else {
+                std::stringstream splitter(line); // create line string stream splitter
+                getline(splitter, title, ',');
+                getline(splitter, author, ',');
+                getline(splitter, price, ',');
+                getline(splitter, ISBN, ',');
+                getline(splitter, haveValue, ',');
+                getline(splitter, wantValue, ',');
+                splitter.ignore('{');
+                getline(splitter, waitListString, '}');
+                if (itemsInStock->findTitle(title) != -1) {
+                    int index = itemsInStock->findTitle(title);
+                    Book *sameBook = itemsInStock->get(index);
+                    sameBook->setHaveValue(sameBook->getHaveValue() + 1);
+                    sameBook->setWantValue(sameBook->getWantValue() - 1);
+                } else {
+                    Book *currBook = new Book(title, author, atof(price.c_str()), ISBN, stoi(haveValue), stoi(wantValue));
+                    waitListString += ","; // add delimiter to end for parsing
+                    std::string tempPerson;
+                    if (waitListString.length() != 0) { // check not empty
+                        std::stringstream persons(waitListString); //create persons string stream
+                        while (persons.good()) { // check for more data
+                            getline(persons, tempPerson, ','); // get
+                            currBook->addToWaitList(tempPerson);
+                            if (persons) {
+                                persons.ignore(' ');
+                            }
                         }
                     }
+                    this->addNewBook(currBook);
                 }
-                this->addNewBook(currBook);
-                }
+            }
         }
     } else {
-        throw std::runtime_error("File Not Found");
+        std::cout << "File Not Found..." << std::endl;
     }
-
     infile.close();
-
 }
 
 void Inventory::returnBooks(std::string file_name) {
@@ -435,12 +432,11 @@ void Inventory::list() {
     int count = 1;
     for (int i = 1; i <= bookStock; ++i) {
         Book* temp = itemsInStock->get(i-1);
-        if (temp->getHaveValue() > 0) {
-            std::cout << count << ") " << " " << temp->getTitle() << "  By: " << temp->getAuthor() << std::endl;
-            std::cout << "\tHave Value: " << temp->getHaveValue() << "  Want Value: " << temp->getWantValue() << std::endl;
-            count++;
-        }
+        std::cout << count << ") " << " " << temp->getTitle() << "  By: " << temp->getAuthor() << std::endl;
+        std::cout << "\tHave Value: " << temp->getHaveValue() << "  Want Value: " << temp->getWantValue() << std::endl;
+        count++;
     }
+    std::cout << "" << std::endl;       //Create better spacing
 
 }
 
@@ -449,13 +445,15 @@ void Inventory::order(std::string file_name) {
     outfile.open(file_name);
     for (int i = 0; i < bookStock; ++i) {
         Book* temp = itemsInStock->get(i);
-        if (temp->getWantValue() > temp->getHaveValue()){
+        if (temp->getWantValue() > temp->getHaveValue() && temp->getWantValue() > 0){
             outfile << temp->getTitle() << ",";
             outfile << temp->getAuthor() << ",";
             outfile << temp->getPrice() << ",";
             outfile << temp->getISBN() << ",";
             outfile << temp->getHaveValue() << ",";
             outfile << temp->getWantValue() << ",";
+            outfile << temp->waitListToString() << std::endl;
+            temp->setWantValue(temp->getWantValue() - 1);
         }
     }
 }
@@ -466,8 +464,8 @@ void Inventory::modify(std::string title) {
     }else{
         int index = itemsInStock->findTitle(title);
         Book* temp = itemsInStock->get(index);
-        std::cout << "Have Value: " << temp->getHaveValue() << std::endl;
         std::cout << "Want Value: " << temp->getWantValue() << std::endl;
+        std::cout << "Have Value: " << temp->getHaveValue() << std::endl;
         bool tempBool = true;
         while (tempBool) {
             std::string wantString;
@@ -487,17 +485,17 @@ void Inventory::modify(std::string title) {
         bool tempBool2 = true;
         while (tempBool2){
             std::string wantString2;
-            int newWant2;
+            int newHave;
             std::cin.clear();
-            std::cout << "Enter new want value: " << std::endl;
+            std::cout << "Enter new Have value: " << std::endl;
             std::getline(std::cin, wantString2);
             std::stringstream convert(wantString2);
-            if (!(convert >> newWant2)){
+            if (!(convert >> newHave)){
                 std::cin.clear();
                 std::cout << "Invalid input.. enter number" << std::endl;
             }else{
                 tempBool2 = false;
-                temp->setWantValue(newWant2);
+                temp->setHaveValue(newHave);
             }
         }
     }
