@@ -322,7 +322,7 @@ void Inventory::delivery(std::string file_name){
                 if (itemsInStock->findTitle(title) != -1) {
                     int index = itemsInStock->findTitle(title);
                     Book *sameBook = itemsInStock->get(index);
-                    sameBook->setHaveValue(sameBook->getHaveValue() + 1);
+                    sameBook->setHaveValue(sameBook->getWantValue());
                     sameBook->setWantValue(sameBook->getWantValue() - 1);
                 } else {
                     Book *currBook = new Book(title, author, atof(price.c_str()), ISBN, stoi(haveValue), stoi(wantValue));
@@ -374,11 +374,8 @@ void Inventory::removeBook(std::string title) {
     }else{
         int index = itemsInStock->findTitle(title);
         Book* tempBook = itemsInStock->get(index);
-        if (tempBook->getHaveValue() > 1){
+        if (tempBook->getHaveValue() >= 1){
             tempBook->setHaveValue(tempBook->getHaveValue() - 1);
-            itemsInStock->remove(index);
-        }else{
-            itemsInStock->remove(index);
         }
     }
 }
@@ -434,10 +431,9 @@ void Inventory::list() {
         Book* temp = itemsInStock->get(i-1);
         std::cout << count << ") " << " " << temp->getTitle() << "  By: " << temp->getAuthor() << std::endl;
         std::cout << "\tHave Value: " << temp->getHaveValue() << "  Want Value: " << temp->getWantValue() << std::endl;
+        std::cout << "Wait List: " << temp->waitListToString() << std::endl;
         count++;
-    }
-    std::cout << "" << std::endl;       //Create better spacing
-
+    }std::cout << "" << std::endl;       //Create better spacing
 }
 
 void Inventory::order(std::string file_name) {
@@ -450,10 +446,9 @@ void Inventory::order(std::string file_name) {
             outfile << temp->getAuthor() << ",";
             outfile << temp->getPrice() << ",";
             outfile << temp->getISBN() << ",";
-            outfile << temp->getHaveValue() << ",";
             outfile << temp->getWantValue() << ",";
+            outfile << "0" << ",";
             outfile << temp->waitListToString() << std::endl;
-            temp->setWantValue(temp->getWantValue() - 1);
         }
     }
 }
