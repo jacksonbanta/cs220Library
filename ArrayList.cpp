@@ -6,7 +6,10 @@
 #include <iostream>
 #include "ArrayList.h"
 
-
+// @param: int initialCapacity
+// ----------
+// Constructor
+// ----------
 template <class ItemType>
 ArrayList<ItemType>::ArrayList (int initialCapacity){
     this->array = new ItemType[initialCapacity];
@@ -16,12 +19,20 @@ ArrayList<ItemType>::ArrayList (int initialCapacity){
 
 }
 
+// @param: None
+// ----------
+// Destructor
+// ----------
 template <class ItemType>
 ArrayList<ItemType>::~ArrayList() {
     delete[] array;
     array = nullptr;
 }
 
+// @param: ArrayList other
+// ----------
+// copy constructor
+// ----------
 template <class ItemType>
 ArrayList<ItemType>::ArrayList(const ArrayList<ItemType> &other){
     this->array = other.array;
@@ -33,7 +44,10 @@ ArrayList<ItemType>::ArrayList(const ArrayList<ItemType> &other){
     }
 }
 
-
+// @param: ArrayList other
+// ----------
+// assignment operator
+// ----------
 template <class ItemType>
 ArrayList<ItemType>& ArrayList<ItemType>::operator=(const ArrayList<ItemType> &other){
     if (this == &other){
@@ -51,7 +65,10 @@ ArrayList<ItemType>& ArrayList<ItemType>::operator=(const ArrayList<ItemType> &o
     return *this;
 
 }
-
+// @param: ItemType itemToAdd
+// ----------
+// adds the specific item to the end of the arrayList
+// ----------
 template <class ItemType>
 void ArrayList<ItemType>::addToEnd(ItemType itemToAdd){
     if (currItemCount+1<=currCapacity) {
@@ -66,6 +83,10 @@ void ArrayList<ItemType>::addToEnd(ItemType itemToAdd){
     }
 }
 
+// @param: ItemType itemToAdd
+// ----------
+// Adds the specific item to the front of the arrayList
+// ----------
 template <class ItemType>
 void ArrayList<ItemType>::addToFront(ItemType itemToAdd){
     //if the array can hold another item
@@ -88,8 +109,11 @@ void ArrayList<ItemType>::addToFront(ItemType itemToAdd){
 
 }
 
-//inserts the new item into the array at the specified index
-//if the index is invalid (< 0 or > currItemCount), throws an out_of_range exception
+// @param: ItemType itemToAdd, int index
+// ----------
+// inserts the new item into the array at the specified index
+// if the index is invalid (< 0 or > currItemCount), throws an out_of_range exception
+// ----------
 template <class ItemType>
 void ArrayList<ItemType>::add(ItemType itemToAdd, int index){
     if (index <0 || index>currCapacity){
@@ -112,9 +136,11 @@ void ArrayList<ItemType>::add(ItemType itemToAdd, int index){
     }
 }
 
-
-//returns a copy of the item at index
-//if the index is invalid, throws an out_of_range exception
+// @param: int index
+// ----------
+// returns a copy of the item at index
+// if the index is invalid, throws an out_of_range exception
+// ----------
 template <class ItemType>
 ItemType ArrayList<ItemType>::get(int index){
     if (index <0 || index>currCapacity){
@@ -152,22 +178,30 @@ bool ArrayList<ItemType>::isEmpty(){
         return false;
     }
 }
-
-//returns the number of valid items in the list
+// @param: None
+// ----------
+// returns the number of valid items in the list
+// ----------
 template <class ItemType>
 int ArrayList<ItemType>::size(){
     totalLinesRun += 1;
     return currItemCount;
 }
 
-//makes the list entirely empty of valid items (does not change totalLinesRun)
+// @param: None
+// ----------
+// makes the list entirely empty of valid items (does not change totalLinesRun)
+// ----------
 template <class ItemType>
 void ArrayList<ItemType>::clearList(){
     totalLinesRun += 1;
     currItemCount = 0;
 }
 
+// @param: ItemType itemToFind
+// ----------
 //returns the index of the first occurrence of itemToFind in the list, or -1 if not present
+// ----------
 template <class ItemType>
 int ArrayList<ItemType>::find(ItemType itemToFind){
     for (int iii=0;iii<currItemCount;iii++){
@@ -182,7 +216,10 @@ int ArrayList<ItemType>::find(ItemType itemToFind){
     return -1;
 }
 
+// @param: ItemType itemToFind
+// ----------
 //returns the index of the last occurrence of itemToFind in the list, or -1 if not present
+// ----------
 template <class ItemType>
 int ArrayList<ItemType>::findLast(ItemType itemToFind){
     //int to briefly hold the itemToFind if it is found in the array BEFORE the array has finished iterating through
@@ -213,26 +250,39 @@ int ArrayList<ItemType>::findLast(ItemType itemToFind){
     return -1;
 }
 
-
+// @param: None
+// ----------
 //returns the total number of lines run by this object
+// ----------
 template <class ItemType>
 long ArrayList<ItemType>::getTotalLinesRun(){
     totalLinesRun += 1;
     return totalLinesRun;
 }
 
+// @param: None
+// ----------
 //resets the value of totalLinesRun to 0
+// ----------
 template <class ItemType>
 void ArrayList<ItemType>::resetTotalLinesRun(){
     totalLinesRun = 0;
 }
 
+// @param: None
+// ----------
+// returns the size of ArrayList
+// ----------
 template <class ItemType>
 int ArrayList<ItemType>::calcSizeOf(){
     totalLinesRun += 1;
     return currCapacity * sizeof(ItemType);
 }
 
+// @param: None
+// ----------
+// doubles the capacity of the arrayList
+// ----------
 template <class ItemType>
 void ArrayList<ItemType>::doubleCapacity(){
     int makeCurrCapacity = currCapacity*2;
@@ -249,6 +299,10 @@ void ArrayList<ItemType>::doubleCapacity(){
     array = newArray;
 }
 
+// @param: int index
+// ----------
+// shrinks the capacity of the arraylist half the size unless its greater than 1
+// ----------
 template <class ItemType>
 void ArrayList<ItemType>::shrinkCapacity() {
     if (currCapacity>1) {
@@ -267,6 +321,10 @@ void ArrayList<ItemType>::shrinkCapacity() {
     }
 }
 
+// @param: None
+// ----------
+// Pops off the first person at the waitlist
+// ----------
 template <class ItemType>
 ItemType ArrayList<ItemType>::pop(){
     std::string toBePopped = "";

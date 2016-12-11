@@ -430,6 +430,11 @@ void Inventory::returnBooks(std::string file_name) {
     }
 }
 
+// @param: string title
+// ----------
+// removeBook takes in a string title and if it's in the inventory it subtracts from the have value
+// if it is above >= 1
+// ----------
 void Inventory::removeBook(std::string title) {
     if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory" << std::endl;
@@ -442,6 +447,10 @@ void Inventory::removeBook(std::string title) {
     }
 }
 
+// @param: string title, int newWant
+// ----------
+// setWant takes in a title and new want and if the book is in the inventory it sets the new want
+// ----------
 void Inventory::setWant(std::string title, int newWant) {
     if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
@@ -452,6 +461,10 @@ void Inventory::setWant(std::string title, int newWant) {
     }
 }
 
+// @param: string title, int newHave
+// ----------
+// setHave takes in a title and new have and if the book is in the inventory it sets the new have
+// ----------
 void Inventory::setHave(std::string title, int newHave) {
     if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
@@ -462,6 +475,10 @@ void Inventory::setHave(std::string title, int newHave) {
     }
 }
 
+// @param: string title
+// ----------
+// currHave takes in a title and if the book is in the inventory it returns the current have value
+// ----------
 int Inventory::currHave(std::string title) {
     if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
@@ -474,6 +491,10 @@ int Inventory::currHave(std::string title) {
 
 }
 
+// @param: string title
+// ----------
+// currWant takes in a title and if the book is in the inventory it returns the current want value
+// ----------
 int Inventory::currWant(std::string title) {
     if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
@@ -485,6 +506,10 @@ int Inventory::currWant(std::string title) {
     }
 }
 
+// @param: None
+// ----------
+// list displays all the books within the inventory (including ones we don't have in stock)
+// ----------
 void Inventory::list() {
     std::cout << "\n----------------------" << std::endl;
     std::cout << "-----  Inventory -----" << std::endl;
@@ -498,6 +523,10 @@ void Inventory::list() {
     }std::cout << "" << std::endl;       //Create better spacing
 }
 
+// @param: string file_name
+// ----------
+// order takes in a file_name and outputs to the file books that have a want value > have value
+// ----------
 void Inventory::order(std::string file_name) {
     std::ofstream outfile;
     outfile.open(file_name);
@@ -515,6 +544,11 @@ void Inventory::order(std::string file_name) {
     }
 }
 
+// @param: string title
+// ----------
+// modify takes in a title and if the book is in the inventory it displays the current
+// have/want values then prompts the user for the new values
+// ----------
 void Inventory::modify(std::string title) {
     if (itemsInStock->findTitle(title) == -1){
         std::cout << "Book not in inventory.." << std::endl;
@@ -558,6 +592,11 @@ void Inventory::modify(std::string title) {
     }
 }
 
+// @param: string title
+// ----------
+// sell takes in a title and decreases the current have by 1
+// (sell in userInterface takes care of if book is not in inventory)
+// ----------
 void Inventory::sell(std::string title) {
     int index = itemsInStock->findTitle(title);
     Book *temp = itemsInStock->get(index);
