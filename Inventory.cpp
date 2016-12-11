@@ -55,7 +55,7 @@ Inventory::Inventory() {
                         getline(persons, tempPerson, ','); // get
                         currBook->addToWaitList(tempPerson);
                         if (persons) {
-                            persons.ignore(' ');
+                            persons.ignore(1, ' ');
                         }
                     }
                 }
@@ -337,29 +337,47 @@ void Inventory::delivery(std::string file_name){
                 getline(splitter, ISBN, ',');
                 getline(splitter, haveValue, ',');
                 getline(splitter, wantValue, ',');
-                splitter.ignore('{');
+                splitter.ignore(1, '{');
                 getline(splitter, waitListString, '}');
                 if (itemsInStock->findTitle(title) != -1 && waitListString.length() == 0) {
                     int index = itemsInStock->findTitle(title);
                     Book *sameBook = itemsInStock->get(index);
-                    sameBook->setHaveValue(sameBook->getWantValue());
+                    sameBook->setHaveValue(stoi(haveValue));
                 }else if (waitListString.length() != 0) {
                     if (itemsInStock->findTitle(title) != -1){
                         int index = itemsInStock->findTitle(title);
                         Book* sameBook = itemsInStock->get(index);
-                        sameBook->clearWaitList();
-                    }
-                    waitListString += ","; // add delimiter to end for parsing
-                    std::string tempPerson;
-                    std::stringstream persons(waitListString); //create persons string stream
-                    while (persons.good()) { // check for more data
-                        getline(persons, tempPerson, ','); // get
-                        std::cout << "\n----------------------------------------" << std::endl;
-                        std::cout << "---------- Leave on counter ----------" << std::endl;
-                        std::cout << "Pick-up for: " << tempPerson << std::endl;
-                        std::cout << title << "     By: " << author << std::endl;
-                        if (persons) {
-                            persons.ignore(' ');
+                        waitListString += ","; // add delimiter to end for parsing
+                        std::string tempPerson;
+                        std::stringstream persons(waitListString); //create persons string stream
+                        int count = 0;
+                        while (persons.good()) { // check for more data
+                            getline(persons, tempPerson, ','); // get
+                            std::cout << "\n----------------------------------------" << std::endl;
+                            std::cout << "---------- Leave on counter ----------" << std::endl;
+                            std::cout << "Pick-up for: " << tempPerson << std::endl;
+                            std::cout << title << "     By: " << author << std::endl;
+                            std::string waitListName = sameBook->popOffWaitList();
+                            if (persons) {
+                                persons.ignore(1, ' ');
+                            }
+                            sameBook->setWantValue(sameBook->getWantValue() -1);
+                            count++;
+                        }
+                        sameBook->setHaveValue(stoi(haveValue)-count);
+                    }else {
+                        waitListString += ","; // add delimiter to end for parsing
+                        std::string tempPerson;
+                        std::stringstream persons(waitListString); //create persons string stream
+                        while (persons.good()) { // check for more data
+                            getline(persons, tempPerson, ','); // get
+                            std::cout << "\n----------------------------------------" << std::endl;
+                            std::cout << "---------- Leave on counter ----------" << std::endl;
+                            std::cout << "Pick-up for: " << tempPerson << std::endl;
+                            std::cout << title << "     By: " << author << std::endl;
+                            if (persons) {
+                                persons.ignore(1, ' ');
+                            }
                         }
                     }
                 }else {
@@ -372,7 +390,7 @@ void Inventory::delivery(std::string file_name){
                             getline(persons, tempPerson, ','); // get
                             currBook->addToWaitList(tempPerson);
                             if (persons) {
-                                persons.ignore(' ');
+                                persons.ignore(1, ' ');
                             }
                         }
                     }
