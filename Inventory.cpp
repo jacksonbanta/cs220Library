@@ -223,10 +223,18 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
                     itemsInStock->add(bookToAdd, i);
                     bookStock++;
                     break;
+                }else if (titleChar[2] == newTitle[2]){
+                    if (titleChar[3] > newTitle[3]){
+                        itemsInStock->add(bookToAdd, i);
+                        bookStock++;
+                        break;
+                    }else if (titleChar[3] == newTitle[3]){
+                        itemsInStock->add(bookToAdd, i);
+                        bookStock++;
+                        break;
+                    }
                 }else{
-                    itemsInStock->add(bookToAdd, i);
-                    bookStock++;
-                    break;
+                    continue;
                 }
             }else{
                 continue;
@@ -331,11 +339,11 @@ void Inventory::delivery(std::string file_name){
                 getline(splitter, wantValue, ',');
                 splitter.ignore('{');
                 getline(splitter, waitListString, '}');
-                if (itemsInStock->findTitle(title) != -1 && waitListString == 0) {
+                if (itemsInStock->findTitle(title) != -1 && waitListString.length() == 0) {
                     int index = itemsInStock->findTitle(title);
                     Book *sameBook = itemsInStock->get(index);
                     sameBook->setHaveValue(sameBook->getWantValue());
-                }else if (waitListString != 0) {
+                }else if (waitListString.length() != 0) {
                     if (itemsInStock->findTitle(title) != -1){
                         int index = itemsInStock->findTitle(title);
                         Book* sameBook = itemsInStock->get(index);
