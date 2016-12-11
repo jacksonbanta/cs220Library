@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 
+// @param: None
 // ----------
 // Inventory Constructor which reads in the information from inventoryData.txt file
 // ----------
@@ -41,7 +42,7 @@ Inventory::Inventory() {
                 getline(splitter, ISBN, ',');
                 getline(splitter, haveValue, ',');
                 getline(splitter, wantValue, ',');
-                splitter.ignore('{');
+                splitter.ignore(1, '{');
                 getline(splitter, waitListString, '}');
                 Book *currBook = new Book(title, author, atof(price.c_str()), ISBN, stoi(haveValue), stoi(wantValue));
                 if (waitListString.length() != 0) {
@@ -67,6 +68,7 @@ Inventory::Inventory() {
     infile.close();
 }
 
+// @param: Inventory
 // ----------
 // Inventory copy constructor
 // ----------
@@ -83,6 +85,7 @@ Inventory::Inventory(const Inventory &other) {
     }
 }
 
+// @param: Inventory
 // ----------
 // Inventory destructor that outputs all of the books to the inventoryData.txt file
 // ----------
@@ -102,6 +105,7 @@ Inventory& Inventory::operator=(const Inventory &inventoryToCopy) {
     return *this;
 }
 
+// @param: None
 // ----------
 // Inventory destructor that outputs all of the books to the inventoryData.txt file
 // ----------
@@ -125,6 +129,7 @@ Inventory::~Inventory() {
     this->itemsInStock = nullptr;
 }
 
+// @param: None
 // ----------
 // addNewBook takes in all the information that a book needs, and sorts through the current inventory (bubble sort)
 //      to place the new book in alphabetical order
@@ -138,6 +143,7 @@ long Inventory::calcSizeOf() {
     return sizeOf;
 }
 
+// @param: Book* bookToAdd
 // ----------
 // addNewBook takes in a Book pointer, and sorts through the current inventory (bubble sort)
 //      to place the new book in alphabetical order
@@ -190,6 +196,7 @@ void Inventory::addNewBook(Book *bookToAdd) {
     }
 }
 
+// @param: string author, string title, string ISBN, double price, int haveValue, int wantValue
 // ----------
 // addNewBook takes in all the information that a book needs, and sorts through the current inventory (bubble sort)
 //      to place the new book in alphabetical order
@@ -235,6 +242,7 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
     }
 }
 
+// @param: string title
 // ----------
 // findBook takes in a title (string) and calls the get function within the linked list
 // and if there's a book with the title, it will return a copy of that Book
@@ -249,6 +257,7 @@ Book* Inventory::findBook(std::string title) {
     }
 }
 
+// @param: Book* bookToRemove
 // ----------
 // removeBook takes in a Book pointer and calls the linked list remove function
 // only if that book exists in the inventory
@@ -268,6 +277,7 @@ void Inventory::removeBook(Book *bookToRemove) {
     }
 }
 
+// @param: string title
 // ----------
 // findBookTitle takes in a title and calls the findTitle function within the linked list
 // ----------
@@ -275,6 +285,7 @@ int Inventory::findTitle(std::string title) {
     return itemsInStock->findTitle(title);
 }
 
+// @param: string title
 // ----------
 // inquire takes in a title (string) and prints out all the information on that book
 // ----------
@@ -289,6 +300,7 @@ void Inventory::inquire(std::string title){
     std::cout << "Wait List: " << tempBook->waitListToString() << std::endl;
 }
 
+// @param: string file_name
 // ----------
 // Delivery takes in a file name and updated the current have values
 // if the book doesn't exist it gets created
@@ -319,12 +331,30 @@ void Inventory::delivery(std::string file_name){
                 getline(splitter, wantValue, ',');
                 splitter.ignore('{');
                 getline(splitter, waitListString, '}');
-                if (itemsInStock->findTitle(title) != -1) {
+                if (itemsInStock->findTitle(title) != -1 && waitListString == 0) {
                     int index = itemsInStock->findTitle(title);
                     Book *sameBook = itemsInStock->get(index);
                     sameBook->setHaveValue(sameBook->getWantValue());
-                    sameBook->setWantValue(sameBook->getWantValue() - 1);
-                } else {
+                }else if (waitListString != 0) {
+                    if (itemsInStock->findTitle(title) != -1){
+                        int index = itemsInStock->findTitle(title);
+                        Book* sameBook = itemsInStock->get(index);
+                        sameBook->clearWaitList();
+                    }
+                    waitListString += ","; // add delimiter to end for parsing
+                    std::string tempPerson;
+                    std::stringstream persons(waitListString); //create persons string stream
+                    while (persons.good()) { // check for more data
+                        getline(persons, tempPerson, ','); // get
+                        std::cout << "\n----------------------------------------" << std::endl;
+                        std::cout << "---------- Leave on counter ----------" << std::endl;
+                        std::cout << "Pick-up for: " << tempPerson << std::endl;
+                        std::cout << title << "     By: " << author << std::endl;
+                        if (persons) {
+                            persons.ignore(' ');
+                        }
+                    }
+                }else {
                     Book *currBook = new Book(title, author, atof(price.c_str()), ISBN, stoi(haveValue), stoi(wantValue));
                     waitListString += ","; // add delimiter to end for parsing
                     std::string tempPerson;
@@ -348,6 +378,12 @@ void Inventory::delivery(std::string file_name){
     infile.close();
 }
 
+// @param: string file_name
+// ----------
+// returnBooks compares all the book's want values/have values
+// if the have value is greater than the want value, then it gets written
+// to the file
+// ----------
 void Inventory::returnBooks(std::string file_name) {
     std::ofstream outfile;
     outfile.open(file_name);
