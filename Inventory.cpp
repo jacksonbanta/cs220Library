@@ -116,8 +116,7 @@ Inventory::~Inventory() {
 
     for (int i = 0; i < this->bookStock; ++i) { //loop through books in linked list
         Book *currBook = this->itemsInStock->get(i);
-        // write book data to outfile
-        outfile << currBook->getTitle() << ",";
+        outfile << currBook->getTitle() << ",";     // write book data to outfile
         outfile << currBook->getAuthor() << ",";
         outfile << currBook->getPrice() << ",";
         outfile << currBook->getISBN() << ",";
@@ -190,7 +189,6 @@ void Inventory::addNewBook(Book *bookToAdd) {
         }
     }
     if (count == bookStock) {
-        //std::cout << "Adding to end of list" << std::endl;
         itemsInStock->addToEnd(bookToAdd);  // Adds to end if it doesn't break out of loop
         bookStock++;
     }
@@ -297,15 +295,19 @@ int Inventory::findTitle(std::string title) {
 // ----------
 // inquire takes in a title (string) and prints out all the information on that book
 // ----------
-void Inventory::inquire(std::string title){
-    Book* tempBook = this->itemsInStock->get(this->itemsInStock->findTitle(title));
-    std::cout << "Title: " << tempBook->getTitle() << std::endl;
-    std::cout << "Author: " << tempBook->getAuthor() << std::endl;
-    std::cout << "Price: " << tempBook->getPrice() << std::endl;
-    std::cout << "ISBN: " << tempBook->getISBN() << std::endl;
-    std::cout << "Have Value: " << tempBook->getHaveValue() << std::endl;
-    std::cout << "Want Value: " << tempBook->getWantValue() << std::endl;
-    std::cout << "Wait List: " << tempBook->waitListToString() << std::endl;
+void Inventory::inquire(std::string title) {
+    if (itemsInStock->findTitle(title) == -1) {
+        std::cout << "Book not in inventory..." << std::endl;
+    } else {
+        Book *tempBook = this->itemsInStock->get(this->itemsInStock->findTitle(title));
+        std::cout << "Title: " << tempBook->getTitle() << std::endl;
+        std::cout << "Author: " << tempBook->getAuthor() << std::endl;
+        std::cout << "Price: " << tempBook->getPrice() << std::endl;
+        std::cout << "ISBN: " << tempBook->getISBN() << std::endl;
+        std::cout << "Have Value: " << tempBook->getHaveValue() << std::endl;
+        std::cout << "Want Value: " << tempBook->getWantValue() << std::endl;
+        std::cout << "Wait List: " << tempBook->waitListToString() << std::endl;
+    }
 }
 
 // @param: string file_name
