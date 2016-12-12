@@ -21,64 +21,142 @@ private:
     long totalLinesRun;
 
 public:
-    //creates an empty LinkedList
+    // @param: none
+    // ----------
+    // Creates an empty Linked List
+    // ----------
     LinkedList();
 
-    //Destructor
+    // @param: none
+    // ----------
+    // Deletes all the nodes in the linked list
+    // ----------
     ~LinkedList();
 
-    // Assignment operator
+    // @param: const LinkedList &other - Another Linked list by reference
+    // ----------
+    // Overrides the assignment operator, Creates a copy of the other linked list
+    // ----------
     LinkedList& operator=(const LinkedList &other);
 
-    // Copy constructor
+
+    // @param: const LinkedList &other - Another Linked list by reference
+    // ----------
+    // Creates a copy of the other linked list passed by reference
+    // ----------
     LinkedList(const LinkedList &other);
 
-    //appends the new item to the end of the list
+    // @param: Book* bookToAdd - Book pointer
+    // ----------
+    // Adds a book by pointer to the end of the linked list
+    // Book becomes property of the LinkedList
+    // and will be deleted by the LinkedList in destructor
+    // ----------
     void addToEnd(Book* itemToAdd);
 
-    //inserts the item at the front of the list
+    // @param: Book* bookToAdd - Book pointer
+    // ----------
+    // Adds a book by pointer to the front of the linked list
+    // Book becomes property of the LinkedList
+    // and will be deleted by the LinkedList in destructor
+    // ----------
     void addToFront(Book* itemToAdd);
 
-    //inserts the new item into the list at the specified index
-    //if the index is invalid (< 0 or > currItemCount), throws an out_of_range exception
+
+    // @param: Book* bookToAdd - Book pointer, int index - location of insertion
+    // ----------
+    // Adds a book by pointer to the specified index of the linked list
+    // Book becomes property of the LinkedList
+    // and will be deleted by the LinkedList in destructor
+    // if the index is invalid, returns an out_of_range exception
+    // ----------
     void add(Book* itemToAdd, int index);
 
-    //returns a copy of the item at index
-    //if the index is invalid, throws an out_of_range exception
+    // @param: int index - location of book to get
+    // ----------
+    // gets and returns book at the specified index
+    // ----------
     Book* get(int index) const;
 
-    //removes the item at index from the list, then returns a copy of that item
-    //if the index is invalid, throws an out_of_range exception
+    // @param: int index - location of book to remove
+    // ----------
+    // removes and deletes the node at the specified index
+    // gets and returns a copy of the book at the specified index
+    // LinkedList loses responsibility of deleting book
+    // function caller is responsible for deleting the book.
+    // if the index is invalid, returns an out_of_range exception
+    // ----------
     Book* remove(int index);
 
-    //returns true if there are no valid items in the list, false otherwise
+    // @param: none
+    // ----------
+    // check to see if there are any valid items in the linked list
+    // returns True if empty, False if there are valid items
+    // ----------
     bool isEmpty();
 
-    //returns the number of valid items in the list
+
+    // @param: none
+    // ----------
+    // returns the number of valid items in the LinkedList
+    // ----------
     int size();
 
-    //makes the list entirely empty of valid items (does not change totalLinesRun)
+
+    // @param: none
+    // ----------
+    // clears the list by deleting the nodes
+    // and setting the item count to 0
+    // ----------
     void clearList();
 
-    //returns the index of the first occurrence of a book with the title in the list, or -1 if not present
+
+    // @param: std::string title - The title of a book as a std::string
+    // ----------
+    // finds a book with the input title, returns the index of the book
+    // ----------
     int findTitle(std::string title);
 
-    //returns the index of the first occurrence of a book with the ISBN in the list, or -1 if not present
+
+    // @param: std::string ISBN - The ISBN of a book as a std::string
+    // ----------
+    // finds a book with the input ISBN, returns the index of the book
+    // ----------
     int findISBN(std::string ISBN);
 
-    //returns the index of the first occurrence of itemToFind in the list, or -1 if not present
+
+    // @param: Book* itemToFind - book to find
+    // ----------
+    // finds and returns the index of the book to find
+    // ----------
     int find(Book* itemToFind);
 
-    //returns the total number of lines run by this object
+
+    // @param: none
+    // ----------
+    // returns the number of lines run by the LinkedList
+    // ----------
     long getTotalLinesRun();
 
-    //resets the value of totalLinesRun to 0
+
+    // @param: none
+    // ----------
+    // resets the number of lines run to 0
+    // ----------
     void resetTotalLinesRun();
 
-    //returns the minimum size of the object in bytes
+
+    // @param: none
+    // ----------
+    // calculates and returns the memory size of the Linked List
+    // ----------
     int calcSizeOf();
 
-    // returns a string of Book
+
+    // @param: none
+    // ----------
+    // prints out all the books in the LinkedList
+    // ----------
     std::string toString();
 
 

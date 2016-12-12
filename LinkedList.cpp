@@ -1,6 +1,6 @@
 //
 // Created by Kenny Potts on 11/3/16.
-// Implements LinkedList
+// Implements LinkedList That holds pointers to Book Objects
 //
 
 #include "LinkedList.h"
@@ -9,7 +9,10 @@
 
 
 
-
+// @param: none
+// ----------
+// Creates an empty Linked List
+// ----------
 LinkedList::LinkedList() {
     this->start = nullptr;
     this->end = nullptr;
@@ -17,6 +20,10 @@ LinkedList::LinkedList() {
     this->totalLinesRun = 3;
 }
 
+// @param: const LinkedList &other - Another Linked list by reference
+// ----------
+// Creates a copy of the other linked list passed by reference
+// ----------
 LinkedList::LinkedList(const LinkedList &other) {
     this->start = nullptr;
     this->end = nullptr;
@@ -30,6 +37,10 @@ LinkedList::LinkedList(const LinkedList &other) {
     }
 }
 
+// @param: const LinkedList &other - Another Linked list by reference
+// ----------
+// Overrides the assignment operator, Creates a copy of the other linked list
+// ----------
 LinkedList& LinkedList::operator=(const LinkedList &other) {
     if (this != &other) {
         this->start = nullptr;
@@ -46,7 +57,10 @@ LinkedList& LinkedList::operator=(const LinkedList &other) {
     return *this;
 }
 
-
+// @param: none
+// ----------
+// Deletes all the nodes in the linked list
+// ----------
 LinkedList::~LinkedList() {
     LinkedNode* currNode = this->start;
     while (currNode != nullptr) {
@@ -59,6 +73,10 @@ LinkedList::~LinkedList() {
     this->totalLinesRun = 0;
 }
 
+// @param: std::string title - The title of a book as a std::string
+// ----------
+// finds a book with the input title, returns the index of the book
+// ----------
 int LinkedList::findTitle(std::string title) {
     const char* charCompareTitle = title.c_str();
     LinkedNode* currNode = start;
@@ -76,6 +94,10 @@ int LinkedList::findTitle(std::string title) {
     return -1;
 }
 
+// @param: std::string ISBN - The ISBN of a book as a std::string
+// ----------
+// finds a book with the input ISBN, returns the index of the book
+// ----------
 int LinkedList::findISBN(std::string ISBN) {
     const char* charCompareISBN = ISBN.c_str();
     LinkedNode* currNode = start;
@@ -93,6 +115,12 @@ int LinkedList::findISBN(std::string ISBN) {
     return -1;
 }
 
+// @param: Book* bookToAdd - Book pointer
+// ----------
+// Adds a book by pointer to the end of the linked list
+// Book becomes property of the LinkedList
+// and will be deleted by the LinkedList in destructor
+// ----------
 void LinkedList::addToEnd(Book* bookToAdd) {
     this->totalLinesRun += 6;
     LinkedNode* n = new LinkedNode(bookToAdd);
@@ -107,7 +135,12 @@ void LinkedList::addToEnd(Book* bookToAdd) {
 
 }
 
-
+// @param: Book* bookToAdd - Book pointer
+// ----------
+// Adds a book by pointer to the front of the linked list
+// Book becomes property of the LinkedList
+// and will be deleted by the LinkedList in destructor
+// ----------
 void LinkedList::addToFront(Book* bookToAdd) {
     this->totalLinesRun += 7;
     LinkedNode* n = new LinkedNode(bookToAdd);
@@ -119,7 +152,13 @@ void LinkedList::addToFront(Book* bookToAdd) {
     this->currItemCount++;
 }
 
-
+// @param: Book* bookToAdd - Book pointer, int index - location of insertion
+// ----------
+// Adds a book by pointer to the specified index of the linked list
+// Book becomes property of the LinkedList
+// and will be deleted by the LinkedList in destructor
+// if the index is invalid, returns an out_of_range exception
+// ----------
 void LinkedList::add(Book* itemToAdd, int index) {
     this->totalLinesRun += 2;
     if ((index>=0)&&(index <= currItemCount)) {
@@ -148,7 +187,10 @@ void LinkedList::add(Book* itemToAdd, int index) {
     }
 }
 
-
+// @param: int index - location of book to get
+// ----------
+// gets and returns book at the specified index
+// ----------
 Book* LinkedList::get(int index) const{
     if ((index>=0)&&(index < currItemCount)) {
         LinkedNode *currNode = this->start;
@@ -163,6 +205,14 @@ Book* LinkedList::get(int index) const{
 }
 
 
+// @param: int index - location of book to remove
+// ----------
+// removes and deletes the node at the specified index
+// gets and returns a copy of the book at the specified index
+// LinkedList loses responsibility of deleting book
+// function caller is responsible for deleting the book.
+// if the index is invalid, returns an out_of_range exception
+// ----------
 Book* LinkedList::remove(int index) {
     this->totalLinesRun += 2;
     if ((index>0)&&(index < currItemCount)) {
@@ -174,7 +224,7 @@ Book* LinkedList::remove(int index) {
         }
         this->totalLinesRun += 10;
         LinkedNode *toDel = pointNode->getNext();
-        Book* val = toDel->getItem();
+        Book* val = new Book(toDel->getItem());
         pointNode->setNext(toDel->getNext());
         delete toDel;
         toDel = nullptr;
@@ -182,7 +232,7 @@ Book* LinkedList::remove(int index) {
         return val;
     } else if (!index && (index < currItemCount)) {
         LinkedNode* toDel = this->start;
-        Book* val = toDel->getItem();
+        Book* val = new Book(toDel->getItem());
         this->start = toDel->getNext();
         delete toDel;
         toDel = nullptr;
@@ -194,18 +244,30 @@ Book* LinkedList::remove(int index) {
     }
 }
 
+// @param: none
+// ----------
+// check to see if there are any valid items in the linked list
+// returns True if empty, False if there are valid items
+// ----------
 bool LinkedList::isEmpty() {
     this->totalLinesRun++;
     return !this->currItemCount;
 }
 
-
+// @param: none
+// ----------
+// returns the number of valid items in the LinkedList
+// ----------
 int LinkedList::size() {
     this->totalLinesRun++;
     return this->currItemCount;
 }
 
-
+// @param: none
+// ----------
+// clears the list by deleting the nodes
+// and setting the item count to 0
+// ----------
 void LinkedList::clearList() {
     LinkedNode* currNode = this->start;
     while (currNode != nullptr) {
@@ -219,6 +281,10 @@ void LinkedList::clearList() {
 }
 
 
+// @param: Book* itemToFind - book to find
+// ----------
+// finds and returns the index of the book to find
+// ----------
 int LinkedList::find(Book* itemToFind) {
     int idx = -1;
     this->totalLinesRun += 3;
@@ -236,7 +302,10 @@ int LinkedList::find(Book* itemToFind) {
 }
 
 
-
+// @param: none
+// ----------
+// prints out all the books in the LinkedList
+// ----------
 std::string LinkedList::toString() {
     this->totalLinesRun +=3;
     std::string newStr = "{"; // starts string with {
@@ -260,17 +329,26 @@ std::string LinkedList::toString() {
     return newStr;
 }
 
-
+// @param: none
+// ----------
+// returns the number of lines run by the LinkedList
+// ----------
 long LinkedList::getTotalLinesRun() {
     return this->totalLinesRun;
 }
 
-
+// @param: none
+// ----------
+// resets the number of lines run to 0
+// ----------
 void LinkedList::resetTotalLinesRun() {
     this->totalLinesRun = 0;
 }
 
-
+// @param: none
+// ----------
+// calculates and returns the memory size of the Linked List
+// ----------
 int LinkedList::calcSizeOf() {
     int totalSize = sizeof(start) + sizeof(end) //start and end
                     + sizeof(this->currItemCount) + sizeof(this->totalLinesRun);
