@@ -26,7 +26,7 @@ Inventory::Inventory() {
     this->bookStock = 0;
 
     std::ifstream infile;
-    infile.open("inventoryData.txt");
+    infile.open("inventoryData.txt");       // inventory text file that writes infile
 
     if (infile) {
         while (infile.good()) {
@@ -153,7 +153,7 @@ void Inventory::addNewBook(Book *bookToAdd) {
     for (int i = 0; i < bookStock; ++i) {
         Book* iter = itemsInStock->get(i);
         const char* titleChar = iter->getTitle().c_str();
-        if (titleChar[0] > newTitle[0]){
+        if (titleChar[0] > newTitle[0]){                    // Bubble sort algorithm for adding a book
             itemsInStock->add(bookToAdd, i);
             bookStock++;
             break;
@@ -172,7 +172,7 @@ void Inventory::addNewBook(Book *bookToAdd) {
                         itemsInStock->add(bookToAdd, i);
                         bookStock++;
                         break;
-                    }else if (titleChar[3] == newTitle[3]){
+                    }else if (titleChar[3] == newTitle[3]){      // goes till the third character in the word
                         itemsInStock->add(bookToAdd, i);
                         bookStock++;
                         break;
@@ -207,7 +207,7 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
     for (int i = 0; i < bookStock; ++i) {
         Book* iter = itemsInStock->get(i);
         const char* titleChar = iter->getTitle().c_str();
-        if (titleChar[0] > newTitle[0]){
+        if (titleChar[0] > newTitle[0]){                    // Bubble sort algorithm for adding book
             itemsInStock->add(bookToAdd, i);
             bookStock++;
             break;
@@ -226,7 +226,7 @@ void Inventory::addNewBook(std::string author, std::string title, std::string IS
                         itemsInStock->add(bookToAdd, i);
                         bookStock++;
                         break;
-                    }else if (titleChar[3] == newTitle[3]){
+                    }else if (titleChar[3] == newTitle[3]){     // Sorts till the third letter of Title
                         itemsInStock->add(bookToAdd, i);
                         bookStock++;
                         break;
@@ -490,7 +490,6 @@ int Inventory::currHave(std::string title) {
         Book* temp  = itemsInStock->get(index);
         return temp->getHaveValue();
     }
-
 }
 
 // @param: string title
@@ -567,9 +566,9 @@ void Inventory::modify(std::string title) {
             std::cout << "Enter new want value: " << std::endl;
             std::getline(std::cin, wantString);
             std::stringstream convert(wantString);
-            if (!(convert >> newWant)){
+            if (!(convert >> newWant) || stoi(wantString) < 0){
                 std::cin.clear();
-                std::cout << "Invalid input.. enter number" << std::endl;
+                std::cout << "Invalid input.. enter integer greater than 0" << std::endl;
             }else{
                 temp->setWantValue(newWant);
                 tempBool = false;
@@ -583,9 +582,9 @@ void Inventory::modify(std::string title) {
             std::cout << "Enter new Have value: " << std::endl;
             std::getline(std::cin, wantString2);
             std::stringstream convert(wantString2);
-            if (!(convert >> newHave)){
+            if (!(convert >> newHave) || stoi(wantString2) < 0){
                 std::cin.clear();
-                std::cout << "Invalid input.. enter number" << std::endl;
+                std::cout << "Invalid input.. enter integer greater than 0" << std::endl;
             }else{
                 tempBool2 = false;
                 temp->setHaveValue(newHave);

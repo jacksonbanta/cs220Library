@@ -33,6 +33,12 @@ void UserInterface::help(){
     std::cout << "|   Q              Quit (writes out to file)   |" << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
+    std::cout << "--    No brackets needed for input '<' '>'    --" << std::endl;
+    std::cout << "------------------------------------------------" << std::endl;
+    std::cout << "------------------------------------------------" << std::endl;
+    std::cout << "--      Program runs until Q is entered       --" << std::endl;
+    std::cout << "------------------------------------------------" << std::endl;
+    std::cout << "------------------------------------------------" << std::endl;
 
 }
 
@@ -77,10 +83,10 @@ void UserInterface::add(std::string title){
         std::string wantVal;
 
         bool tempBool = true;
-        int count = 0;
+        int count = 0;              // count tracks which input the user is on currently
         while (tempBool) {
             if (count == 0) {
-                bool innerBool = true;                              // while loop for valid input
+                bool innerBool = true;                              // while loop for valid Author input
                 while (innerBool) {
                     std::cout << "\tNew Book Author: " << std::endl;
                     std::getline(std::cin, userAuthor);
@@ -94,7 +100,7 @@ void UserInterface::add(std::string title){
                 }
             } else if (count == 1) {
                 bool innerBool = true;
-                while (innerBool) {                                     // while loop for valid input
+                while (innerBool) {                                     // while loop for valid ISBN input
                     std::cout << "\tNew Book ISBN: " << std::endl;
                     std::getline(std::cin, userISBN);
                     if (userISBN == "") {
@@ -107,7 +113,7 @@ void UserInterface::add(std::string title){
                 }
             } else if (count == 2) {
                 bool innerBool = true;
-                while (innerBool) {                                     // while loop for valid input
+                while (innerBool) {                                     // while loop for valid  Price input
                     std::cout << "\tNew Book Price: " << std::endl;
                     std::getline(std::cin, price);
                     if (price == "") {
@@ -120,7 +126,7 @@ void UserInterface::add(std::string title){
                 }
             } else if (count == 3) {
                 bool innerBool = true;
-                while (innerBool) {                                     // while loop for valid input
+                while (innerBool) {                                     // while loop for valid Have Value input
                     std::cout << "\tNew Book Have Value: " << std::endl;
                     std::getline(std::cin, haveVal);
                     if (haveVal == "") {
@@ -133,7 +139,7 @@ void UserInterface::add(std::string title){
                 }
             } else if (count == 4) {
                 bool innerBool = true;
-                while (innerBool) {                                     // while loop for valid input
+                while (innerBool) {                                     // while loop for valid Want Value input
                     std::cout << "\tNew Book Want Value: " << std::endl;
                     std::getline(std::cin, wantVal);
                     if (wantVal == "") {
@@ -160,7 +166,6 @@ void UserInterface::modify(std::string title){
     myInventory->modify(title);
 }
 
-
 // @param: string title
 // ----------
 // sell makes sure the book is in the inventory, and if its not it calls the add() function within this class
@@ -183,7 +188,6 @@ void UserInterface::sell(std::string title){
                 tempBool = false;
                 myInventory->findBook(title)->addToWaitList(userName);
                 myInventory->findBook(title)->setWantValue(myInventory->currWant(title) + 1);
-
             }
         }
     } else{
@@ -228,7 +232,6 @@ void UserInterface::quit(){
     myInventory->~Inventory();
 }
 
-
 int main(){
     std::cout << "-------------------------------------------" << std::endl;
     std::cout << "Welcome to the Book Store Inventory Program" << std::endl;
@@ -236,7 +239,7 @@ int main(){
     bool temp = true;
     UserInterface* myUserInterface = new UserInterface();
     while (temp) {
-
+        // temp bool set true till user quits
         // User input
         std::string userIn;
         std::cout << "\tEnter a command: " << std::endl;
