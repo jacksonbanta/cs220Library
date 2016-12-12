@@ -1,0 +1,133 @@
+ __ _             _                               _____
+/ _\ |_ ___   ___| | ____      ____ _ _ __ ___    \_   \_ __   ___
+\ \| __/ _ \ / __| |/ /\ \ /\ / / _` | '__/ _ \    / /\/ '_ \ / __|
+_\ \ || (_) | (__|   <  \ V  V / (_| | | |  __/ /\/ /_ | | | | (__ _
+\__/\__\___/ \___|_|\_\  \_/\_/ \__,_|_|  \___| \____/ |_| |_|\___(_)
+                   <<A proud company>>
+
+Hello, and welcome to your new Bookstore Inventory Manager. Below are suggested steps to take to ensure that everything is working properly.
+
+
+/****************************************************************************************************************/
+If you are running into problems launching the manager, ensure these three common problems are resolved first:
+
+I. Does your UserInterface.cpp file have a main() function? If so, does it look like this:
+    std::cout << "-------------------------------------------" << std::endl;
+    std::cout << "Welcome to the Book Store Inventory Program" << std::endl;
+    std::cout << "-------------------------------------------" << std::endl;
+    bool temp = true;
+    UserInterface* myUserInterface = new UserInterface();
+    while (temp) {
+
+        // User input
+        std::string userIn;
+        std::cout << "\tEnter a command: " << std::endl;
+        std::getline(std::cin, userIn);
+        myUserInterface->setUserIn(userIn);
+        const char* charInput = userIn.c_str();
+
+        if (charInput[0] == 'H' && std::strlen(charInput) == 1){
+            myUserInterface->help();
+            std::cin.clear();
+        }else if(charInput[0] == 'I' && std::strlen(charInput) != 1){
+            std::string title = "";
+            for (int i = 2; i < strlen(charInput); ++i) {
+                title+=charInput[i];
+            }
+            myUserInterface->inquire(title);
+            std::cin.clear(); // reset failbit
+        }else if(charInput[0] == 'L' && std::strlen(charInput) == 1){
+            myUserInterface->list();
+            std::cin.clear(); // reset failbit
+        }else if(charInput[0] == 'A' && std::strlen(charInput) != 1){
+            std::string title = "";
+            for (int i = 2; i < strlen(charInput); ++i) {
+                title+=charInput[i];
+            }
+            myUserInterface->add(title);
+            std::cin.clear(); // reset failbit
+        }else if(charInput[0] == 'M' && std::strlen(charInput) != 1){
+            std::string title = "";
+            for (int i = 2; i < strlen(charInput); ++i) {
+                title+=charInput[i];
+            }
+            myUserInterface->modify(title);
+            std::cin.clear(); // reset failbit
+        }else if(charInput[0] == 'S' && std::strlen(charInput) != 1){
+            std::string title = "";
+            for (int i = 2; i < strlen(charInput); ++i) {
+                title+=charInput[i];
+            }
+            myUserInterface->sell(title);
+            std::cin.clear(); // reset failbit
+        }else if(charInput[0] == 'O' && std::strlen(charInput) != 1){
+            std::string fileName = "";
+            for (int i = 2; i < strlen(charInput); ++i) {
+                fileName+=charInput[i];
+            }
+            myUserInterface->order(fileName);
+            std::cin.clear(); // reset failbit
+        }else if(charInput[0] == 'D' && std::strlen(charInput) != 1){
+            std::string fileName = "";
+            for (int i = 2; i < strlen(charInput); ++i) {
+                fileName+=charInput[i];
+            }
+            myUserInterface->delivery(fileName);
+            std::cin.clear(); // reset failbit
+        }else if(charInput[0] == 'R' && std::strlen(charInput) != 1){
+            std::string fileName = "";
+            for (int i = 2; i < strlen(charInput); ++i) {
+                fileName+=charInput[i];
+            }
+            myUserInterface->returnBooks(fileName);
+            std::cin.clear(); // reset failbit
+        }else if(charInput[0] == 'Q' && std::strlen(charInput) == 1){
+            myUserInterface->quit();
+            std::cin.clear(); // reset failbit
+            temp = false;
+        }else{
+            // user didn't input a string
+            std::cin.clear(); // reset failbit
+            std::cout << "\t\tInvalid input.. " << std::endl;
+        }
+    }
+
+If not, please update the file accordingly.
+
+II. Does your CMakeLists.txt file have the correct source files?
+    The only files required for this software are as follows: UserInterface.cpp Inventory.cpp Book.cpp LinkedList.cpp
+    If not, please update the file accordingly.
+
+III. Is your database text file named correctly?
+     It should be named "inventoryData.txt" and have different books organized by title on separate lines.
+
+
+If you are still having trouble with this software, please contact us asap.
+/****************************************************************************************************************/
+
+
+Once the manager is up and running, you should see a welcome message and a prompt for input.
+
+Please press enter between commands.
+
+1. Type "H". This will open a Help menu to remind you of commands, input, and what they do.
+2. Type "L". This will list out the current inventory stock. There should be some preprogrammed books within the data file. These are only for testing purposes.
+3. Type "A" followed by a title name. The manager will prompt you for more information. Please fill in the required information in it's entirety. For this test we recommend a Have Value of 0 and a Want Value of 10.
+4. Type "L". This is to ensure your new book was added correctly to the data file. You should see the book you've added placed in the proper Alphabetical spot based on it's title.
+
+For testing purposes we recommend that the following commands be applied to the book you have added on step 3.
+
+5. Type "I" followed by a book title. This will print out all the information associated with that book title.
+6. Type "M" followed by the same book used in step 5 book title. This will display the current have and want values associated with that book title, as well as prompt you to edit the want value. For testing purposes we recommend setting the want value to 9.
+7. Type "I" followed by the same book title used in steps 5 and 6. This is to ensure the want value for the title has been updated correctly.
+8. Type "S" followed by the book title you added in step 3. This will prompt you for a name to add to wait list associated with that book.'
+9. Type "O" followed by the file name of a file to make and write to. We recommend "inventoryOrder.txt"
+10. Type "D" followed by the file created in step 9. This should update the values within the program. *NOTE: NO VALUES WILL BE UPDATED IN THE DATABASE TEXT FILE UNTIL THE "Q" COMMAND IS RAN*
+
+This ends the portion of the test being applied to the book added on step 3
+
+11. Type "A" followed by a book title. The manager will prompt you for more information. Please fill in the required information in it's entirety. For this test we recommend a Have Value of 10 and a Want Value of 5.
+12. Type "R" followed by the file name of a make and write to. This should return the book created in step 11.
+13. Type "Q". This will quit the program and write any changed data in the database to the database file (inventoryData.txt).
+
+This ends the official Stockware Software testing for our Bookstore Inventory Manager. If any errors occur, please contact us as soon as possible.
