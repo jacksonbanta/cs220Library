@@ -1,2 +1,1 @@
-# cs220Library
-# cs220Library
+# Basic Bookstore Inventory Management System implemented in C++
